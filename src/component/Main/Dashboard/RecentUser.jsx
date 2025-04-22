@@ -25,7 +25,7 @@ const recentUser = [
 
 const RecentUser = () => {
     return (
-        <div className="w-full col-span-full md:col-span-2 p-5 bg-white rounded-lg border border-[#85594B]">
+        <div className="w-full col-span-full md:col-span-2 p-5 bg-white rounded-lg border border-[#2C909D]">
             <h1 className="font-semibold py-3">Recent Users</h1>
             <div className="flex flex-col gap-5 ">
                 {
