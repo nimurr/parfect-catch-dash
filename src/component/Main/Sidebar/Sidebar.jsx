@@ -17,8 +17,9 @@ const sidebarItems = [
   { path: "/users", name: "Users", icon: <FaUserAlt className="size-6" /> },
   
   
-  { path: "/Subscription", name: "Subscription", icon: <HiLightBulb className="size-8" /> },
+  
   { path: "/Earnings", name: "Earnings", icon: <RiMoneyDollarCircleFill className="size-6" /> },
+  { path: "/Subscription", name: "Subscription", icon: <HiLightBulb className="size-8" /> },
   
   { path: "/settings", name: "Settings", icon: <IoSettingsSharp className="size-6" /> },
 ];

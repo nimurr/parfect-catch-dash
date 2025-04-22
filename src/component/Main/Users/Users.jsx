@@ -87,6 +87,45 @@ const Users = () => {
       status: "Active",
       block: false,
     },
+    {
+      id: 6,
+      accountID: 2014,
+      firstName: "Charlie Smith",
+      lastName: "Brown",
+      email: "charliebrown@example.com",
+      address_line1: "202 Maple St, Springfield",
+      image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
+      phone: "555-654-3210",
+      createdAt: "2024-05-05T12:00:00",
+      status: "Active",
+      block: false,
+    },
+    {
+      id: 7,
+      accountID: 2014,
+      firstName: "Charlie Smith",
+      lastName: "Brown",
+      email: "charliebrown@example.com",
+      address_line1: "202 Maple St, Springfield",
+      image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
+      phone: "555-654-3210",
+      createdAt: "2024-05-05T12:00:00",
+      status: "Active",
+      block: false,
+    },
+    {
+      id: 8,
+      accountID: 2014,
+      firstName: "Charlie Smith",
+      lastName: "Brown",
+      email: "charliebrown@example.com",
+      address_line1: "202 Maple St, Springfield",
+      image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
+      phone: "555-654-3210",
+      createdAt: "2024-05-05T12:00:00",
+      status: "Active",
+      block: false,
+    },
   ]);
 
   const dataSource = allUsers.map((user, index) => ({
@@ -170,20 +209,20 @@ const Users = () => {
         <Form layout="inline" className="flex space-x-4">
           <Item name="date">
             <DatePicker
-              className="rounded-md border border-[#AB7843]"
+              className="rounded-md border border-[#2C909D]"
               onChange={(date) => setSelectedDate(date)}
               placeholder="Select Date"
             />
           </Item>
           <Item name="username">
             <Input
-              className="rounded-md w-[70%] md:w-full border border-[#AB7843]"
+              className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
               placeholder="User Name"
               onChange={(e) => setSearchText(e.target.value)}
             />
           </Item>
           <Item>
-            <button className="size-8 rounded-full flex justify-center items-center bg-[#AB7843] ">
+            <button className="size-8 rounded-full flex justify-center items-center bg-[#2C909D] ">
               <IoIosSearch className="size-5" />
             </button>
           </Item>
@@ -193,7 +232,7 @@ const Users = () => {
         theme={{
           components: {
             Table: {
-              headerBg: "#AB7843",
+              headerBg: "#2C909D",
               headerColor: "#000",
               headerBorderRadius: 5,
             },
