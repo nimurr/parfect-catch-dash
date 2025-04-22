@@ -131,20 +131,20 @@ const Earnings = () => {
           <Form layout="inline" className="flex space-x-4">
             <Item name="date">
               <DatePicker
-                className="rounded-md border border-[#AB7843]"
+                className="rounded-md border border-[#2C909D]"
                 // onChange={(date) => setSelectedDate(date)}
                 placeholder="Donation Date"
               />
             </Item>
             <Item name="searchText">
               <Input
-                className="rounded-md w-[70%] md:w-full border border-[#AB7843]"
+                className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
                 placeholder="Search"
                 // onChange={(e) => setSearchText(e.target.value)}
               />
             </Item>
             <Item>
-              <button className="size-8 rounded-full flex justify-center items-center bg-[#AB7843] text-white">
+              <button className="size-8 rounded-full flex justify-center items-center bg-[#2C909D] text-white">
                 <IoIosSearch className="size-5" />
               </button>
             </Item>
@@ -154,7 +154,7 @@ const Earnings = () => {
           theme={{
             components: {
               Table: {
-                headerBg: "#AB7843",
+                headerBg: "#2C909D",
                 headerColor: "#000000",
                 headerBorderRadius: 5,
               },
@@ -222,8 +222,8 @@ const Earnings = () => {
                   <p>{selectedRecord.paymentType}</p>
                 </div>
                 <div className="flex justify-between py-3 ">
-                  <button className="border border-[#FFD400] py-2 px-5 w-[49%] rounded-md">Download</button>
-                  <button className="bg-[#FFD400] py-2 px-5 w-[49%] rounded-md">Print</button>
+                  <button className=" bg-[#2C909D] py-2 px-5 w-[49%] rounded-md">Approve</button>
+                  <button className="border border-[#2C909D] py-2 px-5 w-[49%] rounded-md">Cancel</button>
                 </div>
               </>
             )}
