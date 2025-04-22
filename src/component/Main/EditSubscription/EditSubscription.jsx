@@ -33,7 +33,7 @@ const EditSubscription = () => {
               rules={[{ required: true, message: 'Please enter the subscription name!' }]}
               className="w-full"
             >
-              <CustomInput placeholder="Type name" className="bg-[#FEF8E8] border-[#FFD400]" />
+              <CustomInput placeholder="Type name" className="bg-[#EAF5F7] border-[#309EAD]" />
             </Form.Item>
           </div>
 
@@ -45,7 +45,7 @@ const EditSubscription = () => {
               rules={[{ required: true, message: 'Please enter the subscription price!' }]}
               className="w-full"
             >
-              <CustomInput placeholder="Type price" className="bg-[#FEF8E8] border-[#FFD400]" />
+              <CustomInput placeholder="Type price" className="bg-[#EAF5F7] border-[#309EAD]" />
             </Form.Item>
           </div>
 
@@ -62,13 +62,13 @@ const EditSubscription = () => {
                       rules={[{ required: true, message: 'Please enter the subscription type!' }]}
                       className="w-full"
                     >
-                      <CustomInput placeholder="Type subscription" className="bg-[#FEF8E8] border-[#FFD400]" />
+                      <CustomInput placeholder="Type subscription" className="bg-[#EAF5F7] border-[#309EAD]" />
                     </Form.Item>
 
                     {/* Minus Icon to Remove Field */}
                     <MinusCircleOutlined
                       onClick={() => remove(name)}
-                      className="font-semibold cursor-pointer bg-[#FFD400] p-3 rounded-full"
+                      className="font-semibold cursor-pointer bg-[#EAF5F7] p-3 rounded-full"
                     />
                   </div>
                 ))}
@@ -77,9 +77,9 @@ const EditSubscription = () => {
                 <Form.Item>
                   <Button
                     onClick={() => add()}
-                    icon={<PlusOutlined className="bg-[#FFD400] p-1 rounded-full" />}
+                    icon={<PlusOutlined className="bg-[#FFF] p-1 rounded-full" />}
                     style={{ width: '100%' }}
-                    className="bg-[#FFFBE6] py-5 border border-[#FFFBE6]"
+                    className="bg-[#EAF5F7] py-5 border border-[#FFFBE6]"
                   >
                     Add Fields
                   </Button>
