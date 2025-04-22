@@ -72,7 +72,7 @@ const IncomeGraphChart = () => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="pv" stroke="#82ca9d" fill="#309EAD" />
+            <Area type="monotone" dataKey="pv" stroke="#333399" fill="#309EAD" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

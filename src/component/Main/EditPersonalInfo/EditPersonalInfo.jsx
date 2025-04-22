@@ -120,7 +120,7 @@ const EditInformation = () => {
             style={{ display: "none" }}
           />
           <div className="ml-5 flex items-center justify-between">
-            <div className="text-white -ml-8 mr-5 z-10 bg-[#FFD400] rounded-full p-1">
+            <div className="text-white -ml-8 mr-5 z-10 bg-[#309EAD] rounded-full p-1">
                 <RiEdit2Line size={20}/>
             </div>
             <div>

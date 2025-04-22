@@ -70,7 +70,7 @@ const PersonalInformation = () => {
             />
           </Form.Item>
           <Link to="/edit-personal-info">
-          <button className="w-full px-8 py-3 bg-[#AB7843] font-semibold rounded-lg">
+          <button className="w-full px-8 py-3 bg-[#309EAD] font-semibold rounded-lg">
             Edit Profile
           </button>
         </Link>
