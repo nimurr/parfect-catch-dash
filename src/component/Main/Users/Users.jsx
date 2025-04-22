@@ -4,6 +4,7 @@ import { ConfigProvider, Modal, Table, Form, Input, DatePicker } from "antd";
 import moment from "moment";
 import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 import { IoIosSearch, IoMdInformationCircleOutline } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const { Item } = Form;
 
@@ -184,10 +185,10 @@ const Users = () => {
       render: (_, record) => {
         return (
           <div className="flex items-center space-x-4">
-            <IoMdInformationCircleOutline
+            <Link to='/users-details'> <IoMdInformationCircleOutline
               size={22}
               onClick={() => handleView(record)} // Trigger modal open
-            />
+            /></Link>
           </div>
         );
       },
@@ -252,12 +253,12 @@ const Users = () => {
           columns={columns}
           dataSource={dataSource}
           rowKey="id"
-          // onRow={(record) => ({
-          //   onClick: () => handleView(record),
-          // })}
+        // onRow={(record) => ({
+        //   onClick: () => handleView(record),
+        // })}
         />
       </ConfigProvider>
-      <Modal
+      {/* <Modal
         open={isModalViewOpen}
         onOk={() => setIsModalViewOpen(false)}
         onCancel={() => setIsModalViewOpen(false)}
@@ -273,11 +274,11 @@ const Users = () => {
                 alt="Profile"
               />
               <div>
-              <h1 className="text-start text-xl font-semibold my-2 ml-5">
-                {user?.firstName} {user?.lastName}
-              </h1>
-              <h1 className="text-start font-semibold  my-2 ml-5">I am  Ui/Ux designer. </h1>
-              <p className="text-start   my-2 ml-5">100 connections</p>
+                <h1 className="text-start text-xl font-semibold my-2 ml-5">
+                  {user?.firstName} {user?.lastName}
+                </h1>
+                <h1 className="text-start font-semibold  my-2 ml-5">I am  Ui/Ux designer. </h1>
+                <p className="text-start   my-2 ml-5">100 connections</p>
               </div>
             </div>
             <div className="flex justify-between py-3 border-b">
@@ -317,7 +318,7 @@ const Users = () => {
             </div>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </section>
   );
 };

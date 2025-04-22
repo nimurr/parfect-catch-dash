@@ -30,6 +30,7 @@ import ChangeRequestDetailsPage from "../page/ChangeRequestDetailspage/ChangeReq
 import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
 import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage";
 import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
+import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
  
 
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <UsersPage />,
+      },
+      {
+        path: "users-details",
+        element: <UserDetailsPage />,
       },
       
       {

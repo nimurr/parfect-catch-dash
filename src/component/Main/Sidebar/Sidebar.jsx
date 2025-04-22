@@ -50,7 +50,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                   to={item.path}
                   className={({ isActive }) =>
                     `w-[80%] mx-auto px-5 py-4 flex items-center gap-3  rounded-md transition-all duration-300 ease-in-out hover:bg-[#EAF5F9] ${
-                      isActive ? "bg-[#EAF5F7]" : ""
+                      isActive ? "bg-[#309EAD]" : ""
                     }`
                   }
                 >

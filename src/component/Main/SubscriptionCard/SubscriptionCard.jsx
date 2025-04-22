@@ -6,13 +6,15 @@ import { Link } from "react-router-dom";
 const subscriptionData = [
   { 
     id: 2,
-    "title": "Regular User",
-    "price": "$0.99",
+    "title": "Basic",
+    "price": "$49.99",
     "period": "Per Month",
     "features": [
       "Unlimited product updates",
       "Access to basic support",
-      "Basic features"
+      "Unlimited product updates",
+      "Appointment reminders",
+      "Email and community support"
     ]
   },
   { 
@@ -22,21 +24,13 @@ const subscriptionData = [
     "period": "Per Month",
     "features": [
       "Unlimited product updates",
-      "Priority support",
-      "Exclusive features",
+      "Access to basic support",
+      "Unlimited product updates",
+      "Appointment reminders",
+      "Email and community support"
     ]
   },
-  { 
-    id: 3,
-    "title": "Enterprise User",
-    "price": "$19.99",
-    "period": "Per Month",
-    "features": [
-      "Unlimited product updates",
-      "24/7 dedicated support",
-      "Custom integrations",
-    ]
-  }
+  
 ];
 
 const SubscriptionCard = () => {
@@ -52,10 +46,10 @@ const SubscriptionCard = () => {
     </div>
     <div className="flex space-x-4">
       {subscriptionData.map((subscription, id) => (
-        <div key={id} className="w-80 bg-[#EAF5F7] rounded-lg shadow-lg">
+        <div key={id} className="w-80 h-[583px] bg-[#EAF5F7] rounded-lg shadow-lg space-y-10">
           <h2 className="text-2xl font-bold mb-4 px-6 text-center pt-5">{subscription.title}</h2>
            <div className="border-b-2 border-gray-200 "></div>
-          <div className="text-xl font-semibold mb-4 flex items-center  justify-center pt-5" >
+          <div className="text-3xl font-semibold mb-4 flex items-center  justify-center pt-5" >
             {subscription.price} <span className="text-sm ml-1">{subscription.period}</span>
           </div>
 
