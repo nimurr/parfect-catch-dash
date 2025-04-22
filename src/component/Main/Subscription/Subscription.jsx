@@ -195,7 +195,7 @@ const Subscription = () => {
         theme={{
           components: {
             Table: {
-              headerBg: "#AB7843",
+              headerBg: "#2C909D",
               headerColor: "#000",
               headerBorderRadius: 5,
             },

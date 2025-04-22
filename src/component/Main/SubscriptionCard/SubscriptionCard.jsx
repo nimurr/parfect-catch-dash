@@ -46,13 +46,13 @@ const SubscriptionCard = () => {
         <Link className="flex  items-center my-6" to={`/Subscription`}><IoChevronBack className="size-6" /><span className="text-2xl font-semibold">Subscription</span></Link>
         <div>
             <Link to={`/Subscription/add`}>
-                <button className="py-3 px-5 rounded-md bg-[#AB7843]">Add Subscriptions</button>
+                <button className="py-3 px-5 rounded-md bg-[#EAF5F7]">Add Subscriptions</button>
             </Link>
         </div>
     </div>
     <div className="flex space-x-4">
       {subscriptionData.map((subscription, id) => (
-        <div key={id} className="w-80 bg-yellow-50 rounded-lg shadow-lg">
+        <div key={id} className="w-80 bg-[#EAF5F7] rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4 px-6 text-center pt-5">{subscription.title}</h2>
            <div className="border-b-2 border-gray-200 "></div>
           <div className="text-xl font-semibold mb-4 flex items-center  justify-center pt-5" >
@@ -71,12 +71,12 @@ const SubscriptionCard = () => {
           </ul>
 
           <div className="flex justify-between px-6 py-6">
-             <Link className="flex items-center text-sm bg-[#FFD400]  px-7 py-3 rounded-lg text-center" to={`/Subscription/${id}`}> 
+             <Link className="flex items-center text-sm bg-[#2C909D]  px-7 py-3 rounded-lg text-center" to={`/Subscription/${id}`}> 
             <button className="text-center">
              Edit
             </button>
              </Link>
-            <button className="flex items-center text-sm  px-7 py-3 rounded-lg border border-[#FFD400]">
+            <button className="flex items-center text-sm  px-7 py-3 rounded-lg border border-[#2C909D]">
              
               Delete
             </button>
