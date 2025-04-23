@@ -37,7 +37,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <div>
       {/* Desktop Sidebar */}
-      <div className="hidden md:flex flex-col w-[220px] lg:w-[260px] xl:w-[280px] bg-[#B5B5B5] fixed h-screen shadow-2xl">
+      <div className="hidden md:flex flex-col w-[220px] lg:w-[260px] xl:w-[280px] bg-[#EAF5F740] fixed h-screen shadow-2xl">
         <div className="flex flex-col h-full justify-between">
           <div>
             <div className="flex flex-col md:mr-7 items-center   text-white my-5">

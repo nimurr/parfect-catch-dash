@@ -44,6 +44,8 @@ const SubscriptionCard = () => {
             </Link>
         </div>
     </div>
+
+    
     <div className="flex space-x-4">
       {subscriptionData.map((subscription, id) => (
         <div key={id} className="w-80 h-[583px] bg-[#EAF5F7] rounded-lg shadow-lg space-y-10">

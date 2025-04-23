@@ -25,9 +25,9 @@ const Piechart = () => {
         <div className="text-lg font-semibold mt-4">Total new User</div>
         <div className="text-xl font-bold">25%</div>
 
-        <div className='flex  justify-between items-center mt-4'>
-          <div className="mt-6">
-            <ResponsiveContainer width="100%" height={200}>
+        <div className='flex   mt-4'>
+          <div className=''>
+            <ResponsiveContainer width="101%" height={200}>
               <PieChart>
                 <Pie
                   data={data}
@@ -45,7 +45,7 @@ const Piechart = () => {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-            <div className="text-center text-sm mt-2">
+            <div className="text-sm text-center mt-4">
               P&L <br />
               <span className="font-semibold">Total profit growth of 25%</span>
             </div>
