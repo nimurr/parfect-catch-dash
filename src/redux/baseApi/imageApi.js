@@ -1,0 +1,1 @@
+const imageApi="http://10.0.60.18:9090/"

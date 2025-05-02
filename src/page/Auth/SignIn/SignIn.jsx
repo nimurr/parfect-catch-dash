@@ -16,7 +16,7 @@ const SignIn = () => {
   const handleSubmit = async (values) => {
     const { email, password } = values;
     try {
-      const res = await login({ email, password });
+      const res = await login({ email, password, loginType: "emailAndPassword" });
       if (res.error) {
         toast.error(res.error.data.message);
         console.log(res.error.data.message);

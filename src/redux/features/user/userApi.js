@@ -13,13 +13,21 @@ const userApi = baseApi.injectEndpoints({
           });
         }
         return {
-          url: "/admin/all-users",
+          url: "/admin/users/all",
           method: "GET",
           params,
         };
       },
     }),
+
+    getsingleUser: builder.query({
+      query: ({ id }) => ({
+        url: `/users/profile/${id}`, // Use the user ID to get the single user profile
+        method: "GET", // HTTP method
+        params: {}, // Optionally add query parameters if needed
+      }),
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery } = userApi;
+export const { useGetAllUsersQuery ,useGetsingleUserQuery} = userApi;

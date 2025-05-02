@@ -4,7 +4,7 @@ export const baseApi = createApi({
   reducerPath: "pokemonApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "",
-    // baseUrl: "http://192.168.10.169:8080/api/v1",
+    baseUrl: "http://10.0.60.18:9090/api/v1",
     prepareHeaders: (headers, { getState }) => {
       // Retrieve the token from your store or local storage
       const token = getState().auth.token;
