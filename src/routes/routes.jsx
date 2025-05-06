@@ -21,17 +21,18 @@ import EditTermsConditions from "../page/EditTermsConditions/EditTermsConditions
 import EditAboutUs from "../page/EditAboutUs/EditAboutUs";
 import ContributionDetails from "../page/ContributionDetails/ContributionDetails";
 import EarningsPage from "../page/EarningsPage/EarningsPage";
- 
- 
+
+
 import ChangeRequestPage from "../page/ChangeRequestPage/ChangeRequestPage";
 import SubscriptionPage from "../page/SubscriptionPage/SubscriptionPage";
- 
+
 import ChangeRequestDetailsPage from "../page/ChangeRequestDetailspage/ChangeRequestDetailsPage";
 import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
 import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage";
 import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
 import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
- 
+import MusicPage from "../component/Main/MusicPage/MusicPage";
+
 
 
 
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
         path: "users-details",
         element: <UserDetailsPage />,
       },
-      
+
       {
         path: "contribution",
         element: <ContributionDetails />,
@@ -66,10 +67,14 @@ const router = createBrowserRouter([
         path: "Earnings",
         element: <EarningsPage />,
       },
-      
+
       {
         path: "ChangeRequest",
         element: <ChangeRequestPage />,
+      },
+      {
+        path: "music",
+        element: <MusicPage />,
       },
       {
         path: "/ChangeRequest/Details/:id",
@@ -111,7 +116,7 @@ const router = createBrowserRouter([
         path: "settings/personal-info",
         element: <PersonalInformationPage />,
       },
-      
+
       {
         path: "settings/edit-personal-info",
         element: <EditPersonalInformationPage />,
@@ -135,9 +140,9 @@ const router = createBrowserRouter([
       {
         path: "settings/about-us",
         element: <AboutUsPage />,
-      },{
+      }, {
         path: "/settings/edit-about-us/:id",
-        element: <EditAboutUs/>
+        element: <EditAboutUs />
       },
     ],
   },

@@ -1,2 +1,2 @@
-export const imageBaseUrl = "https://api.budbox.fun"
-// export const imageBaseUrl = "http://192.168.10.169:8080"
+// export const imageBaseUrl = "https://api.budbox.fun"
+export const imageBaseUrl = "http://10.0.60.18:9090"
