@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import IncomeGraphChart from "../../component/Main/Dashboard/IncomeGraphChart";
 import Piechart from "../../component/Main/Dashboard/Piechart";
 import RecentTransactions from "../../component/Main/Dashboard/RecentTransactions";
 import Status from "../../component/Main/Dashboard/Status";
+import { useNavigate } from "react-router-dom";
 const DashboardHome = () => {
 
-  const user = localStorage.get("user")
-  console.log(user)
+
+
 
   return (
     <section>

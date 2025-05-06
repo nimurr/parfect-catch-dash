@@ -32,7 +32,10 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    localStorage.removeItem("user")
     navigate("/auth");
+
+
   };
 
   return (

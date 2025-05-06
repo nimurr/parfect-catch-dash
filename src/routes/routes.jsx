@@ -32,6 +32,7 @@ import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage
 import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
 import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
 import MusicPage from "../component/Main/MusicPage/MusicPage";
+import ProctedRoute from "./ProctedRoute";
 
 
 
@@ -42,7 +43,9 @@ const router = createBrowserRouter([
     element: (
       // <AdminRoutes>
       // </AdminRoutes>
-      <MainLayout />
+      <ProctedRoute >
+        <MainLayout />
+      </ProctedRoute>
     ),
     errorElement: <h1>Error</h1>,
     children: [
