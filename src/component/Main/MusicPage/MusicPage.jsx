@@ -1,6 +1,9 @@
+
+
+
 // import React, { useEffect, useState } from 'react';
 // import { Table, Button, Modal, Form, Input, message } from 'antd';
-// import { useAddMusicMutation, useGetAllMusicQuery } from '../../../redux/features/music/music';
+// import { useAddMusicMutation, useGetAllMusicQuery, useDeleteMusicMutation } from '../../../redux/features/music/music';
 // import { imageBaseUrl } from '../../../config/imageBaseUrl';
 
 // const MusicPage = () => {
@@ -15,9 +18,8 @@
 //     const initialData = data?.data?.attributes?.results || [];
 //     const [musicData, setMusicData] = useState(initialData);
 
-//     console.log(initialData)
-
 //     const [addMusic] = useAddMusicMutation();
+//     const [deleteMusic] = useDeleteMusicMutation(); // Hook for delete mutation
 
 //     // Sync fetched data into local state
 //     useEffect(() => {
@@ -39,8 +41,8 @@
 //                 ),
 //         },
 //         {
-//             title: 'Title',
-//             dataIndex: 'title',
+//             title: 'name',
+//             dataIndex: 'name',
 //             key: 'title',
 //         },
 //         {
@@ -54,7 +56,7 @@
 //             key: 'music',
 //             render: (music) =>
 //                 music ? (
-//                     <audio controls src={imageBaseUrl + typeof music === 'string' ? music : ''} style={{ width: '100px' }} />
+//                     <audio controls src={imageBaseUrl + (typeof music === 'string' ? music : '')} style={{ width: '100px' }} />
 //                 ) : (
 //                     'N/A'
 //                 ),
@@ -63,9 +65,18 @@
 //             title: 'Action',
 //             key: 'action',
 //             render: (_, record) => (
-//                 <Button type="link" onClick={() => showDetails(record)}>
-//                     View
-//                 </Button>
+//                 <>
+//                     <Button type="link" onClick={() => showDetails(record)}>
+//                         View
+//                     </Button>
+//                     <Button
+//                         type="link"
+//                         danger
+//                         onClick={() => handleDelete(record)}
+//                     >
+//                         Delete
+//                     </Button>
+//                 </>
 //             ),
 //         },
 //     ];
@@ -92,14 +103,13 @@
 //         }
 
 //         const formData = new FormData();
-//         formData.append('name', formValues.name);
+//         formData.append('name', formValues.name || " ");
 //         formData.append('subTitle', formValues.subTitle || '');
 //         formData.append('image', imageFile);
 //         formData.append('music', musicFile);
 
 //         try {
 //             const res = await addMusic(formData).unwrap();
-//             console.log(res)
 
 //             if (res?.code === 201) {
 //                 // Add to table immediately
@@ -125,6 +135,34 @@
 //         }
 //     };
 
+//     const handleDelete = (record) => {
+//         Modal.confirm({
+//             title: 'Are you sure you want to delete this music?',
+//             content: `This action cannot be undone.`,
+//             onOk: () => deleteMusicItem(record),
+//         });
+//     };
+
+//     const deleteMusicItem = async (record) => {
+//         try {
+//             // Pass the correct ID here
+//             const res = await deleteMusic(record.id).unwrap();
+//             console.log(res)
+
+
+//             if (res?.code === 200) {
+//                 // Remove the item locally
+//                 setMusicData((prevData) => prevData.filter((item) => item.id !== record.id));
+//                 message.success('Music deleted successfully');
+//             } else {
+//                 message.error('Failed to delete music.');
+//             }
+//         } catch (error) {
+//             console.error(error);
+//             message.error('Failed to delete music.');
+//         }
+//     };
+
 //     return (
 //         <div className="p-6 bg-white rounded-md my-10">
 //             <div className="flex justify-between items-center mb-4">
@@ -145,7 +183,7 @@
 //                     <div className="space-y-2">
 //                         <img src={imageBaseUrl + selectedMusic.image} alt="cover" className="w-20 h-20 rounded" />
 //                         <p>
-//                             <strong>Title:</strong> {selectedMusic.title}
+//                             <strong>Title:</strong> {selectedMusic.name}
 //                         </p>
 //                         <p>
 //                             <strong>SubTitle:</strong> {selectedMusic.subTitle}
@@ -207,12 +245,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, message } from 'antd';
-import { useAddMusicMutation, useGetAllMusicQuery, useDeleteMusicMutation } from '../../../redux/features/music/music';
+import { useAddMusicMutation, useGetAllMusicQuery, useDeleteMusicMutation, useUpdateMusicMutation } from '../../../redux/features/music/music';
 import { imageBaseUrl } from '../../../config/imageBaseUrl';
 
 const MusicPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false); // New state for update modal
     const [selectedMusic, setSelectedMusic] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [musicFile, setMusicFile] = useState(null);
@@ -224,6 +263,7 @@ const MusicPage = () => {
 
     const [addMusic] = useAddMusicMutation();
     const [deleteMusic] = useDeleteMusicMutation(); // Hook for delete mutation
+    const [updateMusic] = useUpdateMusicMutation(); // Hook for update mutation
 
     // Sync fetched data into local state
     useEffect(() => {
@@ -272,6 +312,12 @@ const MusicPage = () => {
                 <>
                     <Button type="link" onClick={() => showDetails(record)}>
                         View
+                    </Button>
+                    <Button
+                        type="link"
+                        onClick={() => handleUpdate(record)} // Add update handler
+                    >
+                        Update
                     </Button>
                     <Button
                         type="link"
@@ -349,10 +395,7 @@ const MusicPage = () => {
 
     const deleteMusicItem = async (record) => {
         try {
-            // Pass the correct ID here
             const res = await deleteMusic(record.id).unwrap();
-            console.log(res)
-
 
             if (res?.code === 200) {
                 // Remove the item locally
@@ -364,6 +407,39 @@ const MusicPage = () => {
         } catch (error) {
             console.error(error);
             message.error('Failed to delete music.');
+        }
+    };
+
+    const handleUpdate = (record) => {
+        setSelectedMusic(record);
+        setIsUpdateModalOpen(true);
+    };
+
+    const handleUpdateSubmit = async () => {
+        const formValues = form.getFieldsValue();
+
+        const formData = new FormData();
+        formData.append('name', formValues.name);
+        formData.append('subTitle', formValues.subTitle);
+        if (imageFile) formData.append('image', imageFile); // Only append image if it's changed
+        if (musicFile) formData.append('music', musicFile); // Only append music if it's changed
+
+        try {
+            const res = await updateMusic({ id: selectedMusic.id, data: formData }).unwrap();
+
+            if (res?.code === 200) {
+                // Update the table with new data
+                setMusicData((prev) => prev.map(item => item.id === selectedMusic.id ? { ...item, ...formValues } : item));
+
+                message.success('Music updated successfully');
+                setIsUpdateModalOpen(false);
+                form.resetFields();
+                setImageFile(null);
+                setMusicFile(null);
+            }
+        } catch (error) {
+            console.error(error);
+            message.error('Failed to update music.');
         }
     };
 
@@ -400,14 +476,14 @@ const MusicPage = () => {
                 )}
             </Modal>
 
-            {/* Add Music Modal */}
+            {/* Update Music Modal */}
             <Modal
-                title="Add Music"
-                open={isAddModalOpen}
-                onCancel={() => setIsAddModalOpen(false)}
+                title="Update Music"
+                open={isUpdateModalOpen}
+                onCancel={() => setIsUpdateModalOpen(false)}
                 footer={null}
             >
-                <Form layout="vertical" form={form} onFinish={handleAddSubmit}>
+                <Form layout="vertical" form={form} onFinish={handleUpdateSubmit} initialValues={selectedMusic}>
                     <Form.Item name="name" label="Name" rules={[{ required: true }]}>
                         <Input placeholder="Enter title" />
                     </Form.Item>
@@ -416,7 +492,7 @@ const MusicPage = () => {
                         <Input placeholder="Enter subtitle" />
                     </Form.Item>
 
-                    <Form.Item label="Image" required>
+                    <Form.Item label="Image">
                         <input
                             type="file"
                             accept="image/*"
@@ -424,7 +500,7 @@ const MusicPage = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="Music" required>
+                    <Form.Item label="Music">
                         <input
                             type="file"
                             accept="audio/*"
@@ -433,7 +509,7 @@ const MusicPage = () => {
                     </Form.Item>
 
                     <Button type="primary" htmlType="submit" className="mt-2">
-                        Add
+                        Update
                     </Button>
                 </Form>
             </Modal>

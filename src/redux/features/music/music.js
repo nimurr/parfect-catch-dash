@@ -23,6 +23,14 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
         }),
 
+        updateMusic: builder.mutation({
+            query: ({id, data}) => ({
+                url: `/music/${id}`,
+                method: 'PATCH',
+                body: data, // Include the data you want to update in the body of the request
+            })
+        })
+
 
     }),
 });
@@ -31,4 +39,5 @@ export const {
     useGetAllMusicQuery,
     useAddMusicMutation,
     useDeleteMusicMutation,
+    useUpdateMusicMutation
 } = dashboardApi;
