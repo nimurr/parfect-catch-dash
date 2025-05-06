@@ -48,10 +48,10 @@ import { Link } from "react-router-dom";
 import { TbEdit } from "react-icons/tb";
 import CustomButton from "../../utils/CustomButton";
 import { useGetAboutUsQuery } from "../../redux/features/setting/settingApi"; // Import the hook
-import { Spin, message } from "antd"; // Import Spin for loading state
+import { Spin, message } from "antd"; 
 
 const AboutUsPage = () => {
-  const { data, isLoading, isError } = useGetAboutUsQuery(); // Fetch data using the query hook
+  const { data, isLoading, isError } = useGetAboutUsQuery(); 
 
   // Handle loading state
   if (isLoading) {

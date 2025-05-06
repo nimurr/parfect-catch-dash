@@ -3,6 +3,10 @@ import Piechart from "../../component/Main/Dashboard/Piechart";
 import RecentTransactions from "../../component/Main/Dashboard/RecentTransactions";
 import Status from "../../component/Main/Dashboard/Status";
 const DashboardHome = () => {
+
+  const user = localStorage.get("user")
+  console.log(user)
+
   return (
     <section>
       <h1 className="text-2xl font-semibold py-3 px-3">Overview</h1>
