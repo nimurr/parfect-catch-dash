@@ -245,8 +245,8 @@ const MusicPage = () => {
                 ),
         },
         {
-            title: 'Title',
-            dataIndex: 'title',
+            title: 'name',
+            dataIndex: 'name',
             key: 'title',
         },
         {
@@ -307,7 +307,7 @@ const MusicPage = () => {
         }
 
         const formData = new FormData();
-        formData.append('name', formValues.name);
+        formData.append('name', formValues.name || " ");
         formData.append('subTitle', formValues.subTitle || '');
         formData.append('image', imageFile);
         formData.append('music', musicFile);
@@ -350,11 +350,13 @@ const MusicPage = () => {
     const deleteMusicItem = async (record) => {
         try {
             // Pass the correct ID here
-            const res = await deleteMusic(record._id).unwrap();
+            const res = await deleteMusic(record.id).unwrap();
+            console.log(res)
+
 
             if (res?.code === 200) {
                 // Remove the item locally
-                setMusicData((prevData) => prevData.filter((item) => item._id !== record._id));
+                setMusicData((prevData) => prevData.filter((item) => item.id !== record.id));
                 message.success('Music deleted successfully');
             } else {
                 message.error('Failed to delete music.');
@@ -385,7 +387,7 @@ const MusicPage = () => {
                     <div className="space-y-2">
                         <img src={imageBaseUrl + selectedMusic.image} alt="cover" className="w-20 h-20 rounded" />
                         <p>
-                            <strong>Title:</strong> {selectedMusic.title}
+                            <strong>Title:</strong> {selectedMusic.name}
                         </p>
                         <p>
                             <strong>SubTitle:</strong> {selectedMusic.subTitle}
