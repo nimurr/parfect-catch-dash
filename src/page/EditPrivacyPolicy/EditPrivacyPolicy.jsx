@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import { Form, Button, message } from "antd";
 import ReactQuill from "react-quill";
@@ -5,24 +7,36 @@ import "react-quill/dist/quill.snow.css";
 import CustomButton from "../../utils/CustomButton";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useGetPrivacyPolicyQuery } from "../../redux/features/setting/settingApi";
+import { useCreateUpdatePrivacyMutation, useGetPrivacyPolicyQuery } from "../../redux/features/setting/settingApi";
+ 
 
 const EditPrivacyPolicy = () => {
   const [form] = Form.useForm();
   const { data, isLoading } = useGetPrivacyPolicyQuery();
+  const [createUpdatePrivacy, { isLoading: isMutating, isError, isSuccess }] = useCreateUpdatePrivacyMutation();
   const [content, setContent] = useState("");
 
+  // Set the content if it exists
   useEffect(() => {
     if (data && data[0]?.content) {
       setContent(data[0].content);
     }
   }, [data]);
- 
 
   const handleSubmit = async () => {
+    // Prepare the data to be sent to the API
+    const privacyPolicyData = { content };
 
-    console.log(content)
-    
+    try {
+      // Call the mutation to create/update privacy policy
+      await createUpdatePrivacy({ data: privacyPolicyData }).unwrap();
+      
+      // Show success message
+      message.success("Privacy policy updated successfully!");
+    } catch (error) {
+      // Handle error and show error message
+      message.error("Failed to update privacy policy!");
+    }
   };
 
   return (
@@ -76,8 +90,8 @@ const EditPrivacyPolicy = () => {
             >
               Cancel
             </Button>
-            <CustomButton className="p-1" htmlType="submit">
-              Update
+            <CustomButton className="p-1" htmlType="submit" loading={isMutating}>
+              {isMutating ? "Updating..." : "Update"}
             </CustomButton>
           </div>
         </Form>

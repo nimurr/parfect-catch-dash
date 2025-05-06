@@ -10,6 +10,7 @@ const settingApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response) => response?.data?.attributes,
     }),
+
     getPrivacyPolicy: builder.query({
       query: () => ({
         url: "/info/privacy-policy",
@@ -27,6 +28,29 @@ const settingApi = baseApi.injectEndpoints({
       transformResponse: (response) => response?.data?.attributes,
     }),
 
+    createUpdatePrivacy: builder.mutation({
+      query: ({ data }) => ({
+        url: '/info/privacy-policy',
+        method: 'POST',
+        body: data
+      })
+    }),
+
+    createAndUpdateTrams: builder.mutation({
+      query: ({ data }) => ({
+        url: '/info/terms-condition',
+        method: 'POST',
+        body: data
+      })
+    }),
+
+    createAndPostAbout: builder.mutation({
+      query: ({ data }) => ({
+        url: '/info/about-us',
+        method: 'POST',
+        body: data
+      })
+    })
 
 
   }),
@@ -35,6 +59,9 @@ const settingApi = baseApi.injectEndpoints({
 export const {
   useGetTermsConditionQuery,
   useGetPrivacyPolicyQuery,
-  useUpdatePrivacyPolicyMutation,
+
   useGetAboutUsQuery,
+  useCreateUpdatePrivacyMutation,
+  useCreateAndUpdateTramsMutation,
+  useCreateAndPostAboutMutation
 } = settingApi;

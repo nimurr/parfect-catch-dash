@@ -35,8 +35,8 @@
 //           {privacyPolicyData &&
 //             privacyPolicyData.map((privacy) => (
 //               <p key={privacy._id} className="text-lg">
-//                 {/* {privacy.content} */}
-//                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit ex ad voluptate dolores, debitis qui vitae nobis! Sit hic eligendi qui cumque mollitia illum fuga fugit dolores odio, commodi placeat omnis? Ratione pariatur dolor consequatur eligendi aliquid at recusandae maiores adipisci, laboriosam corrupti excepturi ad dolorum? Minima corrupti deserunt ipsum, illum eum et numquam nihil alias exercitationem! Minus voluptate, commodi quod laborum expedita hic officiis doloremque voluptatum nesciunt minima id ratione neque, impedit unde possimus, veniam architecto harum nostrum quibusdam voluptas eius magnam itaque animi quo. Fugiat id explicabo repellendus saepe excepturi nam cumque necessitatibus enim aperiam impedit? Aut, dolorem!
+//                 {privacy.content}
+                
 //               </p>
 //             ))}
 //         </div>
@@ -47,27 +47,36 @@
 
 // export default PrivacyPolicyPage;
 
+
+
+
+
+
+
+
 import { IoChevronBack } from "react-icons/io5";
 import { TbEdit } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import CustomButton from "../../utils/CustomButton";
 import { useGetPrivacyPolicyQuery } from "../../redux/features/setting/settingApi";
+import { Spin } from "antd"; // Importing Spin
 
 const PrivacyPolicyPage = () => {
+  const { data: privacyPolicyData, isLoading } = useGetPrivacyPolicyQuery();
 
-  const { data } = useGetPrivacyPolicyQuery();
-  console.log(data)
+  // Log data to inspect its structure
+  console.log("privacyPolicyData:", privacyPolicyData);
 
   return (
     <section className="w-full h-full min-h-screen">
       <div className="flex justify-between items-center py-5">
-        <div className="flex  items-center">
+        <div className="flex items-center">
           <Link to="/settings">
             <IoChevronBack className="text-2xl" />
           </Link>
           <h1 className="text-2xl font-semibold">Privacy Policy</h1>
         </div>
-        <Link to={"/settings/edit-privacy-policy/11"}>
+        <Link to={'/settings/edit-privacy-policy/11'}>
           <CustomButton border>
             <TbEdit className="size-5" />
             <span>Edit</span>
@@ -75,16 +84,35 @@ const PrivacyPolicyPage = () => {
         </Link>
       </div>
 
-      <div>
-        <p className="text-lg text-black px-5">
-          {/* {privacy.content} */}
-          {
-            data[0]?.content ? data[0]?.content : "N/A"
-          }
-        </p>
-      </div>
+      {/* Show Spin loader if data is loading */}
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[calc(100vh-120px)]">
+          <Spin />
+        </div>
+      ) : (
+        <div>
+          {/* Check if privacyPolicyData is an array or a single object */}
+          {privacyPolicyData ? (
+            Array.isArray(privacyPolicyData) ? (
+              privacyPolicyData.map((privacy) => (
+                <div key={privacy.id} className="text-lg">
+                   
+                 
+                    <div dangerouslySetInnerHTML={{ __html: privacy?.content }} />
+                  
+                </div>
+              ))
+            ) : (
+              <p className="text-lg">{privacyPolicyData.content}</p>
+            )
+          ) : (
+            <p className="text-lg">No Privacy Policy content available.</p>
+          )}
+        </div>
+      )}
     </section>
   );
-};
+}
 
 export default PrivacyPolicyPage;
+
