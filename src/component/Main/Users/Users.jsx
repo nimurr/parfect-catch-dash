@@ -16,14 +16,14 @@
 //   const [allUser, setAllUser] = useState([]);
 //   const [user, setUser] = useState(null);
 //   const { data, isFetching, isError, error } = useGetAllUsersQuery();
-  
+
 //   // if (!data || !data.attributes) {
 //   //   return <div>Loading...</div>; // Or return any fallback UI
 //   // }
-  
+
 //   // const allusers = data.attributes.results;
 //   // console.log(allusers);
-  
+
 //   const handleView = (record) => {
 //     setUser(record);
 //     setIsModalViewOpen(true);
@@ -334,11 +334,15 @@
 
 
 
-
-
-
 import { useEffect, useState } from "react";
-import { ConfigProvider, Modal, Table, Form, Input, DatePicker } from "antd";
+import {
+  ConfigProvider,
+  Modal,
+  Table,
+  Form,
+  Input,
+  DatePicker,
+} from "antd";
 import moment from "moment";
 import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 import { IoIosSearch, IoMdInformationCircleOutline } from "react-icons/io";
@@ -353,14 +357,26 @@ const Users = () => {
   const [isModalViewOpen, setIsModalViewOpen] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [user, setUser] = useState(null);
-  const { data, isFetching, isError, error } = useGetAllUsersQuery();
   
+  const { data, isFetching, isError, error } = useGetAllUsersQuery();
+
   const handleView = (record) => {
     setUser(record);
     setIsModalViewOpen(true);
   };
 
-  const dataSource = allUser.map((user, index) => ({
+  // Apply filtering based on searchText and selectedDate
+  const filteredUsers = allUser.filter((user) => {
+    const fullName = `${user.firstName ?? ""} ${user.lastName ?? ""}`.toLowerCase();
+    const searchMatch = fullName.includes(searchText.toLowerCase());
+    const dateMatch = selectedDate
+      ? moment(user.createdAt).isSame(selectedDate, "day")
+      : true;
+    return searchMatch && dateMatch;
+  });
+
+  // Build data source for table
+  const dataSource = filteredUsers.map((user, index) => ({
     id: user.id,
     si: index + 1,
     firstName: user?.firstName,
@@ -400,25 +416,27 @@ const Users = () => {
       title: "Phone Number",
       dataIndex: "phone",
       key: "phone",
-      sorter: (a, b) => a.email?.localeCompare(b.email),
+      sorter: (a, b) => a.phone?.localeCompare(b.phone),
       render: (text) => text || "N/A",
     },
     {
       title: "Joined Date",
       dataIndex: "createdAt",
       key: "createdAt",
-      sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-      render: (date) => (date ? moment(date).format("DD MMM YYYY") : "N/A"),
+      sorter: (a, b) =>
+        moment(a.createdAt).unix() - moment(b.createdAt).unix(),
+      render: (date) =>
+        date ? moment(date).format("DD MMM YYYY") : "N/A",
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <div className="flex items-center space-x-4">
-          <Link to='/users-details'>
+          <Link to="/users-details">
             <IoMdInformationCircleOutline
               size={22}
-              onClick={() => handleView(record)} // Trigger modal open
+              onClick={() => handleView(record)}
             />
           </Link>
         </div>
@@ -428,13 +446,17 @@ const Users = () => {
 
   useEffect(() => {
     if (isError && error) {
-      setAllUser([]); // If error, set empty array
+      setAllUser([]);
     } else if (data) {
-      // Assuming the structure is something like this: data.data.attributes.results
       const users = data?.data?.attributes?.results || [];
-      setAllUser(users); // Set users from the API response
+      setAllUser(users);
     }
   }, [data, isError, error]);
+
+  // Reset to first page when search filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, selectedDate]);
 
   return (
     <section>
@@ -453,11 +475,15 @@ const Users = () => {
               className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
               placeholder="User Name"
               onChange={(e) => setSearchText(e.target.value)}
+              allowClear
             />
           </Item>
           <Item>
-            <button className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]">
-              <IoIosSearch className="size-5" />
+            <button
+              type="button"
+              className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+            >
+              <IoIosSearch className="size-5 text-white" />
             </button>
           </Item>
         </Form>
@@ -482,7 +508,7 @@ const Users = () => {
             onChange: setCurrentPage,
           }}
           scroll={{ x: "max-content" }}
-          responsive={true}
+          responsive
           columns={columns}
           dataSource={dataSource}
           rowKey="id"

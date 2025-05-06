@@ -4,20 +4,28 @@ const dashboardApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getDashboardStatus: builder.query({
       query: () => ({
-        url: "/admin/getTotalStatus",
+        url: "/admin/dashboard/status",
         method: "GET",
       }),
       transformResponse: (response) => response?.data?.attributes,
     }),
     getIncomeRatio: builder.query({
       query: (year) => ({
-        url: `/admin/getIncomeRatio?year=${year}`,
+        url: `/admin/income-ratio`,
         method: "GET",
       }),
       transformResponse: (response) => response?.data?.attributes,
     }),
+    getEarnings: builder.query({
+      query: () => ({
+        url: '/admin/earnings',
+        method: "GET"
+      })
+    })
+
+
   }),
 });
 
-export const { useGetDashboardStatusQuery, useGetIncomeRatioQuery } =
+export const { useGetDashboardStatusQuery, useGetIncomeRatioQuery, useGetEarningsQuery } =
   dashboardApi;

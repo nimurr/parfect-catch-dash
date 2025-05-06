@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import {Form, Modal, Switch } from "antd";
+import { Form, message, Modal, Switch } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import OTPInput from "react-otp-input";
 // import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomInput from "../../../utils/CustomInput";
 import CustomButton from "../../../utils/CustomButton";
 import { useState } from "react";
+import { useChangePasswordMutation } from "../../../redux/features/auth/authApi";
 
 const Settings = () => {
   // const { user } = useSelector(state => state?.auth)
@@ -55,9 +56,33 @@ const Settings = () => {
     }
   };
 
+  const [changePasswordUse] = useChangePasswordMutation()
   const handleChangePassword = async (values) => {
-    return console.log(values);
-    // const { oldPassword, newPassword } = values;
+    // return console.log(values);
+    const { oldPassword, newPassword } = values;
+
+    const form = {
+      oldPassword,
+      newPassword
+    }
+
+    try {
+
+      const res = await changePasswordUse(form).unwrap();
+      if (res?.code == 200) {
+        console.log(res)
+        setIsModalOpen(false);
+        return message.success("password Change succesfully !!!")
+
+      }
+
+    } catch (error) {
+      message.error(error?.data.message)
+      console.log(error)
+    }
+
+
+
   };
   const handleForgetPassword = async (values) => {
     forgotPassword(values);
@@ -172,7 +197,7 @@ const Settings = () => {
               </Form.Item>
               <p className=" text-secondary font-medium">
                 <button onClick={() => setModelTitle("Forget password")}>
-                  <h1 className="underline text-blue-500"> Forget Password</h1>
+                  {/* <h1 className="underline text-blue-500"> Forget Password</h1> */}
                 </button>
               </p>
               <Form.Item className="w-full">
@@ -248,7 +273,7 @@ const Settings = () => {
               </Form.Item>
               <p className=" text-secondary font-medium">
                 <button onClick={() => setModelTitle("Forget password")}>
-                  <h1 className="underline text-blue-500"> Forget Password</h1>
+                  {/* <h1 className="underline text-blue-500"> Forget Password</h1> */}
                 </button>
               </p>
               <Form.Item className="w-full">

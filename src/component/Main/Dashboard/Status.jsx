@@ -49,8 +49,15 @@
 
 import { FaDatabase } from "react-icons/fa";
 import { PiCurrencyCircleDollar, PiUsersThreeFill } from "react-icons/pi";
+import { useGetDashboardStatusQuery } from "../../../redux/features/dashboard/dashboardApi";
 
 const Status = () => {
+
+  const { data } = useGetDashboardStatusQuery()
+
+  // console.log(data)
+
+
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-5">
       {/* Total Users Card */}
@@ -60,7 +67,7 @@ const Status = () => {
         </div>
         <div className="space-y-2 ml-4">
           <h1 className="text-center text-[#222222] text-2xl font-bold">Total User</h1>
-          <h1 className="text-center text-4xl font-semibold text-[#222222]">369</h1>
+          <h1 className="text-center text-4xl font-semibold text-[#222222]">{data?.totalUser}</h1>
           <p className="text-center text-[#1f1f1f]">Last month total 1050</p>
         </div>
       </div>
@@ -71,8 +78,8 @@ const Status = () => {
           <PiCurrencyCircleDollar className="text-4xl text-[#222222]" />
         </div>
         <div className="space-y-2 ml-4">
-          <h1 className="text-center text-[#222222] text-2xl font-bold">Total User</h1>
-          <h1 className="text-center text-4xl font-semibold text-[#222222]">359</h1>
+          <h1 className="text-center text-[#222222] text-2xl font-bold">Total Withdraw</h1>
+          <h1 className="text-center text-4xl font-semibold text-[#222222]">{data?.totalWithdraw}</h1>
 
           <p className="text-center text-[#1f1f1f]">Last month total 1050</p>
         </div>
@@ -84,8 +91,8 @@ const Status = () => {
           <FaDatabase className="text-4xl text-[#222222]" />
         </div>
         <div className="space-y-2 ml-4">
-          <h1 className="text-center text-[#222222] text-2xl font-bold">Total User</h1>
-          <h1 className="text-center text-4xl font-semibold text-[#222222]">01</h1>
+          <h1 className="text-center text-[#222222] text-2xl font-bold">Total Earnings</h1>
+          <h1 className="text-center text-4xl font-semibold text-[#222222]">{data?.totalEarnings}</h1>
 
           <p className="text-center text-[#1f1f1f]">Last month total 1050</p>
         </div>

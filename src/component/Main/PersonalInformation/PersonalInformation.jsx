@@ -8,6 +8,9 @@ import CustomInput from "../../../utils/CustomInput";
 
 const PersonalInformation = () => {
   const { user } = useSelector((state) => state.auth);
+
+  console.log(user)
+
   const [form] = Form.useForm();
   useEffect(() => {
     if (user) {
@@ -36,12 +39,12 @@ const PersonalInformation = () => {
         <div className="w-full h-full mt-10  flex justify-start items-center">
           <img
             className="size-32 rounded-full "
-            src={`${imageBaseUrl}${user?.image?.url}`}
+            src={`${imageBaseUrl}${user?.profileImage}`}
             alt=""
           />
           <div className="ml-5">
-           <h1 className="mt-2 text-gray-500">James Don</h1>
-           <h1 className="text-lg font-semibold uppercase">{user?.role}</h1>
+            <h1 className="mt-2 text-gray-500">{user?.fullName}</h1>
+            <h1 className="text-lg font-semibold uppercase">{user?.role}</h1>
           </div>
         </div>
 
@@ -62,18 +65,23 @@ const PersonalInformation = () => {
           </Form.Item>
 
           {/* Phone Number */}
-          <Form.Item label="Phone Number" name="phone">
+          <Form.Item
+            label="Phone Number"
+            name="phoneNumber"
+            initialValue={user?.phoneNumber}
+          >
             <CustomInput
               type="number"
               placeholder="Enter your phone number"
               readOnly
             />
           </Form.Item>
+
           <Link to="/edit-personal-info">
-          <button className="w-full px-8 py-3 bg-[#309EAD] font-semibold rounded-lg">
-            Edit Profile
-          </button>
-        </Link>
+            <button className="w-full px-8 py-3 bg-[#309EAD] font-semibold rounded-lg">
+              Edit Profile
+            </button>
+          </Link>
         </Form>
       </div>
     </div>

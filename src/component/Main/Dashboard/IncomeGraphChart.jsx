@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { PureComponent } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useGetIncomeRatioQuery } from '../../../redux/features/dashboard/dashboardApi';
 
 const data = [
   {
@@ -48,12 +49,18 @@ const data = [
 ];
 
 
-const IncomeGraphChart = () => { 
+const IncomeGraphChart = () => {
+
+
+  const { data } = useGetIncomeRatioQuery()
+
+  console.log(data)
+
 
   return (
     <section className="w-full col-span-full md:col-span-4 bg-white  rounded-lg border ">
       <div className='mt-5' style={{ width: '100%' }}>
-        <h4>Income and Performance Analytics</h4>
+        <h4 className='pl-5 mb-2'>Income and Performance Analytics</h4>
 
         <ResponsiveContainer width="100%" height={400}>
           <AreaChart
@@ -69,10 +76,10 @@ const IncomeGraphChart = () => {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
+            <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Area type="monotone" dataKey="pv" stroke="#333399" fill="#309EAD" />
+            <Area type="monotone" dataKey="totalEarnings" stroke="#333399" fill="#309EAD" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

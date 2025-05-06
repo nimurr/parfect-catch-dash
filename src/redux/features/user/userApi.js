@@ -21,13 +21,16 @@ const userApi = baseApi.injectEndpoints({
     }),
 
     getsingleUser: builder.query({
-      query: (id ) => ({
+      query: (id) => ({
         url: `/users/profile/${id}`, // Use the user ID to get the single user profile
         method: "GET", // HTTP method
-          // Optionally add query parameters if needed
+        // Optionally add query parameters if needed
       }),
     }),
+
+
+
   }),
 });
 
-export const { useGetAllUsersQuery ,useGetsingleUserQuery} = userApi;
+export const { useGetAllUsersQuery, useGetsingleUserQuery } = userApi;

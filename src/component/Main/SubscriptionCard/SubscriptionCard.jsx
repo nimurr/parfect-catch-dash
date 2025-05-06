@@ -74,11 +74,16 @@
 
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useGetAllSubscriptionQuery } from "../../../redux/features/subdcription/subscription";
+import { useDeleteSubscriptionMutation, useGetAllSubscriptionQuery } from "../../../redux/features/subdcription/subscription";
+import { message } from "antd";
 
 
 const SubscriptionCard = () => {
   const { data, error, isLoading } = useGetAllSubscriptionQuery();
+
+  const [deleteSub] = useDeleteSubscriptionMutation();
+
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -89,6 +94,32 @@ const SubscriptionCard = () => {
   }
 
   const subscription = data?.data?.attributes?.results;
+
+  const handleDelete = async (id) => {
+
+
+    try {
+
+      const res = await deleteSub({ id }).unwrap();
+
+      console.log(res)
+
+      if (res?.code == 200) {
+        return message.success("Delete Successfully !!")
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
+
+
+
+
+
+
 
   return (
     <section className="pt-5">
@@ -137,11 +168,13 @@ const SubscriptionCard = () => {
             <div className="flex justify-between px-6 py-6">
               <Link
                 className="flex items-center text-sm bg-[#2C909D] px-7 py-3 rounded-lg text-center"
-                to={`/Subscription/${id}`}
+                to={`/Subscription/${subscription?.id}`}
               >
                 <button className="text-center">Edit</button>
               </Link>
-              <button className="flex items-center text-sm px-7 py-3 rounded-lg border border-[#2C909D]">
+              <button
+                onClick={() => handleDelete(subscription?.id)}
+                className="flex items-center text-sm px-7 py-3 rounded-lg border border-[#2C909D]">
                 Delete
               </button>
             </div>

@@ -20,7 +20,7 @@ const EditInformation = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(
-    user?.image ? `${imageBaseUrl}${user.image.url}` : null
+    user?.image ? `${imageBaseUrl}${user?.profileImage}` : null
   );
   const fileInputRef = useRef(null);
 
@@ -53,13 +53,15 @@ const EditInformation = () => {
     const formdata = new FormData();
     formdata.append("fullName", values.fullName);
     formdata.append("email", values.email);
-    formdata.append("phone", values.phone);
+    formdata.append("phoneNumber", values.phoneNumber);
     if (imageFile) {
       formdata.append("image", imageFile); // Add image if updated
     }
 
     try {
       const response = await updateProfileInfo(formdata);
+
+
       if (response.error) {
         toast.error(response.error.data.message);
       }
@@ -121,7 +123,7 @@ const EditInformation = () => {
           />
           <div className="ml-5 flex items-center justify-between">
             <div className="text-white -ml-8 mr-5 z-10 bg-[#309EAD] rounded-full p-1">
-                <RiEdit2Line size={20}/>
+              <RiEdit2Line size={20} />
             </div>
             <div>
               <h1 className="mt-2 font-semibold text-3xl">James Don</h1>
@@ -148,13 +150,14 @@ const EditInformation = () => {
           </Form.Item>
 
           {/* Phone Number */}
-          <Form.Item label="Phone Number" name="phone">
+          <Form.Item label="Phone Number" name="phoneNumber"
+            initialValue={user?.phoneNumber}>
             <CustomInput type="number" placeholder="Enter your phone number" />
           </Form.Item>
 
           {/* Submit Button */}
           <CustomButton loading={isLoading} className="w-full text-black font-semibold">
-          Save & Change
+            Save & Change
           </CustomButton>
         </Form>
       </div>

@@ -3,9 +3,15 @@ import { useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useGetNitificationQuery, useReadNotificaitonMutation } from "../../../redux/features/notification/notification";
+import moment from "moment";
 
 const Notification = () => {
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, refetch } = useGetNitificationQuery()
+  const notificaitonData = data?.data?.attributes?.notifications;
+  console.log(notificaitonData)
 
   // Sample data
   const notifications = [
@@ -47,7 +53,7 @@ const Notification = () => {
   const pageSize = 25
 
   // Pagination Logic
-  const paginatedNotifications = notifications.slice(
+  const paginatedNotifications = notificaitonData?.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
@@ -56,20 +62,47 @@ const Notification = () => {
     setCurrentPage(page);
   };
 
+
+
+  const [readNotificaiton] = useReadNotificaitonMutation();
+
+  const handleReadNotificaiton = async (id) => {
+    // console.log(id)
+    const notiData = {
+      notificationId: id
+    }
+
+    try {
+
+      const res = await readNotificaiton(notiData).unwrap();
+      console.log(res)
+      refetch();
+
+
+    } catch (error) {
+      console.log(error)
+    }
+
+
+
+  }
+
+
+
   return (
     <div className="p-4">
       <h1 className="text-2xl flex items-center mb-4"><Link to='/'><IoChevronBack className="text-2xl" /> </Link>Notification</h1>
 
       <div className="space-y-4">
-        {paginatedNotifications.map((item) => (
-          <div key={item.id} className="border border-[#309EAD] rounded-md p-4 flex items-center space-x-4">
+        {paginatedNotifications?.map((item) => (
+          <div onClick={() => handleReadNotificaiton(item?.id)} key={item.id} className={`border border-[#309EAD] rounded-md p-4 flex items-center space-x-4 cursor-pointer ${item?.status == 'unread' ? "bg-[#309ead34]" : ""}`}>
             <div className="text-[#309EAD] border border-[#309EAD] rounded-full p-2">
               <span className="text-[#309EAD] bg-[#309EAD] p-1.5 rounded-full absolute ml-4"></span>
               <IoMdNotificationsOutline size={30} className="relative" />
             </div>
             <div>
-              <p className="font-semibold">{item.message}</p>
-              <p className="text-gray-500">{item.time}</p>
+              <p className="font-semibold">{item.title}</p>
+              <p className="text-gray-500">{moment(item.createdAt).format("DD MMM, YYYY - hh:mm A")}</p>
             </div>
           </div>
         ))}
