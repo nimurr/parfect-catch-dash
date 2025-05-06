@@ -7,6 +7,7 @@ import { FiMenu } from "react-icons/fi";
 import { RiNotificationFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { imageBaseUrl } from "../../../config/imageBaseUrl";
+import imageApi from "../../../redux/baseApi/imageApi";
 
 const Header = ({ toggleSidebar }) => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const Header = ({ toggleSidebar }) => {
         </Link>
         <img
           onClick={() => navigate("/personal-info")}
-          src={`${imageBaseUrl}${user?.profileImage}`}
+          src={`${imageApi}${user?.profileImage}`}
           // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           className="size-12 rounded-full cursor-pointer border border-gray-500"
         />

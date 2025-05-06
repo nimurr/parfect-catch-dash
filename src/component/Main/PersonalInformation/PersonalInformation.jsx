@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Form } from "antd";
 import { useEffect } from "react";
 import CustomInput from "../../../utils/CustomInput";
+import imageApi from "../../../redux/baseApi/imageApi";
 
 const PersonalInformation = () => {
   const { user } = useSelector((state) => state.auth);
@@ -39,7 +40,7 @@ const PersonalInformation = () => {
         <div className="w-full h-full mt-10  flex justify-start items-center">
           <img
             className="size-32 rounded-full "
-            src={`${imageBaseUrl}${user?.profileImage}`}
+            src={`${imageApi}${user?.profileImage}`}
             alt=""
           />
           <div className="ml-5">

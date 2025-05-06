@@ -10,6 +10,7 @@ import { imageBaseUrl } from "../../../config/imageBaseUrl";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../../redux/features/auth/authSlice";
 import { RiEdit2Line } from "react-icons/ri";
+import imageApi from "../../../redux/baseApi/imageApi";
 
 const EditInformation = () => {
   const { user } = useSelector((state) => state.auth);
@@ -20,8 +21,12 @@ const EditInformation = () => {
 
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState(
-    user?.image ? `${imageBaseUrl}${user?.profileImage}` : null
+    user?.profileImage ? `${imageApi}${user?.profileImage}` : null
   );
+
+
+  console.log(imageUrl)
+
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -49,17 +54,20 @@ const EditInformation = () => {
     }
   };
 
+  console.log(imageFile)
+
   const onFinish = async (values) => {
     const formdata = new FormData();
     formdata.append("fullName", values.fullName);
-    formdata.append("email", values.email);
+    // formdata.append("email", values.email);
     formdata.append("phoneNumber", values.phoneNumber);
     if (imageFile) {
-      formdata.append("image", imageFile); // Add image if updated
+      formdata.append("profileImage", imageFile); // Add image if updated
     }
 
     try {
       const response = await updateProfileInfo(formdata);
+
 
 
       if (response.error) {

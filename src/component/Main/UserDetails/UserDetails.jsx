@@ -1,120 +1,23 @@
-// import React, { useState } from 'react';
-// import user from '../../../assets/auth/user.png'
-// import { useGetsingleUserQuery } from '../../../redux/features/user/userApi';
-
-// const UserDetailsPage = () => {
-//     const [selectedUser, setSelectedUser] = useState(null);
-//     const { data:allUser, isFetching, isError, error } = useGetAllUsersQuery();
-//     const { data:singleUser,   }= useGetsingleUserQuery()
-
-//     const users = [
-//         { id: 1, profile:user, name: 'Bashar', email: 'supportinfo@gmail.com', phone: '55555555555', joinDate: '16 Feb 2025' },
-//         { id: 2, profile:user, name: 'Ali', email: 'supportinfo2@gmail.com', phone: '55555555556', joinDate: '18 Feb 2025' },
-//         { id: 3, profile:user, name: 'Sarah', email: 'supportinfo3@gmail.com', phone: '55555555557', joinDate: '20 Feb 2025' },
-//         { id: 4, profile:user, name: 'John', email: 'supportinfo4@gmail.com', phone: '55555555558', joinDate: '22 Feb 2025' },
-//         { id: 5, profile:user, name: 'Emma', email: 'supportinfo5@gmail.com', phone: '55555555559', joinDate: '24 Feb 2025' },
-//     ];
-
-//     const userDetails = selectedUser ? users.find(user => user.id === selectedUser) : users[0]; // Default to first user
-
-//     return (
-//         <div className="flex p-6 space-x-6">
-//             {/* Left Side - User Table */}
-//             <div className="flex-1 bg-gray-100 rounded-lg shadow-lg p-4">
-//                 <h2 className="text-xl font-semibold text-gray-800 mb-4">User details</h2>
-//                 <table className="min-w-full table-auto">
-//                     <thead>
-//                         <tr className="bg-[#309EAD] text-white">
-//                             <th className="px-4 py-2">#SL</th>
-//                             <th className="px-4 py-2">User Name</th>
-//                             <th className="px-4 py-2">Email</th>
-//                             <th className="px-4 py-2">Actions</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {users.map((user, index) => (
-//                             <tr
-//                                 key={user.id}
-//                                 className={`cursor-pointer ${selectedUser === user.id ? 'bg-[#A0D2D9]' : ''}`}
-//                                 onClick={() => setSelectedUser(user.id)}
-//                             >
-//                                 <td className="px-4 py-2">{index + 1}</td>
-//                                 <td className="px-4 py-2">
-//                                     <div className="flex items-center">
-//                                         <img
-//                                             className="w-10 h-10 rounded-full mr-2"
-//                                             src={user.profile}
-//                                             alt={user.name}
-//                                         />
-//                                         {user.name}
-//                                     </div>
-//                                 </td>
-//                                 <td className="px-4 py-2">{user.email}</td>
-//                                 <td className="px-4 py-2">
-//                                     <button className="text-[#309EAD] hover:underline">View</button>
-//                                 </td>
-//                             </tr>
-//                         ))}
-//                     </tbody>
-//                 </table>
-//             </div>
-
-
-//             {/* Right Side - User Details */}
-//             <div className="flex-1 bg-white rounded-lg shadow-lg p-6">
-//                 <h2 className="text-xl font-semibold text-gray-800 mb-4">Details</h2>
-//                 <div className="flex items-center mb-4">
-//                     <img
-//                         src={user}
-//                         alt="User Profile"
-//                         className="w-24 h-24 rounded-full mr-4"
-//                     />
-//                     <div>
-//                         <h3 className="font-semibold text-lg text-gray-800">{userDetails.name}</h3>
-//                         <p className="text-sm text-gray-500">Joined on {userDetails.joinDate}</p>
-//                     </div>
-//                 </div>
-
-//                 <div className="space-y-4">
-//                     <div>
-//                         <p className="font-semibold text-sm text-gray-600">Name</p>
-//                         <p>{userDetails.name}</p>
-//                     </div>
-//                     <div>
-//                         <p className="font-semibold text-sm text-gray-600">Email</p>
-//                         <p>{userDetails.email}</p>
-//                     </div>
-//                     <div>
-//                         <p className="font-semibold text-sm text-gray-600">Phone number</p>
-//                         <p>{userDetails.phone}</p>
-//                     </div>
-//                     <div>
-//                         <p className="font-semibold text-sm text-gray-600">Joining date</p>
-//                         <p>{userDetails.joinDate}</p>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default UserDetailsPage;
-
-
-
-
 import React, { useState } from 'react';
 import { useGetAllUsersQuery, useGetsingleUserQuery } from '../../../redux/features/user/userApi';
 import user from '../../../assets/auth/user.png'; // Default user image
 import { useParams } from 'react-router-dom';
+import { Modal, Button } from 'antd'; // Import Modal and Button from Ant Design
+import imageApi from '../../../redux/baseApi/imageApi'; // Base URL for image
+import moment from 'moment';
 
 const UserDetailsPage = () => {
-  const [selectedUser, setSelectedUser] = useState(null);
+  const { id } = useParams(); // Retrieve user ID from the URL parameters
+  console.log(id);
 
-  // Fetch all users
-  const { data: allUsers , isFetching: isFetchingUsers, isError: isErrorUsers, error: errorUsers } = useGetAllUsersQuery();
+  const [selectedUser, setSelectedUser] = useState(id); // Initially select the user if the ID is available in the URL
+  const [isModalVisible, setIsModalVisible] = useState(false); // State to control modal visibility
 
-  const data = allUsers?.data?.attributes
+  // Fetch all users from the API
+  const { data: allUsers, isFetching: isFetchingUsers, isError: isErrorUsers, error: errorUsers } = useGetAllUsersQuery();
+
+  const data = allUsers?.data?.attributes?.results || []; // All users data from the API
+
   console.log("All Users Data: ", data);
 
   // Fetch single user details when selected
@@ -129,6 +32,19 @@ const UserDetailsPage = () => {
     setSelectedUser(userId); // Set selected user ID when a row is clicked
   };
 
+
+  const [selectedUserInfo, setSelectedUserInfo] = useState({});
+
+  const handleModalOpen = (user) => {
+
+    setSelectedUserInfo(user)
+    setIsModalVisible(true); // Open modal
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false); // Close modal
+  };
+
   const userDetails = singleUser || {}; // Default to empty object if no user is selected
 
   return (
@@ -138,7 +54,7 @@ const UserDetailsPage = () => {
         <h2 className="text-xl font-semibold text-gray-800 mb-4">User details</h2>
         <table className="min-w-full table-auto">
           <thead>
-            <tr className="bg-[#309EAD] text-white">
+            <tr className="bg-[#309EAD] text-white text-left">
               <th className="px-4 py-2">#SL</th>
               <th className="px-4 py-2">User Name</th>
               <th className="px-4 py-2">Email</th>
@@ -158,15 +74,20 @@ const UserDetailsPage = () => {
                     <div className="flex items-center">
                       <img
                         className="w-10 h-10 rounded-full mr-2"
-                        src={user.profile || user}
+                        src={imageApi + user?.profileImage || user}
                         alt={user.name}
                       />
-                      {user.name}
+                      {user?.fullName}
                     </div>
                   </td>
-                  <td className="px-4 py-2">{user.email}</td>
+                  <td className="px-4 py-2">{user?.email}</td>
                   <td className="px-4 py-2">
-                    <button className="text-[#309EAD] hover:underline">View</button> {/* View button */}
+                    <button
+                      className="text-[#309EAD] hover:underline"
+                      onClick={() => handleModalOpen(user)} // Open modal on click
+                    >
+                      View
+                    </button> {/* View button */}
                   </td>
                 </tr>
               ))
@@ -179,51 +100,45 @@ const UserDetailsPage = () => {
         </table>
       </div>
 
-      {/* Right Side - User Details */}
-      <div className="flex-1 bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Details</h2>
-        {isFetchingSingleUser ? (
-          <div>Loading User Details...</div>
-        ) : isErrorSingleUser ? (
-          <div>Error fetching user details: {errorSingleUser?.message}</div>
-        ) : (
-          <div>
-            <div className="flex items-center mb-4">
-              <img
-                src={singleUser?.profile || user}
-                alt="User Profile"
-                className="w-24 h-24 rounded-full mr-4"
-              />
-              <div>
-                <h3 className="font-semibold text-lg text-gray-800">{singleUser?.name}</h3>
-                <p className="text-sm text-gray-500">Joined on {singleUser?.joinDate}</p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <p className="font-semibold text-sm text-gray-600">Name</p>
-                <p>{singleUser?.name}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-600">Email</p>
-                <p>{singleUser?.email}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-600">Phone number</p>
-                <p>{singleUser?.phone}</p>
-              </div>
-              <div>
-                <p className="font-semibold text-sm text-gray-600">Joining date</p>
-                <p>{singleUser?.joinDate}</p>
-              </div>
+      {/* Modal for User Details */}
+      <Modal
+        title="User Details"
+        visible={isModalVisible}
+        onCancel={handleModalClose}
+        footer={[
+          <Button key="back" onClick={handleModalClose}>
+            Close
+          </Button>,
+        ]}
+      >
+        <div className="space-y-4">
+          <div className="flex items-center mb-4">
+            <img
+              src={imageApi + selectedUserInfo?.profileImage || user} // Dynamically display profile image
+              alt="User Profile"
+              className="w-24 h-24 rounded-full mr-4"
+            />
+            <div className=''>
+              <h3 className="font-semibold text-lg text-gray-800">{selectedUserInfo?.fullName}</h3>
+              <p className="text-sm text-gray-500">Joined on {moment(selectedUserInfo?.createdAt).format('lll')}</p>
             </div>
           </div>
-        )}
-      </div>
+          <div className='flex items-center justify-between '>
+            <p className="font-semibold text-sm text-gray-600">Email</p>
+            <p>{selectedUserInfo?.email}</p>
+          </div>
+          <div className='flex items-center justify-between '>
+            <p className="font-semibold text-sm text-gray-600">Phone number</p>
+            <p>{selectedUserInfo?.phoneNumber}</p>
+          </div>
+          <div className='flex items-center justify-between '>
+            <p className="font-semibold text-sm text-gray-600">Joining date</p>
+            <p>{selectedUserInfo?.createdAt}</p>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
 
 export default UserDetailsPage;
-

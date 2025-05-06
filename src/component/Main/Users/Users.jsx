@@ -357,7 +357,7 @@ const Users = () => {
   const [isModalViewOpen, setIsModalViewOpen] = useState(false);
   const [allUser, setAllUser] = useState([]);
   const [user, setUser] = useState(null);
-  
+
   const { data, isFetching, isError, error } = useGetAllUsersQuery();
 
   const handleView = (record) => {
@@ -433,7 +433,7 @@ const Users = () => {
       key: "action",
       render: (_, record) => (
         <div className="flex items-center space-x-4">
-          <Link to="/users-details">
+          <Link to={`/users-details/${record?.id}`}>
             <IoMdInformationCircleOutline
               size={22}
               onClick={() => handleView(record)}
