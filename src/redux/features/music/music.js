@@ -17,14 +17,11 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
 
         deleteMusic: builder.mutation({
-            query: (id) => (
-                {
-                    url: `/music/${id}`,
-                    method: "DELETE",
-
-                }
-            )
-        })
+            query: (id) => ({
+                url: `/music/${id}`, // Assuming you delete by ID
+                method: 'DELETE',
+            }),
+        }),
 
 
     }),

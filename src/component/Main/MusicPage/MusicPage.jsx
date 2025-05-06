@@ -205,12 +205,9 @@
 
 
 
-
-
-
 import React, { useEffect, useState } from 'react';
 import { Table, Button, Modal, Form, Input, message } from 'antd';
-import { useAddMusicMutation, useGetAllMusicQuery } from '../../../redux/features/music/music';
+import { useAddMusicMutation, useGetAllMusicQuery, useDeleteMusicMutation } from '../../../redux/features/music/music';
 import { imageBaseUrl } from '../../../config/imageBaseUrl';
 
 const MusicPage = () => {
@@ -226,6 +223,7 @@ const MusicPage = () => {
     const [musicData, setMusicData] = useState(initialData);
 
     const [addMusic] = useAddMusicMutation();
+    const [deleteMusic] = useDeleteMusicMutation(); // Hook for delete mutation
 
     // Sync fetched data into local state
     useEffect(() => {
@@ -345,14 +343,26 @@ const MusicPage = () => {
         Modal.confirm({
             title: 'Are you sure you want to delete this music?',
             content: `This action cannot be undone.`,
-            onOk: () => deleteMusic(record),
+            onOk: () => deleteMusicItem(record),
         });
     };
 
-    const deleteMusic = (record) => {
-        // You would replace this with an actual API call to delete the music item
-        setMusicData((prevData) => prevData.filter((item) => item.key !== record.key));
-        message.success('Music deleted successfully');
+    const deleteMusicItem = async (record) => {
+        try {
+            // Pass the correct ID here
+            const res = await deleteMusic(record._id).unwrap();
+
+            if (res?.code === 200) {
+                // Remove the item locally
+                setMusicData((prevData) => prevData.filter((item) => item._id !== record._id));
+                message.success('Music deleted successfully');
+            } else {
+                message.error('Failed to delete music.');
+            }
+        } catch (error) {
+            console.error(error);
+            message.error('Failed to delete music.');
+        }
     };
 
     return (
