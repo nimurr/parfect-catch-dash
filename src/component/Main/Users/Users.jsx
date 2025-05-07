@@ -1,142 +1,55 @@
-// /* eslint-disable no-unused-vars */
+
+
+
 // import { useEffect, useState } from "react";
-// import { ConfigProvider, Modal, Table, Form, Input, DatePicker } from "antd";
+// import {
+//   ConfigProvider,
+//   Modal,
+//   Table,
+//   Form,
+//   Input,
+//   DatePicker,
+// } from "antd";
 // import moment from "moment";
 // import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 // import { IoIosSearch, IoMdInformationCircleOutline } from "react-icons/io";
 // import { Link } from "react-router-dom";
+// import imageApi from "../../../redux/baseApi/imageApi";
+
+
 
 // const { Item } = Form;
 
 // const Users = () => {
+
+//   console.log(imageApi)
+
 //   const [searchText, setSearchText] = useState("");
 //   const [selectedDate, setSelectedDate] = useState(null);
 //   const [currentPage, setCurrentPage] = useState(1);
 //   const [isModalViewOpen, setIsModalViewOpen] = useState(false);
 //   const [allUser, setAllUser] = useState([]);
 //   const [user, setUser] = useState(null);
+
 //   const { data, isFetching, isError, error } = useGetAllUsersQuery();
-
-//   // if (!data || !data.attributes) {
-//   //   return <div>Loading...</div>; // Or return any fallback UI
-//   // }
-
-//   // const allusers = data.attributes.results;
-//   // console.log(allusers);
 
 //   const handleView = (record) => {
 //     setUser(record);
 //     setIsModalViewOpen(true);
 //   };
 
-//   const [allUsers, setAllUsers] = useState([
-//     {
-//       id: 1,
-//       accountID: 2010,
-//       firstName: "John Smith",
-//       lastName: "Doe",
-//       email: "johndoe@example.com",
-//       address_line1: "123 Main St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/1.jpg" },
-//       phone: "123-456-7890",
-//       createdAt: "2024-01-01T10:00:00",
-//       status: "Only Registered",
-//       block: false,
-//     },
-//     {
-//       id: 2,
-//       accountID: 2011,
-//       firstName: "Jane Smith",
-//       lastName: "Smith",
-//       email: "janesmith@example.com",
-//       address_line1: "456 Elm St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/women/2.jpg" },
-//       phone: "987-654-3210",
-//       createdAt: "2024-02-01T14:30:00",
-//       status: "Active",
-//       block: true,
-//     },
-//     {
-//       id: 3,
-//       accountID: 2012,
-//       firstName: "Alice Smith",
-//       lastName: "Johnson",
-//       email: "alicejohnson@example.com",
-//       address_line1: "789 Oak St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/women/3.jpg" },
-//       phone: "555-123-4567",
-//       createdAt: "2024-03-15T09:00:00",
-//       status: "Active",
-//       block: false,
-//     },
-//     {
-//       id: 4,
-//       accountID: 2013,
-//       firstName: "Bob Smith",
-//       lastName: "Williams",
-//       email: "bobwilliams@example.com",
-//       address_line1: "101 Pine St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/2.jpg" },
-//       phone: "555-987-6543",
-//       createdAt: "2024-04-10T16:45:00",
-//       status: "Only Registered",
-//       block: true,
-//     },
-//     {
-//       id: 5,
-//       accountID: 2014,
-//       firstName: "Charlie Smith",
-//       lastName: "Brown",
-//       email: "charliebrown@example.com",
-//       address_line1: "202 Maple St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
-//       phone: "555-654-3210",
-//       createdAt: "2024-05-05T12:00:00",
-//       status: "Active",
-//       block: false,
-//     },
-//     {
-//       id: 6,
-//       accountID: 2014,
-//       firstName: "Charlie Smith",
-//       lastName: "Brown",
-//       email: "charliebrown@example.com",
-//       address_line1: "202 Maple St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
-//       phone: "555-654-3210",
-//       createdAt: "2024-05-05T12:00:00",
-//       status: "Active",
-//       block: false,
-//     },
-//     {
-//       id: 7,
-//       accountID: 2014,
-//       firstName: "Charlie Smith",
-//       lastName: "Brown",
-//       email: "charliebrown@example.com",
-//       address_line1: "202 Maple St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
-//       phone: "555-654-3210",
-//       createdAt: "2024-05-05T12:00:00",
-//       status: "Active",
-//       block: false,
-//     },
-//     {
-//       id: 8,
-//       accountID: 2014,
-//       firstName: "Charlie Smith",
-//       lastName: "Brown",
-//       email: "charliebrown@example.com",
-//       address_line1: "202 Maple St, Springfield",
-//       image: { url: "https://randomuser.me/api/portraits/men/3.jpg" },
-//       phone: "555-654-3210",
-//       createdAt: "2024-05-05T12:00:00",
-//       status: "Active",
-//       block: false,
-//     },
-//   ]);
+//   // Apply filtering based on searchText and selectedDate
+//   const filteredUsers = allUser.filter((user) => {
+//     const fullName = `${user.firstName ?? ""} ${user.lastName ?? ""}`.toLowerCase();
+//     const searchMatch = fullName.includes(searchText.toLowerCase());
+//     const dateMatch = selectedDate
+//       ? moment(user.createdAt).isSame(selectedDate, "day")
+//       : true;
+//     return searchMatch && dateMatch;
+//   });
 
-//   const dataSource = allUsers.map((user, index) => ({
+//   // Build data source for table
+//   const dataSource = filteredUsers.map((user, index) => ({
 //     id: user.id,
 //     si: index + 1,
 //     firstName: user?.firstName,
@@ -163,7 +76,20 @@
 //       dataIndex: "firstName",
 //       key: "firstName",
 //       sorter: (a, b) => a.firstName?.localeCompare(b.firstName),
-//       render: (text) => text || "N/A",
+//       render: (text, record) => (
+//         <div className="flex items-center space-x-4">
+//           {/* User Image */}
+
+//           <img
+//             src={imageApi.profileImage || "https://api.perfectcatchdating.com/uploads/users/user.png"}  // Fallback to provided URL
+//             alt="user-avatar"
+//             className="w-8 h-8 rounded-full"  // Adjust size here
+//           />
+//           {user?.fullName}
+//           {/* User Name */}
+//           <span>{text || "N/A"}</span>
+//         </div>
+//       ),
 //     },
 //     {
 //       title: "Email",
@@ -176,29 +102,31 @@
 //       title: "Phone Number",
 //       dataIndex: "phone",
 //       key: "phone",
-//       sorter: (a, b) => a.email?.localeCompare(b.email),
+//       sorter: (a, b) => a.phone?.localeCompare(b.phone),
 //       render: (text) => text || "N/A",
 //     },
 //     {
 //       title: "Joined Date",
 //       dataIndex: "createdAt",
 //       key: "createdAt",
-//       sorter: (a, b) => moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-//       render: (date) => (date ? moment(date).format("DD MMM YYYY") : "N/A"),
+//       sorter: (a, b) =>
+//         moment(a.createdAt).unix() - moment(b.createdAt).unix(),
+//       render: (date) =>
+//         date ? moment(date).format("DD MMM YYYY") : "N/A",
 //     },
 //     {
 //       title: "Action",
 //       key: "action",
-//       render: (_, record) => {
-//         return (
-//           <div className="flex items-center space-x-4">
-//             <Link to='/users-details'> <IoMdInformationCircleOutline
+//       render: (_, record) => (
+//         <div className="flex items-center space-x-4">
+
+//             <IoMdInformationCircleOutline
 //               size={22}
-//               onClick={() => handleView(record)} // Trigger modal open
-//             /></Link>
-//           </div>
-//         );
-//       },
+//               onClick={() => handleView(record)}
+//             />
+
+//         </div>
+//       ),
 //     },
 //   ];
 
@@ -206,9 +134,15 @@
 //     if (isError && error) {
 //       setAllUser([]);
 //     } else if (data) {
-//       setAllUser(data?.data?.attributes?.user?.results);
+//       const users = data?.data?.attributes?.results || [];
+//       setAllUser(users);
 //     }
 //   }, [data, isError, error]);
+
+//   // Reset to first page when search filters change
+//   useEffect(() => {
+//     setCurrentPage(1);
+//   }, [searchText, selectedDate]);
 
 //   return (
 //     <section>
@@ -227,11 +161,15 @@
 //               className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
 //               placeholder="User Name"
 //               onChange={(e) => setSearchText(e.target.value)}
+//               allowClear
 //             />
 //           </Item>
 //           <Item>
-//             <button className="size-8 rounded-full flex justify-center items-center bg-[#2C909D] ">
-//               <IoIosSearch className="size-5" />
+//             <button
+//               type="button"
+//               className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+//             >
+//               <IoIosSearch className="size-5 text-white" />
 //             </button>
 //           </Item>
 //         </Form>
@@ -256,76 +194,12 @@
 //             onChange: setCurrentPage,
 //           }}
 //           scroll={{ x: "max-content" }}
-//           responsive={true}
+//           responsive
 //           columns={columns}
 //           dataSource={dataSource}
 //           rowKey="id"
-//         // onRow={(record) => ({
-//         //   onClick: () => handleView(record),
-//         // })}
 //         />
 //       </ConfigProvider>
-//       {/* <Modal
-//         open={isModalViewOpen}
-//         onOk={() => setIsModalViewOpen(false)}
-//         onCancel={() => setIsModalViewOpen(false)}
-//         footer={null}
-//         centered
-//       >
-//         <div className="text-black bg-primary">
-//           <div className="p-5">
-//             <div className="flex items-center">
-//               <img
-//                 className="size-24 rounded-full"
-//                 src={`${user?.imageUrl}`}
-//                 alt="Profile"
-//               />
-//               <div>
-//                 <h1 className="text-start text-xl font-semibold my-2 ml-5">
-//                   {user?.firstName} {user?.lastName}
-//                 </h1>
-//                 <h1 className="text-start font-semibold  my-2 ml-5">I am  Ui/Ux designer. </h1>
-//                 <p className="text-start   my-2 ml-5">100 connections</p>
-//               </div>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Account ID :</p>
-//               <p>{user?.accountID || "N/A"}</p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>First Name :</p>
-//               <p>{user?.firstName || "N/A"}</p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Last Name :</p>
-//               <p>{user?.lastName || "N/A"}</p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Email :</p>
-//               <p>{user?.email || "N/A"}</p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Date of Birth :</p>
-//               <p>5050</p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Gender :</p>
-//               <p> male </p>
-//             </div>
-//             <div className="flex justify-between py-3 border-b">
-//               <p>Joining date :</p>
-//               <p>2002</p>
-//             </div>
-//             <div>
-//               <h1 className="text-xl text-black font-semibold">Identity card photo</h1>
-//               <div className="flex justify-between space-x-3 pt-3">
-//                 <div className="bg-[#606060] w-[49%] h-[150px] rounded-md"></div>
-//                 <div className="bg-[#606060] w-[49%] h-[150px] rounded-md"></div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </Modal> */}
 //     </section>
 //   );
 // };
@@ -334,19 +208,21 @@
 
 
 
+
+
+
 import { useEffect, useState } from "react";
 import {
   ConfigProvider,
-  Modal,
   Table,
   Form,
   Input,
   DatePicker,
 } from "antd";
 import moment from "moment";
+import { IoIosSearch, IoMdArrowRoundBack, IoMdInformationCircleOutline } from "react-icons/io";
 import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
-import { IoIosSearch, IoMdInformationCircleOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import imageApi from "../../../redux/baseApi/imageApi";
 
 const { Item } = Form;
 
@@ -354,41 +230,39 @@ const Users = () => {
   const [searchText, setSearchText] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isModalViewOpen, setIsModalViewOpen] = useState(false);
-  const [allUser, setAllUser] = useState([]);
   const [user, setUser] = useState(null);
+  const [showDetails, setShowDetails] = useState(false); // State to toggle between table and user details
 
   const { data, isFetching, isError, error } = useGetAllUsersQuery();
 
   const handleView = (record) => {
     setUser(record);
-    setIsModalViewOpen(true);
+    setShowDetails(true); // Show user details when clicked
+  };
+
+  const handleBack = () => {
+    setShowDetails(false); // Go back to the full table
   };
 
   // Apply filtering based on searchText and selectedDate
-  const filteredUsers = allUser.filter((user) => {
+  const filteredUsers = data?.data?.attributes?.results.filter((user) => {
     const fullName = `${user.firstName ?? ""} ${user.lastName ?? ""}`.toLowerCase();
     const searchMatch = fullName.includes(searchText.toLowerCase());
     const dateMatch = selectedDate
       ? moment(user.createdAt).isSame(selectedDate, "day")
       : true;
     return searchMatch && dateMatch;
-  });
+  }) || [];
 
-  // Build data source for table
   const dataSource = filteredUsers.map((user, index) => ({
     id: user.id,
     si: index + 1,
-    firstName: user?.firstName,
-    lastName: user?.lastName,
-    accountID: user?.accountID,
-    email: user?.email,
-    phone: user?.phone,
-    address_line1: user?.address_line1,
-    createdAt: user?.createdAt,
-    imageUrl: user?.image?.url,
-    status: user?.status,
-    block: user?.block,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    phone: user.phone,
+    createdAt: user.createdAt,
+    imageUrl: user.image?.url,
   }));
 
   const columns = [
@@ -402,43 +276,44 @@ const Users = () => {
       title: "User Name",
       dataIndex: "firstName",
       key: "firstName",
-      sorter: (a, b) => a.firstName?.localeCompare(b.firstName),
-      render: (text) => text || "N/A",
+      render: (text, record) => (
+        <div className="flex items-center space-x-4">
+          <img
+            src={record.imageUrl || "https://api.perfectcatchdating.com/uploads/users/user.png"}
+            alt="user-avatar"
+            className="w-8 h-8 rounded-full"
+          />
+          <span>{text || "N/A"}</span>
+        </div>
+      ),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      sorter: (a, b) => a.email?.localeCompare(b.email),
       render: (text) => text || "N/A",
     },
     {
       title: "Phone Number",
       dataIndex: "phone",
       key: "phone",
-      sorter: (a, b) => a.phone?.localeCompare(b.phone),
       render: (text) => text || "N/A",
     },
     {
       title: "Joined Date",
       dataIndex: "createdAt",
       key: "createdAt",
-      sorter: (a, b) =>
-        moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-      render: (date) =>
-        date ? moment(date).format("DD MMM YYYY") : "N/A",
+      render: (date) => (date ? moment(date).format("DD MMM YYYY") : "N/A"),
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <div className="flex items-center space-x-4">
-          <Link to={`/users-details/${record?.id}`}>
-            <IoMdInformationCircleOutline
-              size={22}
-              onClick={() => handleView(record)}
-            />
-          </Link>
+          <IoMdInformationCircleOutline
+            size={22}
+            onClick={() => handleView(record)} // Show user details when clicked
+          />
         </div>
       ),
     },
@@ -446,10 +321,10 @@ const Users = () => {
 
   useEffect(() => {
     if (isError && error) {
-      setAllUser([]);
+      console.error(error);
     } else if (data) {
       const users = data?.data?.attributes?.results || [];
-      setAllUser(users);
+      setUser(users);
     }
   }, [data, isError, error]);
 
@@ -459,61 +334,142 @@ const Users = () => {
   }, [searchText, selectedDate]);
 
   return (
-    <section>
-      <div className="md:flex justify-between items-center py-6 mb-4">
-        <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
-        <Form layout="inline" className="flex space-x-4">
-          <Item name="date">
-            <DatePicker
-              className="rounded-md border border-[#2C909D]"
-              onChange={(date) => setSelectedDate(date)}
-              placeholder="Select Date"
+    <section className="flex">
+      {/* Left side: User list */}
+      {!showDetails && (
+        <div className="w-full md:w-full p-6">
+          <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
+          <Form layout="inline" className="flex space-x-4 mb-4">
+            <Item name="date">
+              <DatePicker
+                className="rounded-md border border-[#2C909D]"
+                onChange={(date) => setSelectedDate(date)}
+                placeholder="Select Date"
+              />
+            </Item>
+            <Item name="username">
+              <Input
+                className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
+                placeholder="User Name"
+                onChange={(e) => setSearchText(e.target.value)}
+                allowClear
+              />
+            </Item>
+            <Item>
+              <button
+                type="button"
+                className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+              >
+                <IoIosSearch className="size-5 text-white" />
+              </button>
+            </Item>
+          </Form>
+          <ConfigProvider
+            theme={{
+              components: {
+                Table: {
+                  headerBg: "#2C909D",
+                  headerColor: "#000",
+                  headerBorderRadius: 5,
+                },
+              },
+            }}
+          >
+            <Table
+              loading={isFetching}
+              pagination={{
+                pageSize: 25,
+                position: ["bottomCenter"],
+                current: currentPage,
+                onChange: setCurrentPage,
+              }}
+              scroll={{ x: "max-content" }}
+              responsive
+              columns={columns}
+              dataSource={dataSource}
+              rowKey="id"
             />
-          </Item>
-          <Item name="username">
-            <Input
-              className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
-              placeholder="User Name"
-              onChange={(e) => setSearchText(e.target.value)}
-              allowClear
-            />
-          </Item>
-          <Item>
-            <button
-              type="button"
-              className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+          </ConfigProvider>
+        </div>
+      )}
+
+      {/* Right side: User details */}
+      {showDetails && user && (
+        <div className="flex justify-center items-center">
+          <div className="w-full md:w-full p-6">
+            <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
+            <Form layout="inline" className="flex space-x-4 mb-4">
+              <Item name="date">
+                <DatePicker
+                  className="rounded-md border border-[#2C909D]"
+                  onChange={(date) => setSelectedDate(date)}
+                  placeholder="Select Date"
+                />
+              </Item>
+              <Item name="username">
+                <Input
+                  className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
+                  placeholder="User Name"
+                  onChange={(e) => setSearchText(e.target.value)}
+                  allowClear
+                />
+              </Item>
+              <Item>
+                <button
+                  type="button"
+                  className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+                >
+                  <IoIosSearch className="size-5 text-white" />
+                </button>
+              </Item>
+            </Form>
+            <ConfigProvider
+              theme={{
+                components: {
+                  Table: {
+                    headerBg: "#2C909D",
+                    headerColor: "#000",
+                    headerBorderRadius: 5,
+                  },
+                },
+              }}
             >
-              <IoIosSearch className="size-5 text-white" />
-            </button>
-          </Item>
-        </Form>
-      </div>
-      <ConfigProvider
-        theme={{
-          components: {
-            Table: {
-              headerBg: "#2C909D",
-              headerColor: "#000",
-              headerBorderRadius: 5,
-            },
-          },
-        }}
-      >
-        <Table
-          loading={isFetching}
-          pagination={{
-            pageSize: 25,
-            position: ["bottomCenter"],
-            current: currentPage,
-            onChange: setCurrentPage,
-          }}
-          scroll={{ x: "max-content" }}
-          responsive
-          columns={columns}
-          dataSource={dataSource}
-          rowKey="id"
-        />
-      </ConfigProvider>
+              <Table
+                loading={isFetching}
+                pagination={{
+                  pageSize: 25,
+                  position: ["bottomCenter"],
+                  current: currentPage,
+                  onChange: setCurrentPage,
+                }}
+                scroll={{ x: "max-content" }}
+                responsive
+                columns={columns}
+                dataSource={dataSource}
+                rowKey="id"
+              />
+            </ConfigProvider>
+          </div>
+          <div className="w-full md:w-[800px] h-[400px]    border p-4 rounded-lg">
+
+
+            <button onClick={handleBack} className="text-blue-500 mb-4"><IoMdArrowRoundBack /></button>
+            <img
+              src={user?.imageUrl || "https://api.perfectcatchdating.com/uploads/users/user.png"}
+              alt="user-avatar"
+              className="w-24 h-24 rounded-full mx-auto mb-4"
+            />
+            <h2 className="text-lg font-semibold text-center">{user?.firstName} {user?.lastName}</h2>
+            <div className="mt-4">
+              <p><strong>Name:</strong> {user?.firstName} {user?.lastName}</p>
+              <p><strong>Email:</strong> {user?.email || "N/A"}</p>
+              <p><strong>Phone number:</strong> {user?.phone || "N/A"}</p>
+              <p><strong>Joining date:</strong> {user?.createdAt ? moment(user.createdAt).format("DD MMM YYYY") : "N/A"}</p>
+            </div>
+
+          </div>
+        </div>
+      )}
     </section>
   );
 };

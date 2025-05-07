@@ -125,7 +125,7 @@ const SubscriptionCard = () => {
     <section className="pt-5">
       <div className="pb-5 flex items-center justify-between">
         <Link className="flex items-center my-6" to={`/Subscription`}>
-          <IoChevronBack className="size-6" />
+           
           <span className="text-2xl font-semibold">Subscription</span>
         </Link>
         <div>

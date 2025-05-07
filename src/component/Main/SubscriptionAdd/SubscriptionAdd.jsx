@@ -35,7 +35,7 @@ const SubscriptionAdd = () => {
     <div className="w-full">
       {/* Header Section */}
       <div className="flex gap-4 items-center my-6">
-        <Link to={`/SubscriptionCard`} className="flex items-center">
+        <Link to={`/Subscription`} className="flex items-center">
           <IoChevronBack className="size-6" />
           <span className="text-2xl font-semibold">Add Subscription</span>
         </Link>
