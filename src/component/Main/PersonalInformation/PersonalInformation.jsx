@@ -1,6 +1,9 @@
+
+
+
+
 import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { imageBaseUrl } from "../../../config/imageBaseUrl";
 import { useSelector } from "react-redux";
 import { Form } from "antd";
 import { useEffect } from "react";
@@ -10,7 +13,7 @@ import imageApi from "../../../redux/baseApi/imageApi";
 const PersonalInformation = () => {
   const { user } = useSelector((state) => state.auth);
 
-  console.log(user)
+  console.log(user);
 
   const [form] = Form.useForm();
   useEffect(() => {
@@ -19,14 +22,16 @@ const PersonalInformation = () => {
         fullName: user.fullName,
         email: user.email,
         phone: user.phone,
+        callingCode: user.callingCode || '+880', // Set default value to +880 if not provided
       });
     }
   }, [user, form]);
+
   return (
     <div className="w-full">
       {/* Back Button and Title */}
       <div className="flex justify-between items-center">
-        <div className="flex  items-center my-6">
+        <div className="flex items-center my-6">
           <Link to="/">
             <IoChevronBack className="text-2xl" />
           </Link>
@@ -37,7 +42,7 @@ const PersonalInformation = () => {
       {/* Profile Information */}
       <div className="w-[70%] mx-auto h-full grid grid-cols-1">
         {/* Profile Picture */}
-        <div className="w-full h-full mt-10  flex justify-start items-center">
+        <div className="w-full h-full mt-10 flex justify-start items-center">
           <img
             className="size-32 rounded-full "
             src={`${imageApi}${user?.profileImage}`}
@@ -50,11 +55,7 @@ const PersonalInformation = () => {
         </div>
 
         {/* Personal Details */}
-        <Form
-          form={form}
-          layout="vertical"
-          className="w-full mt-10"
-        >
+        <Form form={form} layout="vertical" className="w-full mt-10">
           {/* Full Name */}
           <Form.Item label="Full Name" name="fullName">
             <CustomInput placeholder="Enter your full name" readOnly />
@@ -65,18 +66,28 @@ const PersonalInformation = () => {
             <CustomInput placeholder="Enter your email" readOnly />
           </Form.Item>
 
-          {/* Phone Number */}
-          <Form.Item
-            label="Phone Number"
-            name="phoneNumber"
-            initialValue={user?.phoneNumber}
-          >
-            <CustomInput
-              type="number"
-              placeholder="Enter your phone number"
-              readOnly
-            />
-          </Form.Item>
+          {/* Calling Code and Phone Number */}
+          <div className="flex space-x-4">
+            {/* Calling Code */}
+            <Form.Item
+              label="Calling Code"
+              name="callingCode"
+              initialValue={user?.callingCode}
+              className="w-[100px]" // Adjust the width here
+            >
+              <CustomInput placeholder="Enter your calling code" readOnly />
+            </Form.Item>
+
+            {/* Phone Number */}
+            <Form.Item
+              label="Phone Number"
+              name="phoneNumber"
+              initialValue={user?.phoneNumber}
+              className="w-full" // Adjust the width to take up the remaining space
+            >
+              <CustomInput type="number" placeholder="Enter your phone number" readOnly />
+            </Form.Item>
+          </div>
 
           <Link to="/edit-personal-info">
             <button className="w-full px-8 py-3 bg-[#309EAD] font-semibold rounded-lg">

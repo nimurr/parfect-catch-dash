@@ -157,12 +157,28 @@ const EditInformation = () => {
             <CustomInput placeholder="Enter your email" readOnly />
           </Form.Item>
 
-          {/* Phone Number */}
-          <Form.Item label="Phone Number" name="phoneNumber"
-            initialValue={user?.phoneNumber}>
-            <CustomInput type="number" placeholder="Enter your phone number" />
-          </Form.Item>
+               {/* Calling Code and Phone Number */}
+               <div className="flex space-x-4">
+            {/* Calling Code */}
+            <Form.Item
+              label="Calling Code"
+              name="callingCode"
+              initialValue={user?.callingCode}
+              className="w-[100px]" // Adjust the width here
+            >
+              <CustomInput placeholder="Enter your calling code" />
+            </Form.Item>
 
+            {/* Phone Number */}
+            <Form.Item
+              label="Phone Number"
+              name="phoneNumber"
+              initialValue={user?.phoneNumber}
+              className="w-full" // Adjust the width to take up the remaining space
+            >
+              <CustomInput type="number" placeholder="Enter your phone number" />
+            </Form.Item>
+          </div>
           {/* Submit Button */}
           <CustomButton loading={isLoading} className="w-full text-black font-semibold">
             Save & Change
