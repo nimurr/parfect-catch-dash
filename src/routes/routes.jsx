@@ -41,11 +41,12 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      // <AdminRoutes>
-      // </AdminRoutes>
-      <ProctedRoute >
-        <MainLayout />
-      </ProctedRoute>
+      <AdminRoutes>
+        <ProctedRoute >
+          <MainLayout />
+        </ProctedRoute>
+      </AdminRoutes>
+
     ),
     errorElement: <h1>Error</h1>,
     children: [
