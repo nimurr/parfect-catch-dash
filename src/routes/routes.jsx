@@ -15,7 +15,7 @@ import UsersPage from "../page/Users/UsersPage";
 // import AddItemPage from "../page/AddItem/AddItemPage";
 import Notification from "../component/Main/Notification/Notification";
 import EditPersonalInformationPage from "../page/EditPersonalInformationPage/EditPersonalInformationPage";
-// import AdminRoutes from "./AdminRoutes";
+import AdminRoutes from "./AdminRoutes";
 import EditPrivacyPolicy from "../page/EditPrivacyPolicy/EditPrivacyPolicy";
 import EditTermsConditions from "../page/EditTermsConditions/EditTermsConditions";
 import EditAboutUs from "../page/EditAboutUs/EditAboutUs";
@@ -96,10 +96,7 @@ const router = createBrowserRouter([
         path: "/Subscription/:id",
         element: <EditSubscriptionPage />,
       },
-      // {
-      //   path: "/SubscriptionCard",
-      //   element: <SubscriptionCardPage />,
-      // },
+
       {
         path: "personal-info",
         element: <PersonalInformationPage />,
