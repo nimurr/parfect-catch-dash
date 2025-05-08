@@ -7,10 +7,13 @@ import { useGetAllUsersQuery } from "../../../redux/features/user/userApi";
 const RecentTransactions = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  
 
   const { data: userData, isFetching, isError, error } = useGetAllUsersQuery();
 
   const data = userData?.data?.attributes?.results?.slice(0, 10)
+
+   
 
   // console.log(userData?.data?.attributes?.results)
 
@@ -110,12 +113,20 @@ const RecentTransactions = () => {
       render: (text) => text || "N/A", // Fallback for missing data
     },
     {
+      title: "CallingCode",
+      dataIndex: "callingCode",
+      key: "callingCode",
+      sorter: (a, b) => a.callingCode?.localeCompare(b.callingCode), // Sorting alphabetically
+      render: (text) => text || "N/A", // Fallback for missing data
+    },
+    {
       title: "Phone",
       dataIndex: "phone",
       key: "phoneNumber",
       sorter: (a, b) => a.phone?.localeCompare(b.phoneNumber), // Sorting alphabetically
       render: (text) => text || "N/A", // Fallback for missing data
     },
+   
     {
       title: "Joined Date Time",
       dataIndex: "date",
@@ -149,11 +160,12 @@ const RecentTransactions = () => {
     accountID: user?.accountID,
     gender: user?.gender,
     email: user?.email,
+    callingCode: user?.callingCode,
     phone: user?.phoneNumber,
     imageUrl: user?.image?.url,
     date: user?.createdAt, // Fixed here
   }));
-
+ 
   return (
     <div className="w-full col-span-full md:col-span-6 bg-white rounded-lg mb-10">
       <h2 className="font-semibold py-3">Recent User</h2>
@@ -210,9 +222,10 @@ const RecentTransactions = () => {
               <p>Email :</p>
               <p>{selectedTransaction?.email || "N/A"}</p>
             </div>
+         
             <div className="flex justify-between py-3 border-b">
               <p>Phone:</p>
-              <p>{selectedTransaction?.phone || "N/A"}</p>
+              <p>{selectedTransaction?.callingCode + (selectedTransaction?.phone || "N/A")}</p>
             </div>
             <div className="flex justify-between py-3">
               <p>Date :</p>
