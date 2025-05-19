@@ -1,27 +1,30 @@
-
-
-import React, { useEffect, useState } from "react";
-import { Form, Button, message } from "antd";
+import { Button, Form, message } from "antd";
+import { useEffect, useState } from "react";
+import { IoChevronBack } from "react-icons/io5";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import CustomButton from "../../utils/CustomButton";
-import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useCreateUpdatePrivacyMutation, useGetPrivacyPolicyQuery } from "../../redux/features/setting/settingApi";
- 
+import {
+  useCreateUpdatePrivacyMutation,
+  useGetPrivacyPolicyQuery,
+} from "../../redux/features/setting/settingApi";
+import CustomButton from "../../utils/CustomButton";
 
 const EditPrivacyPolicy = () => {
   const [form] = Form.useForm();
-  const { data, isLoading } = useGetPrivacyPolicyQuery();
-  const [createUpdatePrivacy, { isLoading: isMutating, isError, isSuccess }] = useCreateUpdatePrivacyMutation();
+  const { data } = useGetPrivacyPolicyQuery();
+  const [createUpdatePrivacy, { isLoading: isMutating }] =
+    useCreateUpdatePrivacyMutation();
   const [content, setContent] = useState("");
 
   // Set the content if it exists
   useEffect(() => {
-    if (data && data[0]?.content) {
+    if (data?.[0]?.content) {
       setContent(data[0].content);
+      // If you want to reset form fields as well:
+      form.setFieldsValue({ content: data[0].content });
     }
-  }, [data]);
+  }, [data, form]);
 
   const handleSubmit = async () => {
     // Prepare the data to be sent to the API
@@ -30,7 +33,7 @@ const EditPrivacyPolicy = () => {
     try {
       // Call the mutation to create/update privacy policy
       await createUpdatePrivacy({ data: privacyPolicyData }).unwrap();
-      
+
       // Show success message
       message.success("Privacy policy updated successfully!");
     } catch (error) {
@@ -85,12 +88,19 @@ const EditPrivacyPolicy = () => {
             <Button
               type="primary"
               htmlType="button"
+              onClick={() => {
+                // Optional: Reset content to original loaded terms on cancel
+                if (data?.[0]?.content) setContent(data[0].content);
+              }}
               className="mt-1 px-5 rounded-lg bg-gray-500 py-5 border-none"
-              onClick={() => form.resetFields()}
             >
               Cancel
             </Button>
-            <CustomButton className="p-1" htmlType="submit" loading={isMutating}>
+            <CustomButton
+              className="p-1"
+              htmlType="submit"
+              loading={isMutating}
+            >
               {isMutating ? "Updating..." : "Update"}
             </CustomButton>
           </div>

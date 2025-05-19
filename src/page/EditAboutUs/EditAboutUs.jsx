@@ -94,8 +94,7 @@ const EditAboutUs = () => {
   const [content, setContent] = useState(); // Default content for the About Us section
 
   // Use the mutation hook for creating or updating About Us content
-  const [createAndPostAbout, { isLoading, isError, isSuccess }] =
-    useCreateAndPostAboutMutation();
+  const [createAndPostAbout, { isLoading }] = useCreateAndPostAboutMutation();
 
   // When termsContent loads from API, set it into content state
   useEffect(() => {
