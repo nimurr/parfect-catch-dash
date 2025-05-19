@@ -1,7 +1,7 @@
 
 
 
-import { Image, Pagination } from "antd";
+import { Pagination } from "antd";
 import { useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoChevronBack } from "react-icons/io5";
@@ -82,10 +82,9 @@ const Notification = () => {
           ))
         ) : (
           // If there are no notifications
-          <div className=" rounded-md p-4 text-center">
-            
-            <Image src={notificaiton} className="border border-gray-300"/>
-          </div>
+          <div className="rounded-md p-4 text-center flex justify-center items-center">
+  <img src={notificaiton} className="border border-gray-300" />
+</div>
         )}
       </div>
 

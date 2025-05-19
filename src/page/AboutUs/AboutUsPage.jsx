@@ -48,7 +48,7 @@ import { Link } from "react-router-dom";
 import { TbEdit } from "react-icons/tb";
 import CustomButton from "../../utils/CustomButton";
 import { useGetAboutUsQuery } from "../../redux/features/setting/settingApi"; // Import the hook
-import { Spin, message } from "antd"; 
+import { Spin,  } from "antd"; 
 
 const AboutUsPage = () => {
   const { data, isLoading, isError } = useGetAboutUsQuery(); 

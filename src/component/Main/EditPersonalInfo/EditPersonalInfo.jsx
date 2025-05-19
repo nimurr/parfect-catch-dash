@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { useUpdateUserMutation } from "../../../redux/features/profile/profileApi";
 import CustomButton from "../../../utils/CustomButton";
 import CustomInput from "../../../utils/CustomInput";
-import { imageBaseUrl } from "../../../config/imageBaseUrl";
+
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../../redux/features/auth/authSlice";
 import { RiEdit2Line } from "react-icons/ri";
@@ -134,7 +134,7 @@ const EditInformation = () => {
               <RiEdit2Line size={20} />
             </div>
             <div>
-              <h1 className="mt-2 font-semibold text-3xl">James Don</h1>
+              <h1 className="mt-2 font-semibold text-3xl">{user.fullName}</h1>
               <h1 className="text-lg  uppercase">{user?.role}</h1>
             </div>
           </div>

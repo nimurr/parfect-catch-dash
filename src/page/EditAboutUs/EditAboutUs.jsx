@@ -64,7 +64,7 @@
 //               icon={<i className="fas fa-sync-alt"></i>} // Example FontAwesome icon
 //               className="mt-1 px-5 rounded-lg bg-gray-500 py-5  border-none"
 //             >
-//               Cancel 
+//               Cancel
 //             </Button>
 //             <CustomButton className="p-1" >Update</CustomButton>
 //             </div>
@@ -76,25 +76,35 @@
 
 // export default EditAboutUs;
 
-
-
-
-
-import { IoChevronBack } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import { Button, Form, message } from "antd";
+import { useEffect, useState } from "react";
+import { IoChevronBack } from "react-icons/io5";
 import ReactQuill from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  useCreateAndPostAboutMutation,
+  useGetAboutUsQuery,
+} from "../../redux/features/setting/settingApi"; // Import the mutation hook
 import CustomButton from "../../utils/CustomButton";
-import { useCreateAndPostAboutMutation } from "../../redux/features/setting/settingApi"; // Import the mutation hook
 
 const EditAboutUs = () => {
   const [form] = Form.useForm();
-  const [content, setContent] = useState("<p>Enter your 'About Us' content here.</p>"); // Default content for the About Us section
+  const { data: about } = useGetAboutUsQuery();
+  const [content, setContent] = useState(); // Default content for the About Us section
 
   // Use the mutation hook for creating or updating About Us content
-  const [createAndPostAbout, { isLoading, isError, isSuccess }] = useCreateAndPostAboutMutation();
+  const [createAndPostAbout, { isLoading, isError, isSuccess }] =
+    useCreateAndPostAboutMutation();
+
+  // When termsContent loads from API, set it into content state
+  useEffect(() => {
+    if (about?.[0]?.content) {
+      setContent(about[0].content);
+      // If you want to reset form fields as well:
+      form.setFieldsValue({ content: about[0].content });
+    }
+  }, [about, form]);
 
   // Handle form submission
   const handleSubmit = async () => {
@@ -151,6 +161,10 @@ const EditAboutUs = () => {
             <Button
               type="primary"
               htmlType="button"
+              onClick={() => {
+                // Optional: Reset content to original loaded terms on cancel
+                if (about?.[0]?.content) setContent(about[0].content);
+              }}
               icon={<i className="fas fa-sync-alt"></i>} // Example FontAwesome icon
               className="mt-1 px-5 rounded-lg bg-gray-500 py-5 border-none"
             >

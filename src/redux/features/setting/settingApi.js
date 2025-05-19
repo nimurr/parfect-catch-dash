@@ -2,7 +2,6 @@ import { baseApi } from "../../baseApi/baseApi";
 
 const settingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
     getTermsCondition: builder.query({
       query: () => ({
         url: "/info/terms-condition",
@@ -19,7 +18,6 @@ const settingApi = baseApi.injectEndpoints({
       transformResponse: (response) => response?.data?.attributes,
     }),
 
-
     getAboutUs: builder.query({
       query: () => ({
         url: "/info/about-us",
@@ -30,29 +28,27 @@ const settingApi = baseApi.injectEndpoints({
 
     createUpdatePrivacy: builder.mutation({
       query: ({ data }) => ({
-        url: '/info/privacy-policy',
-        method: 'POST',
-        body: data
-      })
+        url: "/info/privacy-policy",
+        method: "POST",
+        body: data,
+      }),
     }),
 
     createAndUpdateTrams: builder.mutation({
       query: ({ data }) => ({
-        url: '/info/terms-condition',
-        method: 'POST',
-        body: data
-      })
+        url: "/info/terms-condition",
+        method: "POST",
+        body: data,
+      }),
     }),
 
     createAndPostAbout: builder.mutation({
       query: ({ data }) => ({
-        url: '/info/about-us',
-        method: 'POST',
-        body: data
-      })
-    })
-
-
+        url: "/info/about-us",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -63,5 +59,5 @@ export const {
   useGetAboutUsQuery,
   useCreateUpdatePrivacyMutation,
   useCreateAndUpdateTramsMutation,
-  useCreateAndPostAboutMutation
+  useCreateAndPostAboutMutation,
 } = settingApi;

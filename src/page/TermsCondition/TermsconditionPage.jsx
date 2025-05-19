@@ -64,7 +64,7 @@ import { Link } from "react-router-dom";
 import { TbEdit } from "react-icons/tb";
 import CustomButton from "../../utils/CustomButton";
 import { useGetTermsConditionQuery } from "../../redux/features/setting/settingApi";
-import { Spin, message } from "antd"; // Import Spin for loading
+import { Spin } from "antd"; // Import Spin for loading
 
 const TermsconditionPage = () => {
   const { data, isLoading, isError } = useGetTermsConditionQuery();
