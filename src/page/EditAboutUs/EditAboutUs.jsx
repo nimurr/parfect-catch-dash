@@ -1,87 +1,9 @@
-// import { IoChevronBack } from "react-icons/io5";
-// import { Link } from "react-router-dom";
-// import { Button, Form } from "antd";
-// import ReactQuill from "react-quill"; // Import React Quill
-// import "react-quill/dist/quill.snow.css"; // Import Quill styles
-// import { useState } from "react";
-// import CustomButton from "../../utils/CustomButton";
-
-// const EditAboutUs = () => {
-//   const [form] = Form.useForm();
-//   const [content, setContent] = useState(
-//     "<p>Enter your 'About Us' content here.</p>"
-//   ); // Default content for the About Us section
-
-//   const handleSubmit = () => {
-//     console.log("Updated About Us Content:", content);
-//     // Handle form submission, e.g., update the about us section in the backend
-//   };
-
-//   return (
-//     <section className="w-full h-full min-h-screen ">
-//       {/* Header Section */}
-//       <div className="flex justify-between items-center py-5">
-//         <div className="flex items-center">
-//           <Link to="/settings/about-us">
-//             <IoChevronBack className="text-2xl" />
-//           </Link>
-//           <h1 className="text-2xl font-semibold">Edit About Us</h1>
-//         </div>
-//       </div>
-
-//       {/* Form Section */}
-//       <div className="w-full p-6 rounded-lg shadow-md">
-//         <Form form={form} layout="vertical" onFinish={handleSubmit}>
-//           {/* React Quill for About Us Content */}
-//           <Form.Item name="content" initialValue={content}>
-//             <ReactQuill
-//               value={content}
-//               onChange={(value) => setContent(value)}
-//               modules={{
-//                 toolbar: [
-//                   [{ header: [1, 2, 3, 4, 5, 6, false] }], // Header dropdown
-//                   [{ font: [] }], // Font options
-//                   [{ list: "ordered" }, { list: "bullet" }], // Ordered and bullet lists
-//                   ["bold", "italic", "underline", "strike"], // Formatting options
-//                   [{ align: [] }], // Text alignment
-//                   [{ color: [] }, { background: [] }], // Color and background
-//                   ["blockquote", "code-block"], // Blockquote and code block
-//                   ["link", "image", "video"], // Link, image, and video upload
-//                   [{ script: "sub" }, { script: "super" }], // Subscript and superscript
-//                   [{ indent: "-1" }, { indent: "+1" }], // Indent
-//                   ["clean"], // Remove formatting
-//                 ],
-//               }}
-//               style={{ height: "300px" }} // Set the increased height
-//             />
-//           </Form.Item>
-
-//           {/* Update Button */}
-//             <div className="w-full flex justify-end mt-20 md:mt-16">
-//             <Button
-//               type="primary"
-//               htmlType="submit"
-//               icon={<i className="fas fa-sync-alt"></i>} // Example FontAwesome icon
-//               className="mt-1 px-5 rounded-lg bg-gray-500 py-5  border-none"
-//             >
-//               Cancel
-//             </Button>
-//             <CustomButton className="p-1" >Update</CustomButton>
-//             </div>
-//         </Form>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default EditAboutUs;
-
 import { Button, Form, message } from "antd";
 import { useEffect, useState } from "react";
 import { IoChevronBack } from "react-icons/io5";
 import ReactQuill from "react-quill"; // Import React Quill
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useCreateAndPostAboutMutation,
   useGetAboutUsQuery,
@@ -90,17 +12,17 @@ import CustomButton from "../../utils/CustomButton";
 
 const EditAboutUs = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const { data: about } = useGetAboutUsQuery();
-  const [content, setContent] = useState(); // Default content for the About Us section
+  const [content, setContent] = useState(""); // Default content for the About Us section
 
   // Use the mutation hook for creating or updating About Us content
   const [createAndPostAbout, { isLoading }] = useCreateAndPostAboutMutation();
 
-  // When termsContent loads from API, set it into content state
+  // When about content loads from API, set it into content state and form
   useEffect(() => {
     if (about?.[0]?.content) {
       setContent(about[0].content);
-      // If you want to reset form fields as well:
       form.setFieldsValue({ content: about[0].content });
     }
   }, [about, form]);
@@ -111,6 +33,7 @@ const EditAboutUs = () => {
       // Call the mutation to create or update the About Us content
       await createAndPostAbout({ data: { content } }).unwrap();
       message.success("About Us content updated successfully!");
+      navigate("/settings/about-us"); // Navigate after success
     } catch (error) {
       message.error("Failed to update About Us content.");
     }
@@ -124,7 +47,7 @@ const EditAboutUs = () => {
           <Link to="/settings/about-us">
             <IoChevronBack className="text-2xl" />
           </Link>
-          <h1 className="text-2xl font-semibold">Edit About Us</h1>
+          <h1 className="text-2xl font-semibold ml-3">Edit About Us</h1>
         </div>
       </div>
 
@@ -138,38 +61,40 @@ const EditAboutUs = () => {
               onChange={(value) => setContent(value)}
               modules={{
                 toolbar: [
-                  [{ header: [1, 2, 3, 4, 5, 6, false] }], // Header dropdown
-                  [{ font: [] }], // Font options
-                  [{ list: "ordered" }, { list: "bullet" }], // Ordered and bullet lists
-                  ["bold", "italic", "underline", "strike"], // Formatting options
-                  [{ align: [] }], // Text alignment
-                  [{ color: [] }, { background: [] }], // Color and background
-                  ["blockquote", "code-block"], // Blockquote and code block
-                  ["link", "image", "video"], // Link, image, and video upload
-                  [{ script: "sub" }, { script: "super" }], // Subscript and superscript
-                  [{ indent: "-1" }, { indent: "+1" }], // Indent
-                  ["clean"], // Remove formatting
+                  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                  [{ font: [] }],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["bold", "italic", "underline", "strike"],
+                  [{ align: [] }],
+                  [{ color: [] }, { background: [] }],
+                  ["blockquote", "code-block"],
+                  ["link", "image", "video"],
+                  [{ script: "sub" }, { script: "super" }],
+                  [{ indent: "-1" }, { indent: "+1" }],
+                  ["clean"],
                 ],
               }}
-              style={{ height: "300px" }} // Set the increased height
+              style={{ height: "300px" }}
             />
           </Form.Item>
 
-          {/* Update Button */}
-          <div className="w-full flex justify-end mt-20 md:mt-16">
+          {/* Buttons */}
+          <div className="w-full flex justify-end gap-4 mt-16">
             <Button
-              type="primary"
+              type="default"
               htmlType="button"
-              onClick={() => {
-                // Optional: Reset content to original loaded terms on cancel
-                if (about?.[0]?.content) setContent(about[0].content);
-              }}
-              icon={<i className="fas fa-sync-alt"></i>} // Example FontAwesome icon
-              className="mt-1 px-5 rounded-lg bg-gray-500 py-5 border-none"
+              onClick={() => navigate("/settings/about-us")}
+              className="mt-1 px-5 rounded-lg bg-gray-500 py-5 border-none text-white"
+              icon={<i className="fas fa-sync-alt"></i>}
             >
               Cancel
             </Button>
-            <CustomButton className="p-1" htmlType="submit" loading={isLoading}>
+            <CustomButton
+              className="p-1"
+              htmlType="submit"
+              loading={isLoading}
+              type="primary"
+            >
               {isLoading ? "Updating..." : "Update"}
             </CustomButton>
           </div>
