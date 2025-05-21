@@ -5,11 +5,11 @@ import { Form, message, Modal, Switch } from "antd";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import OTPInput from "react-otp-input";
 // import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import CustomInput from "../../../utils/CustomInput";
-import CustomButton from "../../../utils/CustomButton";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useChangePasswordMutation } from "../../../redux/features/auth/authApi";
+import CustomButton from "../../../utils/CustomButton";
+import CustomInput from "../../../utils/CustomInput";
 
 const Settings = () => {
   // const { user } = useSelector(state => state?.auth)
@@ -35,6 +35,10 @@ const Settings = () => {
       path: "privacy-policy",
     },
     {
+      title: "Child-Safety-Policy",
+      path: "child-safety-policy",
+    },
+    {
       title: "Terms & Conditions",
       path: "terms-conditions",
     },
@@ -47,8 +51,7 @@ const Settings = () => {
   const handleNavigate = (value) => {
     if (value === "notification") {
       return;
-    }
-    else if (value === "change-password") {
+    } else if (value === "change-password") {
       setModelTitle("Change password");
       setIsModalOpen(true);
     } else {
@@ -56,33 +59,27 @@ const Settings = () => {
     }
   };
 
-  const [changePasswordUse] = useChangePasswordMutation()
+  const [changePasswordUse] = useChangePasswordMutation();
   const handleChangePassword = async (values) => {
     // return console.log(values);
     const { oldPassword, newPassword } = values;
 
     const form = {
       oldPassword,
-      newPassword
-    }
+      newPassword,
+    };
 
     try {
-
       const res = await changePasswordUse(form).unwrap();
       if (res?.code == 200) {
-        console.log(res)
+        console.log(res);
         setIsModalOpen(false);
-        return message.success("password Change succesfully !!!")
-
+        return message.success("password Change succesfully !!!");
       }
-
     } catch (error) {
-      message.error(error?.data.message)
-      console.log(error)
+      message.error(error?.data.message);
+      console.log(error);
     }
-
-
-
   };
   const handleForgetPassword = async (values) => {
     forgotPassword(values);
@@ -292,7 +289,10 @@ const Settings = () => {
               className="space-y-7 fit-content object-contain"
             >
               <div className="">
-                <h1 className="pb-3 text-xl">Enter the email address associated with your account. We'll send you an verification code to your email. </h1>
+                <h1 className="pb-3 text-xl">
+                  Enter the email address associated with your account. We'll
+                  send you an verification code to your email.{" "}
+                </h1>
                 <Form.Item
                   name="email"
                   rules={[
@@ -306,7 +306,9 @@ const Settings = () => {
                 </Form.Item>
               </div>
               <Form.Item>
-                <CustomButton className="w-full">Send verification code</CustomButton>
+                <CustomButton className="w-full">
+                  Send verification code
+                </CustomButton>
               </Form.Item>
             </Form>
           </div>
@@ -315,7 +317,8 @@ const Settings = () => {
           <div className="px-[60px] pb-[60px] bg-primary">
             <form onSubmit={handleVerifyOtp}>
               <p className="text-[16px] mb-[14px]">
-                We'll send a verification code to your email. Check your inbox and enter the code here..
+                We'll send a verification code to your email. Check your inbox
+                and enter the code here..
               </p>
               <div className="">
                 <OTPInput

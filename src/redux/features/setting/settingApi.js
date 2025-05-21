@@ -17,7 +17,13 @@ const settingApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response) => response?.data?.attributes,
     }),
-
+    getChildSafetyPolicy: builder.query({
+      query: () => ({
+        url: "/info/child-safety-policy",
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data?.attributes,
+    }),
     getAboutUs: builder.query({
       query: () => ({
         url: "/info/about-us",
@@ -55,7 +61,7 @@ const settingApi = baseApi.injectEndpoints({
 export const {
   useGetTermsConditionQuery,
   useGetPrivacyPolicyQuery,
-
+  useGetChildSafetyPolicyQuery,
   useGetAboutUsQuery,
   useCreateUpdatePrivacyMutation,
   useCreateAndUpdateTramsMutation,

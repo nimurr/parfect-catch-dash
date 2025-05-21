@@ -1,52 +1,47 @@
 /* eslint-disable no-unused-vars */
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
-import DashboardHome from "../page/DashboardHome/DashboardHome";
-import ForgetPassword from "../page/Auth/ForgetPassword/ForgetPassword";
-import SignIn from "../page/Auth/SignIn/SignIn";
-import Otp from "../page/Auth/Otp/Otp";
-import NewPassword from "../page/Auth/NewPassword/NewPassword";
-import PersonalInformationPage from "../page/PersonalInformation/PersonalInformationPage";
-import SettingsPage from "../page/Settings/SettingsPage";
-import PrivacyPolicyPage from "../page/PrivacyPolicy/PrivacyPolicyPage";
-import TermsconditionPage from "../page/TermsCondition/TermsconditionPage";
 import AboutUsPage from "../page/AboutUs/AboutUsPage";
+import ForgetPassword from "../page/Auth/ForgetPassword/ForgetPassword";
+import NewPassword from "../page/Auth/NewPassword/NewPassword";
+import Otp from "../page/Auth/Otp/Otp";
+import SignIn from "../page/Auth/SignIn/SignIn";
+import DashboardHome from "../page/DashboardHome/DashboardHome";
+import PersonalInformationPage from "../page/PersonalInformation/PersonalInformationPage";
+import PrivacyPolicyPage from "../page/PrivacyPolicy/PrivacyPolicyPage";
+import SettingsPage from "../page/Settings/SettingsPage";
+import TermsconditionPage from "../page/TermsCondition/TermsconditionPage";
 import UsersPage from "../page/Users/UsersPage";
 // import AddItemPage from "../page/AddItem/AddItemPage";
 import Notification from "../component/Main/Notification/Notification";
-import EditPersonalInformationPage from "../page/EditPersonalInformationPage/EditPersonalInformationPage";
-import AdminRoutes from "./AdminRoutes";
-import EditPrivacyPolicy from "../page/EditPrivacyPolicy/EditPrivacyPolicy";
-import EditTermsConditions from "../page/EditTermsConditions/EditTermsConditions";
-import EditAboutUs from "../page/EditAboutUs/EditAboutUs";
 import ContributionDetails from "../page/ContributionDetails/ContributionDetails";
 import EarningsPage from "../page/EarningsPage/EarningsPage";
-
+import EditAboutUs from "../page/EditAboutUs/EditAboutUs";
+import EditPersonalInformationPage from "../page/EditPersonalInformationPage/EditPersonalInformationPage";
+import EditPrivacyPolicy from "../page/EditPrivacyPolicy/EditPrivacyPolicy";
+import EditTermsConditions from "../page/EditTermsConditions/EditTermsConditions";
+import AdminRoutes from "./AdminRoutes";
 
 import ChangeRequestPage from "../page/ChangeRequestPage/ChangeRequestPage";
-import SubscriptionPage from "../page/SubscriptionPage/SubscriptionPage";
 
-import ChangeRequestDetailsPage from "../page/ChangeRequestDetailspage/ChangeRequestDetailsPage";
-import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
-import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage";
-import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
-import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
 import MusicPage from "../component/Main/MusicPage/MusicPage";
+import ChangeRequestDetailsPage from "../page/ChangeRequestDetailspage/ChangeRequestDetailsPage";
+import ChildSaftyPolicyPage from "../page/ChildSftyPolicy/Childsaftypage";
+import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
+import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage";
+import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
+import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
 import ProctedRoute from "./ProctedRoute";
-
-
-
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <AdminRoutes>
-        <ProctedRoute >
+        <ProctedRoute>
           <MainLayout />
         </ProctedRoute>
       </AdminRoutes>
-
     ),
     errorElement: <h1>Error</h1>,
     children: [
@@ -127,6 +122,10 @@ const router = createBrowserRouter([
         element: <PrivacyPolicyPage />,
       },
       {
+        path: "settings/child-safety-policy",
+        element: <ChildSaftyPolicyPage />,
+      },
+      {
         path: "/settings/edit-privacy-policy/:id",
         element: <EditPrivacyPolicy />,
       },
@@ -141,9 +140,10 @@ const router = createBrowserRouter([
       {
         path: "settings/about-us",
         element: <AboutUsPage />,
-      }, {
+      },
+      {
         path: "/settings/edit-about-us/:id",
-        element: <EditAboutUs />
+        element: <EditAboutUs />,
       },
     ],
   },
