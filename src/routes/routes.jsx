@@ -27,6 +27,7 @@ import ChangeRequestPage from "../page/ChangeRequestPage/ChangeRequestPage";
 import MusicPage from "../component/Main/MusicPage/MusicPage";
 import ChangeRequestDetailsPage from "../page/ChangeRequestDetailspage/ChangeRequestDetailsPage";
 import ChildSaftyPolicyPage from "../page/ChildSftyPolicy/Childsaftypage";
+import EditChildSaftyPolicy from "../page/EditeChildSfatyPolicy/EditeChildSaftyPolicy";
 import EditSubscriptionPage from "../page/EditSubscription/EditSubscriptionPage";
 import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage";
 import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
       {
         path: "settings/child-safety-policy",
         element: <ChildSaftyPolicyPage />,
+      },
+      {
+        path: "/settings/edit-child-safety-policy/:id",
+        element: <EditChildSaftyPolicy />,
       },
       {
         path: "/settings/edit-privacy-policy/:id",

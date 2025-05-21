@@ -4,7 +4,7 @@ import { TbEdit } from "react-icons/tb";
 import { Link } from "react-router-dom";
 
 import { useGetChildSafetyPolicyQuery } from "../../../redux/features/setting/settingApi";
-import CustomButton from "../../utils/CustomButton";
+import CustomButton from "../../../utils/CustomButton";
 
 const ChildSaftyPolicy = () => {
   const { data: privacyPolicyData, isLoading } = useGetChildSafetyPolicyQuery();
@@ -21,7 +21,7 @@ const ChildSaftyPolicy = () => {
           </Link>
           <h1 className="text-2xl font-semibold">Child safty policy</h1>
         </div>
-        <Link to={"/settings/edit-privacy-policy/11"}>
+        <Link to={"/settings/edit-child-safety-policy/11"}>
           <CustomButton border>
             <TbEdit className="size-5" />
             <span>Edit</span>

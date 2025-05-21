@@ -24,6 +24,13 @@ const settingApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response) => response?.data?.attributes,
     }),
+    createChildSafetyPolicy: builder.mutation({
+      query: ({ data }) => ({
+        url: "/info/child-safety-policy",
+        method: "POST",
+        body: data,
+      }),
+    }),
     getAboutUs: builder.query({
       query: () => ({
         url: "/info/about-us",
@@ -62,6 +69,7 @@ export const {
   useGetTermsConditionQuery,
   useGetPrivacyPolicyQuery,
   useGetChildSafetyPolicyQuery,
+  useCreateChildSafetyPolicyMutation,
   useGetAboutUsQuery,
   useCreateUpdatePrivacyMutation,
   useCreateAndUpdateTramsMutation,
