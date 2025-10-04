@@ -283,7 +283,7 @@ const MusicPage = () => {
                 ),
         },
         {
-            title: 'Name & SubTitle',
+            title: 'Title & SubTitle',
             dataIndex: 'name',
             key: 'title',
             render: (_, text) => <div className='max-w-96'>
