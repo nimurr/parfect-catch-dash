@@ -40,7 +40,7 @@ const PersonalInformation = () => {
       </div>
 
       {/* Profile Information */}
-      <div className="w-[70%] mx-auto h-full grid grid-cols-1">
+      <div className="md:w-[70%] mx-auto h-full grid grid-cols-1">
         {/* Profile Picture */}
         <div className="w-full h-full mt-10 flex justify-start items-center">
           <img
@@ -70,7 +70,7 @@ const PersonalInformation = () => {
           <div className="flex space-x-4">
             {/* Calling Code */}
             <Form.Item
-              label="Calling Code"
+              label="Code"
               name="callingCode"
               initialValue={user?.callingCode}
               className="w-[100px]" // Adjust the width here
