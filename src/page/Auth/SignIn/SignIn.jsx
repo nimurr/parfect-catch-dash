@@ -44,7 +44,7 @@ const SignIn = () => {
     <div className="w-full  h-full md:h-screen md:flex justify-around ">
 
       <div className="w-full max-w-7xl mx-auto rounded-md h-[70%] md:my-28 grid grid-cols-1 md:grid-cols-2 place-content-center px-5 py-10 gap-8  md:mx-10">
-        <div className="flex justify-center">
+        <div className="sm:flex hidden justify-center ">
           <img
             src={signinImage}
             className="w-full h-full mx-auto "

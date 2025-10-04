@@ -339,7 +339,7 @@ const Users = () => {
       {!showDetails && (
         <div className="w-full md:w-full p-6">
           <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
-          <Form layout="inline" className="flex space-x-4 mb-4">
+          <Form layout="inline" className="flex items-center gap-2 mb-4">
             <Item name="date">
               <DatePicker
                 className="rounded-md border border-[#2C909D]"
@@ -347,22 +347,24 @@ const Users = () => {
                 placeholder="Select Date"
               />
             </Item>
-            <Item name="username">
-              <Input
-                className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
-                placeholder="User Name"
-                onChange={(e) => setSearchText(e.target.value)}
-                allowClear
-              />
-            </Item>
-            <Item>
-              <button
-                type="button"
-                className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
-              >
-                <IoIosSearch className="size-5 text-white" />
-              </button>
-            </Item>
+            <div className="flex items-center gap-2">
+              <Item name="username">
+                <Input
+                  className="rounded-md md:w-full border border-[#2C909D]"
+                  placeholder="User Name"
+                  onChange={(e) => setSearchText(e.target.value)}
+                  allowClear
+                />
+              </Item>
+              <Item>
+                <button
+                  type="button"
+                  className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+                >
+                  <IoIosSearch className="size-5 text-white" />
+                </button>
+              </Item>
+            </div>
           </Form>
           <ConfigProvider
             theme={{
@@ -395,10 +397,10 @@ const Users = () => {
 
       {/* Right side: User details */}
       {showDetails && user && (
-        <div className="flex justify-center items-center">
-          <div className="w-full md:w-full p-6">
+        <div className="md:flex justify-center items-center">
+          <div className="w-full md:w-full md:p-6 p-3">
             <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
-            <Form layout="inline" className="flex space-x-4 mb-4">
+            <Form layout="inline" className="flex gap-3 mb-4">
               <Item name="date">
                 <DatePicker
                   className="rounded-md border border-[#2C909D]"
@@ -406,52 +408,55 @@ const Users = () => {
                   placeholder="Select Date"
                 />
               </Item>
-              <Item name="username">
-                <Input
-                  className="rounded-md w-[70%] md:w-full border border-[#2C909D]"
-                  placeholder="User Name"
-                  onChange={(e) => setSearchText(e.target.value)}
-                  allowClear
-                />
-              </Item>
-              <Item>
-                <button
-                  type="button"
-                  className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
-                >
-                  <IoIosSearch className="size-5 text-white" />
-                </button>
-              </Item>
+              <div className="flex items-center ">
+                <Item name="username">
+                  <Input
+                    className="rounded-md  md:w-full border border-[#2C909D]"
+                    placeholder="User Name"
+                    onChange={(e) => setSearchText(e.target.value)}
+                    allowClear
+                  />
+                </Item>
+                <Item>
+                  <button
+                    type="button"
+                    className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+                  >
+                    <IoIosSearch className="size-5 text-white" />
+                  </button>
+                </Item>
+              </div>
             </Form>
-            <ConfigProvider
-              theme={{
-                components: {
-                  Table: {
-                    headerBg: "#2C909D",
-                    headerColor: "#000",
-                    headerBorderRadius: 5,
+            <div className="w-[85vw] md:w-full mx-auto overscroll-x-auto">
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Table: {
+                      headerBg: "#2C909D",
+                      headerColor: "#000",
+                      headerBorderRadius: 5,
+                    },
                   },
-                },
-              }}
-            >
-              <Table
-                loading={isFetching}
-                pagination={{
-                  pageSize: 25,
-                  position: ["bottomCenter"],
-                  current: currentPage,
-                  onChange: setCurrentPage,
                 }}
-                scroll={{ x: "max-content" }}
-                responsive
-                columns={columns}
-                dataSource={dataSource}
-                rowKey="id"
-              />
-            </ConfigProvider>
+              >
+                <Table
+                  loading={isFetching}
+                  pagination={{
+                    pageSize: 25,
+                    position: ["bottomCenter"],
+                    current: currentPage,
+                    onChange: setCurrentPage,
+                  }}
+                  scroll={{ x: "max-content" }}
+                  responsive
+                  columns={columns}
+                  dataSource={dataSource}
+                  rowKey="id"
+                />
+              </ConfigProvider>
+            </div>
           </div>
-          <div className="w-full md:w-[800px] h-[400px]    border p-4 rounded-lg">
-
+          <div className="w-full md:w-[800px] h-[400px]  border p-4 rounded-lg">
 
             <button onClick={handleBack} className="text-blue-500 mb-4"><IoMdArrowRoundBack /></button>
             <img
