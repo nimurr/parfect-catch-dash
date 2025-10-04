@@ -54,17 +54,17 @@ const SubscriptionCard = () => {
     <section className="pt-5">
       <div className="pb-5 flex items-center justify-between">
         <Link className="flex items-center my-6" to={`/Subscription`}>
-           
+
           <span className="text-2xl font-semibold">Subscription</span>
         </Link>
         <div>
           <Link to={`/Subscription/add`}>
-            <button className="py-3 px-5 rounded-md bg-[#EAF5F7]">Add Subscriptions</button>
+            <button className="py-3 px-5 rounded-md bg-[#2C909D] text-white">Add Subscriptions</button>
           </Link>
         </div>
       </div>
 
-      <div className="flex space-x-4">
+      <div className="flex flex-wrap gap-5">
         {subscription.map((subscription, id) => (
           <div key={id} className="w-80 h-[583px] bg-[#EAF5F7] rounded-lg shadow-lg space-y-10">
             <h2 className="text-2xl font-bold mb-4 px-6 text-center pt-5">{subscription.title}</h2>
