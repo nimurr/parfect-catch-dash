@@ -417,7 +417,9 @@ const MusicPage = () => {
                 </button>
             </div>
 
-            <Table columns={columns} dataSource={musicData} pagination={{ pageSize: 5 }} />
+            <div className='w-full overflow-x-auto'>
+                <Table className='min-w-[1000px]' columns={columns} dataSource={musicData} pagination={{ pageSize: 5 }} />
+            </div>
 
             {/* View Details Modal */}
             <Modal title="Music Details" open={isModalOpen} onCancel={handleCancel} footer={null}>
