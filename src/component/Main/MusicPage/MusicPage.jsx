@@ -283,22 +283,26 @@ const MusicPage = () => {
                 ),
         },
         {
-            title: 'name',
+            title: 'Name & SubTitle',
             dataIndex: 'name',
             key: 'title',
+            render: (_, text) => <div className='max-w-96'>
+                <span className='font-semibold'>{text?.name}</span>
+                <p>{text?.subTitle.length > 100 ? text?.subTitle.slice(0, 100) + ' ....' : text?.subTitle}</p>
+            </div>,
         },
-        {
-            title: 'SubTitle',
-            dataIndex: 'subTitle',
-            key: 'subTitle',
-        },
+        // {
+        //     title: 'SubTitle',
+        //     dataIndex: 'subTitle',
+        //     key: 'subTitle',
+        // },
         {
             title: 'Music File',
             dataIndex: 'music',
             key: 'music',
             render: (music) =>
                 music ? (
-                    <audio controls src={imageBaseUrl + (typeof music === 'string' ? music : '')} style={{ width: '100px' }} />
+                    <audio className='min-w-60' controls src={imageBaseUrl + (typeof music === 'string' ? music : '')} style={{ width: '100px' }} />
                 ) : (
                     'N/A'
                 ),
