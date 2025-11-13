@@ -14,14 +14,13 @@ const MusicPage = () => {
 
     const [page, setPage] = useState(1); // Current page
     const [pageSize, setPageSize] = useState(10); // Page size
+    const [searchQuery, setSearchQuery] = useState(""); // Search query state
 
     const { data } = useGetAllMusicQuery({ page, limit: pageSize });
     const initialData = data?.data?.attributes?.results || [];
     const totalRecords = data?.data?.attributes?.totalResults || 0; // Total records for pagination
 
-
     const [musicData, setMusicData] = useState(initialData);
-    console.log(initialData);
 
     const [addMusic] = useAddMusicMutation();
     const [deleteMusic] = useDeleteMusicMutation(); // Hook for delete mutation
@@ -32,6 +31,19 @@ const MusicPage = () => {
             setMusicData(initialData);
         }
     }, [initialData]);
+
+    // Filter musicData based on searchQuery
+    useEffect(() => {
+        if (searchQuery) {
+            const filteredData = initialData.filter(item =>
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.subTitle.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setMusicData(filteredData);
+        } else {
+            setMusicData(initialData); // Reset to initial data if search is cleared
+        }
+    }, [searchQuery, initialData]);
 
     const columns = [
         {
@@ -153,7 +165,6 @@ const MusicPage = () => {
             const res = await deleteMusic(record.id).unwrap();
             console.log(res)
 
-
             if (res?.code === 200) {
                 // Remove the item locally
                 setMusicData((prevData) => prevData.filter((item) => item.id !== record.id));
@@ -179,7 +190,12 @@ const MusicPage = () => {
                 <h2 className="text-xl font-semibold">Music Library</h2>
 
                 <div>
-                    <input type="text" placeholder="Search" className="border border-gray-300 rounded-md px-2 min-w-[250px] py-2 mr-2" />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        className="border border-gray-300 rounded-md px-2 min-w-[250px] py-2 mr-2"
+                        onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                    />
                     <button
                         className="bg-[#309ead] py-2 px-8 rounded-lg text-white text-xl"
                         onClick={handleAddMusic}
