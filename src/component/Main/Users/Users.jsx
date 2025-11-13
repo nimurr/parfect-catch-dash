@@ -338,34 +338,36 @@ const Users = () => {
       {/* Left side: User list */}
       {!showDetails && (
         <div className="w-full md:w-full p-6">
-          <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
-          <Form layout="inline" className="flex items-center gap-2 mb-4">
-            <Item name="date">
-              <DatePicker
-                className="rounded-md border border-[#2C909D]"
-                onChange={(date) => setSelectedDate(date)}
-                placeholder="Select Date"
-              />
-            </Item>
-            <div className="flex items-center gap-2">
-              <Item name="username">
-                <Input
-                  className="rounded-md md:w-full border border-[#2C909D]"
-                  placeholder="User Name"
-                  onChange={(e) => setSearchText(e.target.value)}
-                  allowClear
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
+            <Form layout="inline" className="flex items-center gap-2 mb-4">
+              <Item name="date">
+                <DatePicker
+                  className="rounded-md border border-[#2C909D]"
+                  onChange={(date) => setSelectedDate(date)}
+                  placeholder="Select Date"
                 />
               </Item>
-              <Item>
-                <button
-                  type="button"
-                  className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
-                >
-                  <IoIosSearch className="size-5 text-white" />
-                </button>
-              </Item>
-            </div>
-          </Form>
+              <div className="flex items-center gap-2">
+                <Item name="username">
+                  <Input
+                    className="rounded-md md:w-full border border-[#2C909D]"
+                    placeholder="User Name"
+                    onChange={(e) => setSearchText(e.target.value)}
+                    allowClear
+                  />
+                </Item>
+                <Item>
+                  <button
+                    type="button"
+                    className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+                  >
+                    <IoIosSearch className="size-5 text-white" />
+                  </button>
+                </Item>
+              </div>
+            </Form>
+          </div>
           <ConfigProvider
             theme={{
               components: {
@@ -399,34 +401,36 @@ const Users = () => {
       {showDetails && user && (
         <div className="md:flex justify-center items-center">
           <div className="w-full md:w-full md:p-6 p-3">
-            <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
-            <Form layout="inline" className="flex gap-3 mb-4">
-              <Item name="date">
-                <DatePicker
-                  className="rounded-md border border-[#2C909D]"
-                  onChange={(date) => setSelectedDate(date)}
-                  placeholder="Select Date"
-                />
-              </Item>
-              <div className="flex items-center ">
-                <Item name="username">
-                  <Input
-                    className="rounded-md  md:w-full border border-[#2C909D]"
-                    placeholder="User Name"
-                    onChange={(e) => setSearchText(e.target.value)}
-                    allowClear
+            <div className="flex items-center justify-between flex-wrap">
+              <h1 className="text-2xl flex items-center font-semibold">All Users</h1>
+              <Form layout="inline" className="flex gap-3 mb-4">
+                <Item name="date">
+                  <DatePicker
+                    className="rounded-md border border-[#2C909D]"
+                    onChange={(date) => setSelectedDate(date)}
+                    placeholder="Select Date"
                   />
                 </Item>
-                <Item>
-                  <button
-                    type="button"
-                    className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
-                  >
-                    <IoIosSearch className="size-5 text-white" />
-                  </button>
-                </Item>
-              </div>
-            </Form>
+                <div className="flex items-center ">
+                  <Item name="username">
+                    <Input
+                      className="rounded-md  md:w-full border border-[#2C909D]"
+                      placeholder="User Name"
+                      onChange={(e) => setSearchText(e.target.value)}
+                      allowClear
+                    />
+                  </Item>
+                  <Item>
+                    <button
+                      type="button"
+                      className="size-8 rounded-full flex justify-center items-center bg-[#2C909D]"
+                    >
+                      <IoIosSearch className="size-5 text-white" />
+                    </button>
+                  </Item>
+                </div>
+              </Form>
+            </div>
             <div className="w-[85vw] md:w-full mx-auto overscroll-x-auto">
               <ConfigProvider
                 theme={{

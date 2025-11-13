@@ -3,8 +3,8 @@ import { baseApi } from "../../baseApi/baseApi";
 const dashboardApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllMusic: builder.query({
-            query: () => ({
-                url: "/music?sortBy=createdAt:desc",
+            query: ({ page = 1, limit = 10 }) => ({
+                url: `/music?sortBy=createdAt:desc&page=${page}&limit=${limit}`,
                 method: "GET",
             })
         }),
@@ -24,7 +24,7 @@ const dashboardApi = baseApi.injectEndpoints({
         }),
 
         updateMusic: builder.mutation({
-            query: ({id, data}) => ({
+            query: ({ id, data }) => ({
                 url: `/music/${id}`,
                 method: 'PATCH',
                 body: data, // Include the data you want to update in the body of the request
