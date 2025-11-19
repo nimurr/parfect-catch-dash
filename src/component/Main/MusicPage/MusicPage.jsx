@@ -260,7 +260,7 @@ const MusicPage = () => {
                             accept="image/*"
                             onChange={(e) => setImageFile(e.target.files[0])}
                         />
-                    </Form.Item>
+                    </Form.Item> 
 
                     <Form.Item label="Music" required>
                         <input
