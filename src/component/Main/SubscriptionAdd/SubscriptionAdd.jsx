@@ -2,18 +2,19 @@ import { Form, Button, Select, message } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import CustomButton from '../../../utils/CustomButton';
 import CustomInput from '../../../utils/CustomInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoChevronBack } from 'react-icons/io5';
 import { useAddSubscriptionMutation } from '../../../redux/features/subdcription/subscription';
 
 const SubscriptionAdd = () => {
   const [form] = Form.useForm();
   const [addSubscription] = useAddSubscriptionMutation();
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
     const formData = {
       ...values,
-      stripePriceId: "price_1RE5wV2KNq3x4TpggdRPek5b", // required
+      type: values.type || 'revenuecat', // default to 'revenuecat' if no type is selected
     };
 
     console.log('Form Data:', formData);
@@ -21,8 +22,9 @@ const SubscriptionAdd = () => {
     try {
       const response = await addSubscription(formData).unwrap();
       console.log('Success:', response);
-      if (response?.code == 201) {
-        return message.success("Add Successfully !!")
+      if (response?.code === 201) {
+        message.success("Add Successfully !!");
+        navigate('/Subscription');
       }
 
       form.resetFields();
@@ -78,19 +80,56 @@ const SubscriptionAdd = () => {
             >
               <Select.Option value="weekly">Weekly</Select.Option>
               <Select.Option value="monthly">Monthly</Select.Option>
-              <Select.Option value="yearly">Yearly</Select.Option>
+              <Select.Option value="annual">Annual</Select.Option>
             </Select>
           </Form.Item>
 
-          {/* Dynamic Feature Fields */}
+          {/* Cupid Credits */}
+          <Form.Item
+            label="Cupid Credits"
+            name="cupidCredits"
+            rules={[{ required: true, message: 'Please enter the cupid credits!' }]}
+          >
+            <CustomInput placeholder="Enter cupid credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+          </Form.Item>
+
+          {/* Hug Credits */}
+          <Form.Item
+            label="Hug Credits"
+            name="hugCredits"
+            rules={[{ required: true, message: 'Please enter the hug credits!' }]}
+          >
+            <CustomInput placeholder="Enter hug credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+          </Form.Item>
+
+          {/* Kiss Credits */}
+          <Form.Item
+            label="Kiss Credits"
+            name="kissCredits"
+            rules={[{ required: true, message: 'Please enter the kiss credits!' }]}
+          >
+            <CustomInput placeholder="Enter kiss credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+          </Form.Item>
+
+          {/* Lick Credits */}
+          <Form.Item
+            label="Lick Credits"
+            name="lickCredits"
+            rules={[{ required: true, message: 'Please enter the lick credits!' }]}
+          >
+            <CustomInput placeholder="Enter lick credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+          </Form.Item>
+
+          {/* Features */}
           <Form.List name="features" initialValue={[""]}>
             {(fields, { add, remove }) => (
               <>
-                {fields.map(({ key, name, ...restField }) => (
+                {fields.map(({ key, name, fieldKey, ...restField }) => (
                   <div key={key} className="flex items-center gap-4 mb-3">
                     <Form.Item
                       {...restField}
-                      name={name}
+                      name={[name]}
+                      fieldKey={[fieldKey]}
                       rules={[{ required: true, message: 'Please enter a feature!' }]}
                       className="w-full"
                     >
@@ -117,6 +156,31 @@ const SubscriptionAdd = () => {
               </>
             )}
           </Form.List>
+
+          {/* Stripe Price ID */}
+          <Form.Item
+            label="Stripe Price ID"
+            name="stripePriceId"
+            rules={[{ required: true, message: 'Please enter the Stripe Price ID!' }]}
+          >
+            <CustomInput placeholder="Enter Stripe Price ID" className="bg-[#EAF5F7] border-[#309EAD]" />
+          </Form.Item>
+
+          {/* Type */}
+          <Form.Item
+            label="Subscription Type"
+            name="type"
+            rules={[{ required: true, message: 'Please select the subscription type!' }]}
+          >
+            <Select
+              className="bg-[#EAF5F7] border-[#309EAD]"
+              placeholder="Select type"
+            >
+              <Select.Option value="free">Free</Select.Option>
+              <Select.Option value="stripe">Stripe</Select.Option>
+              <Select.Option value="revenuecat">RevenueCat</Select.Option>
+            </Select>
+          </Form.Item>
 
           {/* Submit Button */}
           <CustomButton border className="w-full" htmlType="submit">

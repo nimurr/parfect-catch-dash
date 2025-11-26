@@ -24,6 +24,9 @@ const SubscriptionCard = () => {
 
   const subscription = data?.data?.attributes?.results;
 
+  console.log(subscription)
+
+
   const handleDelete = async (id) => {
 
 
@@ -39,6 +42,7 @@ const SubscriptionCard = () => {
 
     } catch (error) {
       console.log(error)
+      message.error(error?.data?.message);
     }
 
   }
@@ -64,16 +68,16 @@ const SubscriptionCard = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
         {subscription.map((subscription, id) => (
-          <div key={id} className="w-80 h-[583px] bg-[#EAF5F7] rounded-lg shadow-lg space-y-10">
+          <div key={id} className="w-full bg-[#EAF5F7] rounded-lg shadow-lg space-y-5 p-5">
             <h2 className="text-2xl font-bold mb-4 px-6 text-center pt-5">{subscription.title}</h2>
             <div className="border-b-2 border-gray-200 "></div>
             <div className="text-3xl font-semibold mb-4 flex items-center justify-center pt-5">
-              {subscription.amount} <span className="text-sm ml-1">{subscription.limitation}</span>
+              ${subscription.amount} <span className="text-sm ml-1">/{subscription.limitation}</span>
             </div>
 
-            <ul className="space-y-2 mb-4 px-6 ">
+            <ul className="space-y-2 mb-4  ">
               {subscription.features.map((feature, id) => (
                 <li key={id} className="flex items-center text-lg">
                   <svg
@@ -94,7 +98,9 @@ const SubscriptionCard = () => {
               ))}
             </ul>
 
-            <div className="flex justify-between px-6 py-6">
+            <h3> <span className="font-semibold">Stripe Price Id :</span> {subscription?.stripePriceId}</h3>
+
+            <div className="flex justify-between py-6">
               <Link
                 className="flex items-center text-sm bg-[#2C909D] px-7 py-3 rounded-lg text-center"
                 to={`/Subscription/${subscription?.id}`}
