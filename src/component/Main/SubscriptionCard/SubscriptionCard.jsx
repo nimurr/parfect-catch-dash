@@ -50,10 +50,6 @@ const SubscriptionCard = () => {
 
 
 
-
-
-
-
   return (
     <section className="pt-5">
       <div className="pb-5 flex items-center justify-between">
