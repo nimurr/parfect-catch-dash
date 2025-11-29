@@ -5,6 +5,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useDeleteSubscriptionMutation, useGetAllSubscriptionQuery } from "../../../redux/features/subdcription/subscription";
 import { message } from "antd";
+import Swal from "sweetalert2";
 
 
 const SubscriptionCard = () => {
@@ -30,21 +31,36 @@ const SubscriptionCard = () => {
   const handleDelete = async (id) => {
 
 
-    try {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await deleteSub({ id }).unwrap();
 
-      const res = await deleteSub({ id }).unwrap();
+          console.log(res)
 
-      console.log(res)
+          if (res?.code == 200) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            return message.success("Delete Successfully !!")
+          }
 
-      if (res?.code == 200) {
-        return message.success("Delete Successfully !!")
+        } catch (error) {
+          console.log(error)
+          message.error(error?.data?.message);
+        }
       }
-
-    } catch (error) {
-      console.log(error)
-      message.error(error?.data?.message);
-    }
-
+    }); 
   }
 
 

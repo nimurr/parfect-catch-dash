@@ -96,7 +96,7 @@ const EditSubscription = () => {
             name="limitation"
             rules={[{ required: true, message: 'Please select a limitation!' }]}
           >
-            <Select placeholder="Select limitation" className="bg-[#EAF5F7] border-[#309EAD]">
+            <Select placeholder="Select limitation" className="bg-[#EAF5F7] h-10 border-[#309EAD]">
               {/* <Select.Option value="weekly">Weekly</Select.Option> */}
               <Select.Option value="monthly">Monthly</Select.Option>
               <Select.Option value="annual">Annual</Select.Option>
@@ -191,7 +191,7 @@ const EditSubscription = () => {
           >
             <Select
               placeholder="Select type"
-              className="bg-[#EAF5F7] border-[#309EAD]"
+              className="bg-[#EAF5F7] border-[#309EAD] h-10"
             >
               <Select.Option value="free">Free</Select.Option>
               <Select.Option value="stripe">Stripe</Select.Option>

@@ -75,7 +75,7 @@ const SubscriptionAdd = () => {
             rules={[{ required: true, message: 'Please select the limitation!' }]}
           >
             <Select
-              className="bg-[#EAF5F7] border-[#309EAD]"
+              className="bg-[#EAF5F7] border-[#309EAD] h-10"
               placeholder="Select limitation"
             >
               {/* <Select.Option value="weekly">Weekly</Select.Option> */}
@@ -175,7 +175,7 @@ const SubscriptionAdd = () => {
             rules={[{ required: true, message: 'Please select the subscription type!' }]}
           >
             <Select
-              className="bg-[#EAF5F7] border-[#309EAD]"
+              className="bg-[#EAF5F7] border-[#309EAD] h-10"
               placeholder="Select type"
             >
               <Select.Option value="free">Free</Select.Option>
