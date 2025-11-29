@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import moment from "moment";
 import { useCreateCouponCodeMutation, useDeleteCouponCodeMutation, useEditCouponCodeMutation, useGenerateCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
 import Swal from "sweetalert2";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 
 export default function CouponCode() {
     const page = 1;
@@ -180,6 +182,23 @@ export default function CouponCode() {
                         key={item.id}
                         className="bg-[#2C909D] text-white p-3 rounded-lg"
                     >
+                        <div className="flex gap-2 justify-end flex-wrap mb-3">
+
+                            <button
+                                className="py-2 px-3  bg-[#2045e9] text-white rounded"
+                                onClick={() => handleEdit(item)}
+                            >
+                                <FaRegEdit className="text-xl" />
+                            </button>
+
+                            <button
+                                className="py-2 px-2 bg-[#c90404] text-white rounded"
+                                onClick={() => handleDelete(item)}
+                            >
+                                <MdOutlineDeleteForever className="text-2xl" />
+                            </button>
+
+                        </div>
                         <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
                         <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
                         <p className="py-2 flex justify-between capitalize"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${item?.status === "active" ? "bg-green-500" : item?.status == "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{item?.status}</span></p>
@@ -198,21 +217,6 @@ export default function CouponCode() {
                             >
                                 View
                             </button>
-
-                            <button
-                                className="py-2 px-5 w-full bg-[#2045e9] text-white rounded"
-                                onClick={() => handleEdit(item)}
-                            >
-                                Edit
-                            </button>
-
-                            <button
-                                className="py-2 px-5 w-full bg-[#c90404] text-white rounded"
-                                onClick={() => handleDelete(item)}
-                            >
-                                Delete
-                            </button>
-
                         </div>
                     </div>
                 ))}
