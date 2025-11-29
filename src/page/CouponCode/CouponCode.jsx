@@ -84,7 +84,6 @@ export default function CouponCode() {
             } else if (mode === "edit" && selectedItem) {
                 const id = selectedItem?.referralCode;
 
-                // // payload.id = selectedItem.id;
                 const response = await editCouponCode({ id, data: payload }).unwrap();
                 console.log(response)
                 if (response) {
@@ -289,7 +288,7 @@ export default function CouponCode() {
                     </Form.Item>
 
                     <Form.Item name="startDate" label="Start Date" rules={[{ required: true }]}>
-                        <DatePicker  className="w-full" />
+                        <DatePicker className="w-full" />
                     </Form.Item>
 
                     <Form.Item name="expiryDate" label="Expiry Date" rules={[{ required: true }]}>
