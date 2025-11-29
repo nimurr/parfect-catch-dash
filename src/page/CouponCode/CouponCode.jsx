@@ -1,46 +1,33 @@
-import React, { useState } from "react";
-import {
-    Table,
-    Button,
-    Modal,
-    Form,
-    Input,
-    Select,
-    DatePicker,
-    Pagination,
-} from "antd";
+import React, { useEffect, useState } from "react";
+import { Modal, Form, Input, Select, DatePicker, Pagination, message } from "antd";
 import dayjs from "dayjs";
 import moment from "moment";
-import { useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
-
-const initialData = [
-    {
-        id: 1,
-        name: "MD. Shadat Hossain",
-        referralCode: "8NUBR0SE",
-        status: "active",
-        startDate: "2025-11-29",
-        expiryDate: "2026-02-06",
-        usageLimit: 500,
-        gmail: "shadathossan3500@gmail.com",
-        cupidCredits: 2,
-        hugCredits: 3,
-        kissCredits: 10,
-        lickCredits: 12,
-    },
-];
+import { useCreateCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
 
 export default function CouponCode() {
     const page = 1;
     const limit = 10;
-    const { data: couponCodes, isLoading } = useGetCouponCodeQuery({ page, limit });
-    const allCouponCodes = couponCodes?.attributes || [];
 
-    const [data, setData] = useState(initialData);
+    const { data: couponCodes, isLoading , refetch } = useGetCouponCodeQuery({ page, limit });
+    const apiList = couponCodes?.attributes || [];
+    const [createCouponCode] = useCreateCouponCodeMutation();
+
+    const [list, setList] = useState([]);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [mode, setMode] = useState("add"); // "add" or "edit"
+
     const [form] = Form.useForm();
+
+    useEffect(() => {
+        if (Array.isArray(apiList)) {
+            setList(apiList.map(item => ({
+                id: item.id ?? Date.now() + Math.floor(Math.random() * 1000),
+                ...item
+            })));
+        }
+    }, [apiList]);
 
     const handleView = (record) => {
         setSelectedItem(record);
@@ -49,43 +36,64 @@ export default function CouponCode() {
 
     const handleEdit = (record) => {
         setSelectedItem(record);
+        setMode("edit"); // switch mode
         form.setFieldsValue({
             ...record,
-            startDate: dayjs(record.startDate),
-            expiryDate: dayjs(record.expiryDate),
+            startDate: record.startDate ? dayjs(record.startDate) : undefined,
+            expiryDate: record.expiryDate ? dayjs(record.expiryDate) : undefined,
         });
         setIsEditModalOpen(true);
     };
 
     const handleAdd = () => {
-
         setSelectedItem(null);
+        setMode("add"); // switch mode
         form.resetFields();
         setIsEditModalOpen(true);
     };
 
-    const handleSave = () => {
-
-
-        form.validateFields().then((values) => {
-            const formatted = {
-                ...values,
+    // ONE function for both Add & Edit with API integration
+    const handleSave = async () => {
+        try {
+            const values = await form.validateFields();
+            const payload = {
+                name: values.name,
+                referralCode: values.referralCode,
+                status: values.status,
                 startDate: values.startDate.format("YYYY-MM-DD"),
                 expiryDate: values.expiryDate.format("YYYY-MM-DD"),
+                usageLimit: Number(values.usageLimit),
+                gmail: values.gmail || "",
+                cupidCredits: Number(values.cupidCredits || 0),
+                hugCredits: Number(values.hugCredits || 0),
+                kissCredits: Number(values.kissCredits || 0),
+                lickCredits: Number(values.lickCredits || 0),
             };
 
-            if (selectedItem) {
-                setData(
-                    data.map((item) =>
-                        item.id === selectedItem.id ? { ...item, ...formatted } : item
-                    )
-                );
-            } else {
-                setData([...data, { id: Date.now(), ...formatted }]);
+            if (mode === "add") {
+                const response = await createCouponCode(payload).unwrap();
+                console.log(response)
+                if (response) {
+                    message.success("Add Successfully !!");
+                    refetch();
+                }
+
+            } else if (mode === "edit" && selectedItem) {
+                console.log(payload)
             }
+
             setIsEditModalOpen(false);
-        });
+            form.resetFields();
+            setSelectedItem(null);
+            setMode("add"); // reset to add mode after save
+
+        } catch (err) { 
+            message.error(err?.data?.message);
+        }
     };
+
+    const pageSize = limit;
+    const total = list.length;
 
     return (
         <div className="p-4">
@@ -99,36 +107,25 @@ export default function CouponCode() {
                 </button>
             </div>
 
-            {/* Card List */}
+            {/* CARD LIST */}
             <div className="grid xl:grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 gap-5">
-                {
-                    isLoading && <p>Loading...</p>
-                }
-                {allCouponCodes.map((item) => (
+                {isLoading && <p>Loading...</p>}
+
+                {list.map((item) => (
                     <div
                         key={item.id}
                         className="bg-[#2C909D] text-white p-3 rounded-lg"
                     >
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Name:</strong> {item.name}
+                        <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
+                        <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
+                        <p className="py-2 flex justify-between"><strong>Status:</strong> {item.status}</p>
+                        <p className="py-2 flex justify-between">
+                            <strong>Start Date:</strong> {item.startDate ? moment(item.startDate).format("YYYY-MM-DD") : "-"}
                         </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Referral Code:</strong> {item.referralCode}
+                        <p className="py-2 flex justify-between">
+                            <strong>Expiry Date:</strong> {item.expiryDate ? moment(item.expiryDate).format("YYYY-MM-DD") : "-"}
                         </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Status:</strong> {item.status}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Start Date:</strong>{" "}
-                            {moment(item.startDate).format("YYYY-MM-DD")}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Expiry Date:</strong>{" "}
-                            {moment(item.expiryDate).format("YYYY-MM-DD")}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Usage Limit:</strong> {item.usageLimit}
-                        </p>
+                        <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {item.usageLimit}</p>
 
                         <div className="flex gap-2 mt-3">
                             <button
@@ -137,6 +134,7 @@ export default function CouponCode() {
                             >
                                 View
                             </button>
+
                             <button
                                 className="py-2 px-5 w-full bg-[#0428c9] text-white rounded"
                                 onClick={() => handleEdit(item)}
@@ -148,123 +146,96 @@ export default function CouponCode() {
                 ))}
             </div>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-end">
-                <Pagination total={data.length} pageSize={5} className="mt-4" />
+            {/* Pagination UI */}
+            <div className="flex items-center justify-end mt-4">
+                <Pagination total={total} pageSize={pageSize} />
             </div>
 
-            {/* View Modal */}
+            {/* VIEW MODAL */}
             <Modal
                 open={isViewModalOpen}
                 footer={null}
                 onCancel={() => setIsViewModalOpen(false)}
+                title="Coupon Details"
             >
                 {selectedItem && (
-                    <div className="space-y-2 mt-5">
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Name:</strong> {selectedItem?.name}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Referral Code:</strong> {selectedItem?.referralCode}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Status:</strong> {selectedItem?.status}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Start Date:</strong>{" "}
-                            {moment(selectedItem?.startDate).format("YYYY-MM-DD")}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Expiry Date:</strong>{" "}
-                            {moment(selectedItem?.expiryDate).format("YYYY-MM-DD")}
-                        </p>
-                        <p className="py-2 flex items-center justify-between gap-2">
-                            <strong>Usage Limit:</strong> {selectedItem?.usageLimit}
-                        </p>
+                    <div className="space-y-2 mt-2">
+                        <p><strong>ID:</strong> {selectedItem.id}</p>
+                        <p><strong>Name:</strong> {selectedItem.name}</p>
+                        <p><strong>Referral Code:</strong> {selectedItem.referralCode}</p>
+                        <p><strong>Status:</strong> {selectedItem.status}</p>
+                        <p><strong>Start Date:</strong> {selectedItem.startDate ?? "-"}</p>
+                        <p><strong>Expiry Date:</strong> {selectedItem.expiryDate ?? "-"}</p>
+                        <p><strong>Usage Limit:</strong> {selectedItem.usageLimit}</p>
+                        <p><strong>Gmail:</strong> {selectedItem.gmail ?? "-"}</p>
+                        <p><strong>Cupid Credits:</strong> {selectedItem.cupidCredits}</p>
+                        <p><strong>Hug Credits:</strong> {selectedItem.hugCredits}</p>
+                        <p><strong>Kiss Credits:</strong> {selectedItem.kissCredits}</p>
+                        <p><strong>Lick Credits:</strong> {selectedItem.lickCredits}</p>
                     </div>
                 )}
             </Modal>
 
-            {/* Add / Edit Modal */}
+            {/* ADD / EDIT MODAL */}
             <Modal
                 open={isEditModalOpen}
-                onCancel={() => setIsEditModalOpen(false)}
+                onCancel={() => {
+                    setIsEditModalOpen(false);
+                    form.resetFields();
+                    setSelectedItem(null);
+                    setMode("add");
+                }}
                 onOk={handleSave}
+                title={mode === "edit" ? "Edit Coupon" : "Add Coupon"}
             >
                 <Form layout="vertical" form={form}>
                     <Form.Item name="name" label="Name" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="referralCode"
-                        label="Referral Code"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="referralCode" label="Referral Code" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="status"
-                        label="Status"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="status" label="Status" rules={[{ required: true }]}>
                         <Select
                             options={[
-                                { value: "active" },
-                                { value: "pushed" },
-                                { value: "expired" },
+                                { value: "active", label: "Active" },
+                                { value: "pushed", label: "Pushed" },
+                                { value: "expired", label: "Expired" },
                             ]}
                         />
                     </Form.Item>
-                    <Form.Item
-                        name="startDate"
-                        label="Start Date"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="startDate" label="Start Date" rules={[{ required: true }]}>
                         <DatePicker className="w-full" />
                     </Form.Item>
-                    <Form.Item
-                        name="expiryDate"
-                        label="Expiry Date"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="expiryDate" label="Expiry Date" rules={[{ required: true }]}>
                         <DatePicker className="w-full" />
                     </Form.Item>
-                    <Form.Item
-                        name="usageLimit"
-                        label="Usage Limit"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="usageLimit" label="Usage Limit" rules={[{ required: true }]}>
                         <Input type="number" />
                     </Form.Item>
+
                     <Form.Item name="gmail" label="Gmail">
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="cupidCredits"
-                        label="Cupid Credits"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="cupidCredits" label="Cupid Credits">
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item
-                        name="hugCredits"
-                        label="Hug Credits"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="hugCredits" label="Hug Credits">
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item
-                        name="kissCredits"
-                        label="Kiss Credits"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="kissCredits" label="Kiss Credits">
                         <Input type="number" />
                     </Form.Item>
-                    <Form.Item
-                        name="lickCredits"
-                        label="Lick Credits"
-                        rules={[{ required: true }]}
-                    >
+
+                    <Form.Item name="lickCredits" label="Lick Credits">
                         <Input type="number" />
                     </Form.Item>
                 </Form>
@@ -272,3 +243,4 @@ export default function CouponCode() {
         </div>
     );
 }
+
