@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Select, DatePicker, Pagination, message } from "antd";
 import dayjs from "dayjs";
 import moment from "moment";
-import { useCreateCouponCodeMutation, useDeleteCouponCodeMutation, useEditCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
+import { useCreateCouponCodeMutation, useDeleteCouponCodeMutation, useEditCouponCodeMutation, useGenerateCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
 
 export default function CouponCode() {
     const page = 1;
@@ -119,10 +119,27 @@ export default function CouponCode() {
             message.error(error?.data?.message);
         }
     };
+    const [generatedItem, setGeneratedItem] = useState(null)
+    const [genCodeName, setGenCodeName] = useState("")
+
+    const [generatedCoupon] = useGenerateCouponCodeMutation();
 
     const handleGenerateReferralCode = async (item) => {
-        console.log(item)
+        try {
+            const response = await generatedCoupon(genCodeName).unwrap();
+            console.log(response)
+            if (response) {
+                message.success("Add Successfully !!");
+                refetch();
+                setGeneratedItem(response?.attributes)
+            }
+        } catch (error) {
+            console.error(error);
+            message.error(error?.data?.message);
+        }
     };
+
+    console.log(generatedItem)
 
 
     return (
@@ -231,13 +248,13 @@ export default function CouponCode() {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
-                        <Input />
+                    <Form.Item value={generatedItem && generatedItem}  defaultValue={generatedItem && generatedItem}  name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
+                        <Input value={generatedItem && generatedItem}  />
                     </Form.Item>
                     {
                         mode === "add" && (
                             <div className="flex items-center justify-between mb-2">
-                                <input className="w-full px-4 py-1 text-[16px] border border-[#eee] text-[#0a0a0a] rounded-lg" placeholder="Generate Referral Code" type="text" />
+                                <input value={generatedItem ? generatedItem : genCodeName} onChange={(event) => setGenCodeName(event.target.value)} className="w-full px-4 py-1 text-[16px] border border-[#eee] text-[#0a0a0a] rounded-lg" placeholder="Generate Referral Code" type="text" />
                                 <button type="button" onClick={handleGenerateReferralCode} className="bg-[#309ead] py-1 px-5 ml-2 rounded text-white">Generate</button>
                             </div>
                         )

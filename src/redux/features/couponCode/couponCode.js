@@ -32,7 +32,14 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response) => response?.data,
         }),
+        generateCouponCode: builder.mutation({
+            query: (code) => ({
+                url: `/copon/generate-code?userName=${code}`,
+                method: "POST", 
+            }),
+            transformResponse: (response) => response?.data,
+        })
     }),
 })
 
-export const { useGetCouponCodeQuery, useCreateCouponCodeMutation, useEditCouponCodeMutation , useDeleteCouponCodeMutation } = dashboardApi
+export const { useGetCouponCodeQuery, useCreateCouponCodeMutation, useEditCouponCodeMutation , useDeleteCouponCodeMutation , useGenerateCouponCodeMutation } = dashboardApi
