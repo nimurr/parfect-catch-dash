@@ -132,6 +132,7 @@ export default function CouponCode() {
                 message.success("Add Successfully !!");
                 refetch();
                 setGeneratedItem(response?.attributes)
+                form.setFieldsValue({ referralCode: response?.attributes });
             }
         } catch (error) {
             console.error(error);
@@ -139,7 +140,6 @@ export default function CouponCode() {
         }
     };
 
-    console.log(generatedItem)
 
 
     return (
@@ -218,7 +218,7 @@ export default function CouponCode() {
                         <p className="py-2 flex justify-between"><strong>ID:</strong> {selectedItem.id}</p>
                         <p className="py-2 flex justify-between"><strong>Name:</strong> {selectedItem.name}</p>
                         <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {selectedItem.referralCode}</p>
-                        <p className="py-2 flex justify-between"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${selectedItem.status === "active" ? "bg-green-500" : selectedItem.status !== "pushed" ? "text-yellow-500" : "bg-red-500"}`}>{selectedItem.status}</span></p>
+                        <p className="py-2 flex justify-between capitalize text-white"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${selectedItem?.status === "active" ? "bg-green-500" : selectedItem?.status == "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{selectedItem?.status}</span></p>
                         <p className="py-2 flex justify-between"><strong>Start Date:</strong> {moment(selectedItem.startDate).format("YYYY-MM-DD") ?? "-"}</p>
                         <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {moment(selectedItem.expiryDate).format("YYYY-MM-DD") ?? "-"}</p>
                         <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {selectedItem.usageLimit}</p>
@@ -248,13 +248,13 @@ export default function CouponCode() {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item value={generatedItem && generatedItem}  defaultValue={generatedItem && generatedItem}  name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
-                        <Input value={generatedItem && generatedItem}  />
+                    <Form.Item name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
+                        <Input />
                     </Form.Item>
                     {
                         mode === "add" && (
                             <div className="flex items-center justify-between mb-2">
-                                <input value={generatedItem ? generatedItem : genCodeName} onChange={(event) => setGenCodeName(event.target.value)} className="w-full px-4 py-1 text-[16px] border border-[#eee] text-[#0a0a0a] rounded-lg" placeholder="Generate Referral Code" type="text" />
+                                <input onChange={(event) => setGenCodeName(event.target.value)} className="w-full px-4 py-1 text-[16px] border border-[#eee] text-[#0a0a0a] rounded-lg" placeholder="Generate Referral Code" type="text" />
                                 <button type="button" onClick={handleGenerateReferralCode} className="bg-[#309ead] py-1 px-5 ml-2 rounded text-white">Generate</button>
                             </div>
                         )
