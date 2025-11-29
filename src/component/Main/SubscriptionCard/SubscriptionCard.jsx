@@ -63,7 +63,7 @@ const SubscriptionCard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 items-start gap-5">
         {subscription.map((subscription, id) => (
           <div key={id} className="w-full bg-[#EAF5F7] rounded-lg shadow-lg ">
             <h2 className="text-2xl font-bold mb-4 px-6 text-center pt-5 capitalize">{subscription.title}</h2>
@@ -104,7 +104,7 @@ const SubscriptionCard = () => {
                 <li className="flex items-center justify-between border-b py-1"> <span className="font-semibold">Lick Gifts:</span> {subscription?.lickCredits}</li>
               </ul>
 
-              <div className="flex justify-between py-6">
+              <div className="flex justify-between pt-6">
                 <Link
                   className="flex items-center text-sm bg-[#2C909D] px-7 py-3 rounded-lg text-center"
                   to={`/Subscription/${subscription?.id}`}

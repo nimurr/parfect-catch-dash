@@ -43,7 +43,7 @@ const SubscriptionAdd = () => {
         </Link>
       </div>
 
-      <div className="w-full md:w-[50%]">
+      <div className="w-full mx-auto md:w-[50%] bg-gray-200 p-5 rounded-lg">
         <Form
           form={form}
           layout="vertical"
@@ -78,47 +78,49 @@ const SubscriptionAdd = () => {
               className="bg-[#EAF5F7] border-[#309EAD]"
               placeholder="Select limitation"
             >
-              <Select.Option value="weekly">Weekly</Select.Option>
+              {/* <Select.Option value="weekly">Weekly</Select.Option> */}
               <Select.Option value="monthly">Monthly</Select.Option>
               <Select.Option value="annual">Annual</Select.Option>
             </Select>
           </Form.Item>
 
-          {/* Cupid Credits */}
-          <Form.Item
-            label="Cupid Credits"
-            name="cupidCredits"
-            rules={[{ required: true, message: 'Please enter the cupid credits!' }]}
-          >
-            <CustomInput placeholder="Enter cupid credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
-          </Form.Item>
+          <div className='flex items-center gap-3 flex-wrap'>
+            {/* Cupid Credits */}
+            <Form.Item
+              label="Cupid Credits"
+              name="cupidCredits"
+              rules={[{ required: true, message: 'Please enter the cupid credits!' }]}
+            >
+              <CustomInput placeholder="Enter cupid credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+            </Form.Item>
 
-          {/* Hug Credits */}
-          <Form.Item
-            label="Hug Credits"
-            name="hugCredits"
-            rules={[{ required: true, message: 'Please enter the hug credits!' }]}
-          >
-            <CustomInput placeholder="Enter hug credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
-          </Form.Item>
+            {/* Hug Credits */}
+            <Form.Item
+              label="Hug Credits"
+              name="hugCredits"
+              rules={[{ required: true, message: 'Please enter the hug credits!' }]}
+            >
+              <CustomInput placeholder="Enter hug credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+            </Form.Item>
 
-          {/* Kiss Credits */}
-          <Form.Item
-            label="Kiss Credits"
-            name="kissCredits"
-            rules={[{ required: true, message: 'Please enter the kiss credits!' }]}
-          >
-            <CustomInput placeholder="Enter kiss credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
-          </Form.Item>
+            {/* Kiss Credits */}
+            <Form.Item
+              label="Kiss Credits"
+              name="kissCredits"
+              rules={[{ required: true, message: 'Please enter the kiss credits!' }]}
+            >
+              <CustomInput placeholder="Enter kiss credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+            </Form.Item>
 
-          {/* Lick Credits */}
-          <Form.Item
-            label="Lick Credits"
-            name="lickCredits"
-            rules={[{ required: true, message: 'Please enter the lick credits!' }]}
-          >
-            <CustomInput placeholder="Enter lick credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
-          </Form.Item>
+            {/* Lick Credits */}
+            <Form.Item
+              label="Lick Credits"
+              name="lickCredits"
+              rules={[{ required: true, message: 'Please enter the lick credits!' }]}
+            >
+              <CustomInput placeholder="Enter lick credits" className="bg-[#EAF5F7] border-[#309EAD]" type="number" />
+            </Form.Item>
+          </div>
 
           {/* Features */}
           <Form.List name="features" initialValue={[""]}>
