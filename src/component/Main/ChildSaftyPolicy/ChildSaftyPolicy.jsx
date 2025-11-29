@@ -10,7 +10,7 @@ const ChildSaftyPolicy = () => {
   const { data: privacyPolicyData, isLoading } = useGetChildSafetyPolicyQuery();
 
   // Log data to inspect its structure
-  console.log("privacyPolicyData:", privacyPolicyData);
+  console.log("privacyPolicyData:", privacyPolicyData?.data?.attributes[0]?.content);
 
   return (
     <section className="w-full h-full min-h-screen">
@@ -35,13 +35,16 @@ const ChildSaftyPolicy = () => {
           <Spin />
         </div>
       ) : (
-        <div>
+        <div className="ml-2">
           {/* Check if privacyPolicyData is an array or a single object */}
           {privacyPolicyData ? (
             Array.isArray(privacyPolicyData) ? (
               privacyPolicyData.map((privacy) => (
                 <div key={privacy.id} className="text-lg">
+
+
                   <div dangerouslySetInnerHTML={{ __html: privacy?.content }} />
+
                 </div>
               ))
             ) : (

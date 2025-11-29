@@ -14,7 +14,7 @@ const EditChildSaftyPolicy = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate(); // <-- create navigate function
 
-  const { data } = useGetChildSafetyPolicyQuery();
+  const { data, refetch } = useGetChildSafetyPolicyQuery();
   const [createUpdatePrivacy, { isLoading: isMutating }] =
     useCreateChildSafetyPolicyMutation();
   const [content, setContent] = useState("");
@@ -30,9 +30,11 @@ const EditChildSaftyPolicy = () => {
     const privacyPolicyData = { content };
 
     try {
-      await createUpdatePrivacy({ data: privacyPolicyData }).unwrap();
+      const res = await createUpdatePrivacy({ data: privacyPolicyData }).unwrap();
+      console.log(res)
       message.success("Privacy policy updated successfully!");
 
+      refetch();
       // Redirect to privacy page after successful update
       navigate("/settings/child-safety-policy");
     } catch (error) {
@@ -44,10 +46,10 @@ const EditChildSaftyPolicy = () => {
     <section className="w-full h-full min-h-screen">
       <div className="flex justify-between items-center py-5">
         <div className="flex items-center">
-          <Link to="/settings/privacy-policy">
+          <Link to="/settings/child-safety-policy">
             <IoChevronBack className="text-2xl" />
           </Link>
-          <h1 className="text-2xl font-semibold ml-2">Privacy Policy</h1>
+          <h1 className="text-2xl font-semibold ml-2">Child Safety Policy</h1>
         </div>
       </div>
 
