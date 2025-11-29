@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import logo from "/public/logo/logo.png";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/features/auth/authSlice";
-import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import { RiCoupon3Line, RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FaBriefcase, FaCopy, FaUserAlt } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { HiLightBulb } from "react-icons/hi";
@@ -16,12 +16,9 @@ const sidebarItems = [
   { path: "/", name: "Dashboard", icon: <MdDashboard className="size-6" /> },
   { path: "/users", name: "Users", icon: <FaUserAlt className="size-6" /> },
   { path: "/music", name: "Music", icon: <IoMusicalNotesOutline className="size-6" /> },
-
-
-
   { path: "/Earnings", name: "Earnings", icon: <RiMoneyDollarCircleFill className="size-6" /> },
   { path: "/Subscription", name: "Subscription", icon: <HiLightBulb className="size-8" /> },
-
+  { path: "/coupon-code", name: "Coupon Code", icon: <RiCoupon3Line className="size-6" /> },
   { path: "/settings", name: "Settings", icon: <IoSettingsSharp className="size-6" /> },
 ];
 

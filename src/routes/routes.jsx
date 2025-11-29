@@ -33,6 +33,7 @@ import SubscriptionAddPage from "../page/SubscriptionAddPage/SubscriptionAddPage
 import SubscriptionCardPage from "../page/SubscriptionCardPage/SubscriptionCardPage";
 import UserDetailsPage from "../page/UserDetails/UserDetailsPage";
 import ProctedRoute from "./ProctedRoute";
+import CouponCode from "../page/CouponCode/CouponCode";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       {
         path: "/Subscription/:id",
         element: <EditSubscriptionPage />,
+      },
+      {
+        path: "/coupon-code",
+        element: <CouponCode />,
       },
 
       {
