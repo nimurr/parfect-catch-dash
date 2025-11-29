@@ -263,11 +263,11 @@ export default function CouponCode() {
             >
                 <Form layout="vertical" form={form}>
                     <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-                        <Input />
+                        <Input placeholder="Enter Name" />
                     </Form.Item>
 
                     <Form.Item name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
-                        <Input />
+                        <Input placeholder="Enter Referral Code" />
                     </Form.Item>
                     {
                         mode === "add" && (
@@ -289,7 +289,7 @@ export default function CouponCode() {
                     </Form.Item>
 
                     <Form.Item name="startDate" label="Start Date" rules={[{ required: true }]}>
-                        <DatePicker className="w-full" />
+                        <DatePicker  className="w-full" />
                     </Form.Item>
 
                     <Form.Item name="expiryDate" label="Expiry Date" rules={[{ required: true }]}>
@@ -297,27 +297,27 @@ export default function CouponCode() {
                     </Form.Item>
 
                     <Form.Item name="usageLimit" label="Usage Limit" rules={[{ required: true }]}>
-                        <Input type="number" />
+                        <Input placeholder="Enter Usage Limit" type="number" />
                     </Form.Item>
 
                     <Form.Item name="gmail" label="Gmail">
-                        <Input />
+                        <Input placeholder="Enter Gmail" />
                     </Form.Item>
 
                     <Form.Item name="cupidCredits" label="Cupid Credits">
-                        <Input type="number" />
+                        <Input placeholder="Enter Cupid Credits" type="number" />
                     </Form.Item>
 
                     <Form.Item name="hugCredits" label="Hug Credits">
-                        <Input type="number" />
+                        <Input placeholder="Enter Hug Credits" type="number" />
                     </Form.Item>
 
                     <Form.Item name="kissCredits" label="Kiss Credits">
-                        <Input type="number" />
+                        <Input placeholder="Enter Kiss Credits" type="number" />
                     </Form.Item>
 
                     <Form.Item name="lickCredits" label="Lick Credits">
-                        <Input type="number" />
+                        <Input placeholder="Enter Lick Credits" type="number" />
                     </Form.Item>
                 </Form>
             </Modal>
