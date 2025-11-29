@@ -17,7 +17,22 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response) => response?.data,
         }),
+        editCouponCode: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/copon/update/${id}`,
+                method: "PATCH",
+                body: data,
+            }),
+            transformResponse: (response) => response?.data,
+        }),
+        deleteCouponCode: builder.mutation({
+            query: (id) => ({
+                url: `/copon/delete/${id}`,
+                method: "DELETE",
+            }),
+            transformResponse: (response) => response?.data,
+        }),
     }),
 })
 
-export const { useGetCouponCodeQuery , useCreateCouponCodeMutation } = dashboardApi
+export const { useGetCouponCodeQuery, useCreateCouponCodeMutation, useEditCouponCodeMutation , useDeleteCouponCodeMutation } = dashboardApi

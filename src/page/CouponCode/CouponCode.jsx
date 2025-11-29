@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Select, DatePicker, Pagination, message } from "antd";
 import dayjs from "dayjs";
 import moment from "moment";
-import { useCreateCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
+import { useCreateCouponCodeMutation, useDeleteCouponCodeMutation, useEditCouponCodeMutation, useGetCouponCodeQuery } from "../../redux/features/couponCode/couponCode";
 
 export default function CouponCode() {
     const page = 1;
     const limit = 10;
 
-    const { data: couponCodes, isLoading , refetch } = useGetCouponCodeQuery({ page, limit });
+    const { data: couponCodes, isLoading, refetch } = useGetCouponCodeQuery({ page, limit });
     const apiList = couponCodes?.attributes || [];
     const [createCouponCode] = useCreateCouponCodeMutation();
+    const [editCouponCode] = useEditCouponCodeMutation();
+    const [deleteCouponCode] = useDeleteCouponCodeMutation();
 
     const [list, setList] = useState([]);
     const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -79,7 +81,15 @@ export default function CouponCode() {
                 }
 
             } else if (mode === "edit" && selectedItem) {
-                console.log(payload)
+                const id = selectedItem?.referralCode;
+
+                // // payload.id = selectedItem.id;
+                const response = await editCouponCode({ id, data: payload }).unwrap();
+                console.log(response)
+                if (response) {
+                    message.success("Edit Successfully !!");
+                    refetch();
+                }
             }
 
             setIsEditModalOpen(false);
@@ -87,13 +97,33 @@ export default function CouponCode() {
             setSelectedItem(null);
             setMode("add"); // reset to add mode after save
 
-        } catch (err) { 
+        } catch (err) {
             message.error(err?.data?.message);
         }
     };
 
     const pageSize = limit;
     const total = list.length;
+
+    const handleDelete = async (item) => {
+        console.log(item)
+        try {
+            const response = await deleteCouponCode(item?.referralCode).unwrap();
+            console.log(response)
+            if (response) {
+                message.success("Delete Successfully !!");
+                refetch();
+            }
+        } catch (error) {
+            console.error(error);
+            message.error(error?.data?.message);
+        }
+    };
+
+    const handleGenerateReferralCode = async (item) => {
+        console.log(item)
+    };
+
 
     return (
         <div className="p-4">
@@ -109,16 +139,16 @@ export default function CouponCode() {
 
             {/* CARD LIST */}
             <div className="grid xl:grid-cols-5 lg:grid-cols-3 sm:grid-cols-2 gap-5">
-                {isLoading && <p>Loading...</p>}
+                {isLoading && <p className="py-2 flex justify-between">Loading...</p>}
 
-                {list.map((item) => (
+                {list?.map((item) => (
                     <div
                         key={item.id}
                         className="bg-[#2C909D] text-white p-3 rounded-lg"
                     >
                         <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
                         <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
-                        <p className="py-2 flex justify-between"><strong>Status:</strong> {item.status}</p>
+                        <p className="py-2 flex justify-between capitalize"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${item?.status === "active" ? "bg-green-500" : item?.status == "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{item?.status}</span></p>
                         <p className="py-2 flex justify-between">
                             <strong>Start Date:</strong> {item.startDate ? moment(item.startDate).format("YYYY-MM-DD") : "-"}
                         </p>
@@ -127,20 +157,28 @@ export default function CouponCode() {
                         </p>
                         <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {item.usageLimit}</p>
 
-                        <div className="flex gap-2 mt-3">
+                        <div className="flex gap-2 flex-wrap mt-3">
                             <button
-                                className="py-2 px-5 w-full bg-[#2c9d68] text-white rounded"
+                                className="py-2 px-5 w-full bg-[#17cf79] text-white rounded"
                                 onClick={() => handleView(item)}
                             >
                                 View
                             </button>
 
                             <button
-                                className="py-2 px-5 w-full bg-[#0428c9] text-white rounded"
+                                className="py-2 px-5 w-full bg-[#2045e9] text-white rounded"
                                 onClick={() => handleEdit(item)}
                             >
                                 Edit
                             </button>
+
+                            <button
+                                className="py-2 px-5 w-full bg-[#c90404] text-white rounded"
+                                onClick={() => handleDelete(item)}
+                            >
+                                Delete
+                            </button>
+
                         </div>
                     </div>
                 ))}
@@ -160,18 +198,18 @@ export default function CouponCode() {
             >
                 {selectedItem && (
                     <div className="space-y-2 mt-2">
-                        <p><strong>ID:</strong> {selectedItem.id}</p>
-                        <p><strong>Name:</strong> {selectedItem.name}</p>
-                        <p><strong>Referral Code:</strong> {selectedItem.referralCode}</p>
-                        <p><strong>Status:</strong> {selectedItem.status}</p>
-                        <p><strong>Start Date:</strong> {selectedItem.startDate ?? "-"}</p>
-                        <p><strong>Expiry Date:</strong> {selectedItem.expiryDate ?? "-"}</p>
-                        <p><strong>Usage Limit:</strong> {selectedItem.usageLimit}</p>
-                        <p><strong>Gmail:</strong> {selectedItem.gmail ?? "-"}</p>
-                        <p><strong>Cupid Credits:</strong> {selectedItem.cupidCredits}</p>
-                        <p><strong>Hug Credits:</strong> {selectedItem.hugCredits}</p>
-                        <p><strong>Kiss Credits:</strong> {selectedItem.kissCredits}</p>
-                        <p><strong>Lick Credits:</strong> {selectedItem.lickCredits}</p>
+                        <p className="py-2 flex justify-between"><strong>ID:</strong> {selectedItem.id}</p>
+                        <p className="py-2 flex justify-between"><strong>Name:</strong> {selectedItem.name}</p>
+                        <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {selectedItem.referralCode}</p>
+                        <p className="py-2 flex justify-between"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${selectedItem.status === "active" ? "bg-green-500" : selectedItem.status !== "pushed" ? "text-yellow-500" : "bg-red-500"}`}>{selectedItem.status}</span></p>
+                        <p className="py-2 flex justify-between"><strong>Start Date:</strong> {moment(selectedItem.startDate).format("YYYY-MM-DD") ?? "-"}</p>
+                        <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {moment(selectedItem.expiryDate).format("YYYY-MM-DD") ?? "-"}</p>
+                        <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {selectedItem.usageLimit}</p>
+                        <p className="py-2 flex justify-between"><strong>Gmail:</strong> {selectedItem.gmail ?? "-"}</p>
+                        <p className="py-2 flex justify-between"><strong>Cupid Credits:</strong> {selectedItem.cupidCredits}</p>
+                        <p className="py-2 flex justify-between"><strong>Hug Credits:</strong> {selectedItem.hugCredits}</p>
+                        <p className="py-2 flex justify-between"><strong>Kiss Credits:</strong> {selectedItem.kissCredits}</p>
+                        <p className="py-2 flex justify-between"><strong>Lick Credits:</strong> {selectedItem.lickCredits}</p>
                     </div>
                 )}
             </Modal>
@@ -193,9 +231,17 @@ export default function CouponCode() {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item name="referralCode" label="Referral Code" rules={[{ required: true }]}>
+                    <Form.Item name="referralCode" className="w-full" label="Referral Code" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
+                    {
+                        mode === "add" && (
+                            <div className="flex items-center justify-between mb-2">
+                                <input className="w-full px-4 py-1 text-[16px] border border-[#eee] text-[#0a0a0a] rounded-lg" placeholder="Generate Referral Code" type="text" />
+                                <button type="button" onClick={handleGenerateReferralCode} className="bg-[#309ead] py-1 px-5 ml-2 rounded text-white">Generate</button>
+                            </div>
+                        )
+                    }
 
                     <Form.Item name="status" label="Status" rules={[{ required: true }]}>
                         <Select
