@@ -239,7 +239,7 @@ export default function CouponCode() {
                         <p className="py-2 flex justify-between"><strong>ID:</strong> {selectedItem.id}</p>
                         <p className="py-2 flex justify-between"><strong>Name:</strong> {selectedItem.name}</p>
                         <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {selectedItem.referralCode}</p>
-                        <p className="py-2 flex justify-between capitalize text-white"><strong>Status:</strong> <span className={`px-2 py-1 rounded ${selectedItem?.status === "active" ? "bg-green-500" : selectedItem?.status == "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{selectedItem?.status}</span></p>
+                        <p className="py-2 flex justify-between capitalize "><strong>Status:</strong> <span className={`px-2 text-white py-1 rounded ${selectedItem?.status === "active" ? "bg-green-500" : selectedItem?.status == "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{selectedItem?.status}</span></p>
                         <p className="py-2 flex justify-between"><strong>Start Date:</strong> {moment(selectedItem.startDate).format("YYYY-MM-DD") ?? "-"}</p>
                         <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {moment(selectedItem.expiryDate).format("YYYY-MM-DD") ?? "-"}</p>
                         <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {selectedItem.usageLimit}</p>
