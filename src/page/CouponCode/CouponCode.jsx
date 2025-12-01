@@ -233,7 +233,7 @@ export default function CouponCode() {
                                 </div>
                                 <div className="flex items-center justify-center">
                                     {item?.profileImage && (
-                                        <Image width={200} height={200} className="w-full mx-auto h-60 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
+                                        <Image width={250} height={200} className="w-full mx-auto h-60 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
                                     )}
                                 </div>
                                 <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
