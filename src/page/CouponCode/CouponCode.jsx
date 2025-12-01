@@ -183,8 +183,8 @@ export default function CouponCode() {
             <div className="flex items-center justify-between flex-wrap my-5">
                 <h2 className=" font-semibold text-2xl">{selectOption === "top-coupon" ? "Top" : "All"} Coupons</h2>
                 <select name="" id="" onChange={(e) => setSekectOption(e.target.value)} className="py-2 px-4 border border-gray-300 rounded" >
-                    <option value="top-coupon">Top Coupons</option>
                     <option value="all-coupon">All Coupons</option>
+                    <option value="top-coupon">Top Coupons</option>
                 </select>
             </div>
             {
