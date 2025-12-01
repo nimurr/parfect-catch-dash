@@ -22,7 +22,7 @@ export default function CouponCode() {
     const apiList = couponCodes?.attributes || [];
     const { data: topCoupons } = useGetAllTopCouponCodeQuery();
     const topCouponsList = topCoupons?.data?.attributes || [];
-    console.log(topCouponsList)
+    // console.log(topCouponsList)
 
     const [createCouponCode] = useCreateCouponCodeMutation();
     const [editCouponCode] = useEditCouponCodeMutation();
