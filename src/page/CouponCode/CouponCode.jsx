@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Select, DatePicker, Pagination, message } from "antd";
+import { Modal, Form, Input, Select, DatePicker, Pagination, message, Image } from "antd";
 import dayjs from "dayjs";
 import moment from "moment";
 import Swal from "sweetalert2";
@@ -231,9 +231,11 @@ export default function CouponCode() {
                                         <MdOutlineDeleteForever className="text-2xl" />
                                     </button>
                                 </div>
-                                {item?.profileImage && (
-                                    <img className="w-full h-32 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
-                                )}
+                                <div className="flex items-center justify-center">
+                                    {item?.profileImage && (
+                                        <Image width={200} height={200} className="w-full mx-auto h-60 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
+                                    )}
+                                </div>
                                 <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
                                 <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
                                 <p className="py-2 flex justify-between capitalize">
@@ -265,7 +267,7 @@ export default function CouponCode() {
             >
                 <div className="bg-[#2C909D] text-white p-3 rounded-lg">
                     {selectedItem?.profileImage && (
-                        <img className="w-full h-32 object-cover rounded mb-2" src={selectedItem?.profileImage} alt="Coupon" />
+                        <Image width={200} height={200} className="w-full h-60 object-cover rounded mb-2" src={selectedItem?.profileImage} alt="Coupon" />
                     )}
                     <p className="py-2 flex justify-between"><strong>Name:</strong> {selectedItem?.name}</p>
                     <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {selectedItem?.referralCode}</p>
