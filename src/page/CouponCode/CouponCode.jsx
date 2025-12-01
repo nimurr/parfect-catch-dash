@@ -217,15 +217,21 @@ export default function CouponCode() {
                 onCancel={() => setIsViewModalOpen(false)}
                 title="Coupon Details"
             >
-                {selectedItem && (
-                    <div className="space-y-2 mt-2">
-                        {Object.entries(selectedItem).map(([key, value]) => (
-                            <p key={key} className="py-2 flex justify-between">
-                                <strong>{key}:</strong> {value ?? "-"}
-                            </p>
-                        ))}
-                    </div>
-                )}
+                <div className="bg-[#2C909D] text-white p-3 rounded-lg">
+                    {selectedItem?.profileImage && (
+                        <img className="w-full h-32 object-cover rounded mb-2" src={selectedItem?.profileImage} alt="Coupon" />
+                    )}
+                    <p className="py-2 flex justify-between"><strong>Name:</strong> {selectedItem?.name}</p>
+                    <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {selectedItem?.referralCode}</p>
+                    <p className="py-2 flex justify-between capitalize">
+                        <strong>Status:</strong>
+                        <span className={`px-2 py-1 rounded ${selectedItem?.status === "active" ? "bg-green-500" : selectedItem?.status === "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{selectedItem?.status}</span>
+                    </p>
+                    <p className="py-2 flex justify-between"><strong>Start Date:</strong> {selectedItem?.startDate ? moment(selectedItem?.startDate).format("YYYY-MM-DD") : "-"}</p>
+                    <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {selectedItem?.expiryDate ? moment(selectedItem?.expiryDate).format("YYYY-MM-DD") : "-"}</p>
+                    <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {selectedItem?.usageLimit}</p>
+
+                </div>
             </Modal>
 
             {/* ADD / EDIT MODAL */}
