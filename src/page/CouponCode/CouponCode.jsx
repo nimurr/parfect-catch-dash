@@ -10,6 +10,7 @@ import {
     useDeleteCouponCodeMutation,
     useEditCouponCodeMutation,
     useGenerateCouponCodeMutation,
+    useGetAllTopCouponCodeQuery,
     useGetCouponCodeQuery
 } from "../../redux/features/couponCode/couponCode";
 
@@ -19,6 +20,10 @@ export default function CouponCode() {
 
     const { data: couponCodes, isLoading, refetch } = useGetCouponCodeQuery({ page, limit });
     const apiList = couponCodes?.attributes || [];
+    const { data: topCoupons } = useGetAllTopCouponCodeQuery();
+    const topCouponsList = topCoupons?.data?.attributes || [];
+    console.log(topCouponsList)
+
     const [createCouponCode] = useCreateCouponCodeMutation();
     const [editCouponCode] = useEditCouponCodeMutation();
     const [deleteCouponCode] = useDeleteCouponCodeMutation();
@@ -32,6 +37,8 @@ export default function CouponCode() {
     const [uploadFile, setUploadFile] = useState(null); // store file
     const [generatedItem, setGeneratedItem] = useState(null);
     const [genCodeName, setGenCodeName] = useState("");
+    const [selectOption, setSekectOption] = useState('all-coupon');
+
 
     const [form] = Form.useForm();
 
@@ -173,38 +180,77 @@ export default function CouponCode() {
                     Add Coupon Code
                 </button>
             </div>
-
-            <div className="grid xl:grid-cols-5 lg:grid-cols-3 items-start sm:grid-cols-2 gap-5">
-                {isLoading && <p>Loading...</p>}
-
-                {list?.map((item) => (
-                    <div key={item.id} className="bg-[#2C909D] text-white p-3 rounded-lg">
-                        <div className="flex gap-2 justify-end flex-wrap mb-3">
-                            <button className="py-2 px-3 bg-[#2045e9] text-white rounded" onClick={() => handleEdit(item)}>
-                                <FaRegEdit className="text-xl" />
-                            </button>
-                            <button className="py-2 px-2 bg-[#c90404] text-white rounded" onClick={() => handleDelete(item)}>
-                                <MdOutlineDeleteForever className="text-2xl" />
-                            </button>
-                        </div>
-                        {item?.profileImage && (
-                            <img className="w-full h-32 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
-                        )}
-                        <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
-                        <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
-                        <p className="py-2 flex justify-between capitalize">
-                            <strong>Status:</strong>
-                            <span className={`px-2 py-1 rounded ${item?.status === "active" ? "bg-green-500" : item?.status === "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{item?.status}</span>
-                        </p>
-                        <p className="py-2 flex justify-between"><strong>Start Date:</strong> {item.startDate ? moment(item.startDate).format("YYYY-MM-DD") : "-"}</p>
-                        <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {item.expiryDate ? moment(item.expiryDate).format("YYYY-MM-DD") : "-"}</p>
-                        <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {item.usageLimit}</p>
-                        <div className="flex gap-2 flex-wrap mt-3">
-                            <button className="py-2 px-5 w-full bg-[#17cf79] text-white rounded" onClick={() => handleView(item)}>View</button>
-                        </div>
-                    </div>
-                ))}
+            <div className="flex items-center justify-between flex-wrap my-5">
+                <h2 className=" font-semibold text-2xl">{selectOption === "top-coupon" ? "Top" : "All"} Coupons</h2>
+                <select name="" id="" onChange={(e) => setSekectOption(e.target.value)} className="py-2 px-4 border border-gray-300 rounded" >
+                    <option value="top-coupon">Top Coupons</option>
+                    <option value="all-coupon">All Coupons</option>
+                </select>
             </div>
+            {
+                selectOption === "top-coupon" ? (
+                    <div className="grid xl:grid-cols-5 lg:grid-cols-3 items-start sm:grid-cols-2 gap-5">
+                        {topCouponsList?.map((item) => (
+                            <div key={item.id} className="bg-[#2C909D] text-white p-3 rounded-lg">
+                                {/* <div className="flex gap-2 justify-end flex-wrap mb-3">
+                                    <button className="py-2 px-3 bg-[#2045e9] text-white rounded" onClick={() => handleEdit(item)}>
+                                        <FaRegEdit className="text-xl" />
+                                    </button>
+                                    <button className="py-2 px-2 bg-[#c90404] text-white rounded" onClick={() => handleDelete(item)}>
+                                        <MdOutlineDeleteForever className="text-2xl" />
+                                    </button>
+                                </div> */}
+                                {item?.profileImage && (
+                                    <img className="w-full h-32 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
+                                )}
+                                {/* <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p> */}
+                                <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
+                                {/* <p className="py-2 flex justify-between capitalize">
+                                    <strong>Status:</strong>
+                                    <span className={`px-2 py-1 rounded ${item?.status === "active" ? "bg-green-500" : item?.status === "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{item?.status}</span>
+                                </p> */}
+                                {/* <p className="py-2 flex justify-between"><strong>Start Date:</strong> {item.startDate ? moment(item.startDate).format("YYYY-MM-DD") : "-"}</p>
+                                <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {item.expiryDate ? moment(item.expiryDate).format("YYYY-MM-DD") : "-"}</p>
+                                <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {item.usageLimit}</p>
+                                <div className="flex gap-2 flex-wrap mt-3">
+                                    <button className="py-2 px-5 w-full bg-[#17cf79] text-white rounded" onClick={() => handleView(item)}>View</button>
+                                </div> */}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid xl:grid-cols-5 lg:grid-cols-3 items-start sm:grid-cols-2 gap-5">
+                        {isLoading && <p>Loading...</p>}
+                        {list?.map((item) => (
+                            <div key={item.id} className="bg-[#2C909D] text-white p-3 rounded-lg">
+                                <div className="flex gap-2 justify-end flex-wrap mb-3">
+                                    <button className="py-2 px-3 bg-[#2045e9] text-white rounded" onClick={() => handleEdit(item)}>
+                                        <FaRegEdit className="text-xl" />
+                                    </button>
+                                    <button className="py-2 px-2 bg-[#c90404] text-white rounded" onClick={() => handleDelete(item)}>
+                                        <MdOutlineDeleteForever className="text-2xl" />
+                                    </button>
+                                </div>
+                                {item?.profileImage && (
+                                    <img className="w-full h-32 object-cover rounded mb-2" src={item.profileImage} alt="Coupon" />
+                                )}
+                                <p className="py-2 flex justify-between"><strong>Name:</strong> {item.name}</p>
+                                <p className="py-2 flex justify-between"><strong>Referral Code:</strong> {item.referralCode}</p>
+                                <p className="py-2 flex justify-between capitalize">
+                                    <strong>Status:</strong>
+                                    <span className={`px-2 py-1 rounded ${item?.status === "active" ? "bg-green-500" : item?.status === "pushed" ? "bg-yellow-500" : "bg-red-500"}`}>{item?.status}</span>
+                                </p>
+                                <p className="py-2 flex justify-between"><strong>Start Date:</strong> {item.startDate ? moment(item.startDate).format("YYYY-MM-DD") : "-"}</p>
+                                <p className="py-2 flex justify-between"><strong>Expiry Date:</strong> {item.expiryDate ? moment(item.expiryDate).format("YYYY-MM-DD") : "-"}</p>
+                                <p className="py-2 flex justify-between"><strong>Usage Limit:</strong> {item.usageLimit}</p>
+                                <div className="flex gap-2 flex-wrap mt-3">
+                                    <button className="py-2 px-5 w-full bg-[#17cf79] text-white rounded" onClick={() => handleView(item)}>View</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>)
+            }
+
 
             <div className="flex items-center justify-end mt-4">
                 <Pagination total={total} pageSize={pageSize} />

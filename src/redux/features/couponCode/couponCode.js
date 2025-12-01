@@ -9,6 +9,12 @@ const dashboardApi = baseApi.injectEndpoints({
             }),
             transformResponse: (response) => response?.data,
         }),
+        getAllTopCouponCode: builder.query({
+            query: () => ({
+                url: "/copon/top-copons",
+                method: "GET",
+            })
+        }),
         createCouponCode: builder.mutation({
             query: (data) => ({
                 url: "/copon/create",
@@ -44,6 +50,7 @@ const dashboardApi = baseApi.injectEndpoints({
 
 export const {
     useGetCouponCodeQuery,
+    useGetAllTopCouponCodeQuery,
     useCreateCouponCodeMutation,
     useEditCouponCodeMutation,
     useDeleteCouponCodeMutation,
